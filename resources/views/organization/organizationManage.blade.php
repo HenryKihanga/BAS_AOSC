@@ -9,17 +9,17 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                   
                     document.getElementById('addOrganizationForm').reset();
                     let organization = res.newOrganization;
                     let id = organization.organization_id;
-                    $('#tableData').prepend('<tr> <td class="filterable-cell" style="width: 5%">' +
-                        1 + '</td> <td class="filterable-cell">' +
+                    $('#tableData').prepend('<tr><td class="filterable-cell">' +
                         organization.organization_id + '</td> <td class="filterable-cell">' +
                         organization.organization_name + '</td> <td class="filterable-cell">' +
                         organization.organization_phone_number +
                         '</td> <td class="filterable-cell" style="width: 20%">' +
                         organization.organization_email +
-                        '</td> <td class="filterable-cell" style="width: 8%">' +
+                        '</td> <td class="filterable-cell" style="width: 13%">' +
                         organization.organization_address +
                         '</td> <td class="project-actions text-right" style="width: 22%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                         '<a class="btn btn-info btn-sm filterable-cell m-1" href="#" onclick="show_edit_organization('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
@@ -30,8 +30,8 @@
             });
         }
 
-        function query_all_organizations() {
-            let url = "{{ route('getLatestFiveOrganizations') }}";
+        function query_latest_organizations() {
+            let url = "{{ route('showLatestTenOrganizations') }}";
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -42,24 +42,23 @@
                         $('#tableData').text('There is no Organization Registered')
                     }
 
-                    let sn = 1;
+                   
                     res.organizations.map(organization => {
                         let id = organization.organization_id;
-                        $('#tableData').append('<tr> <td class="filterable-cell" style="width: 5%">' +
-                            sn + '</td> <td class="filterable-cell">' +
+                        $('#tableData').append('<tr>  <td class="filterable-cell">' +
                             organization.organization_id + '</td> <td class="filterable-cell">' +
                             organization.organization_name + '</td> <td class="filterable-cell">' +
                             organization.organization_phone_number +
                             '</td> <td class="filterable-cell" style="width: 20%">' +
                             organization.organization_email +
-                            '</td> <td class="filterable-cell" style="width: 8%">' +
+                            '</td> <td class="filterable-cell" style="width: 13%">' +
                             organization.organization_address +
                             '</td> <td class="project-actions text-right" style="width: 22%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                             '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_organization(' +
                             id + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                             );
-                        sn++;
+                      
                     });
                 }
             });
@@ -163,12 +162,12 @@
                         <table class="table table-hover ">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width: 5%">S/N</th>
-                                    <th scope="col">Reg Number</th>
-                                    <th scope="col">Reg Name</th>
+                                   
+                                    <th scope="col">Registration Number</th>
+                                    <th scope="col">Name of Organization</th>
                                     <th scope="col">Phone Number</th>
-                                    <th scope="col" style="width: 20%">Email</th>
-                                    <th scope="col" style="width: 8%">Address</th>
+                                    <th scope="col" style="width: 20%">Email of Organization</th>
+                                    <th scope="col" style="width: 13%">Address</th>
                                     <th scope="col" style="width: 22%">.</th>
                                 </tr>
                             </thead>

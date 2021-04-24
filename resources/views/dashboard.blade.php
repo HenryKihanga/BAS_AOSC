@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @push('scripts')
     {{-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> --}}
     <script>
@@ -15,10 +14,8 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
-
-            // show_all_Users();
         }
 
         function show_add_user() {
@@ -33,9 +30,8 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
-            // show_all_Users();
         }
 
         function show_all_users() {
@@ -50,13 +46,12 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
-            // show_all_Users();
         }
 
         function show_organization_manage() {
-            query_all_organizations();
+            query_latest_organizations();
             $('#dashboard').css('display', 'none');
             $('#addUser').css('display', 'none');
             $('#allUsers').css('display', 'none');
@@ -68,13 +63,12 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
-
-            // show_all_Users();
         }
 
         function show_device_manage() {
+
             query_all_devices();
             $('#dashboard').css('display', 'none');
             $('#addUser').css('display', 'none');
@@ -87,10 +81,8 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
-
-            // show_all_Users();
         }
 
         function show_user_profile() {
@@ -105,10 +97,8 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
-
-            // show_all_Users();
         }
 
         function show_user_change_password() {
@@ -123,11 +113,45 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
-
-            // show_all_Users();
         }
+        function show_edit_department(id) {
+            let department_id = id;
+            $('#dashboard').css('display', 'none');
+            $('#addUser').css('display', 'none');
+            $('#allUsers').css('display', 'none');
+            $('#organizationManage').css('display', 'none');
+            $('#deviceManage').css('display', 'none');
+            $('#userProfile').css('display', 'none');
+            $('#userChangePassword').css('display', 'none');
+            $('#organizationEdit').css('display', 'none');
+            $('#manageBranch').css('display', 'none');
+            $('#manageDepartment').css('display', 'none');
+            $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'unset');
+          
+            populate_department_data_for_editing(department_id);
+            toggle_active_class();
+        }
+        function populate_department_data_for_editing(id) {
+            let url = "{{ route('showOneDepartment', 11) }}"
+            $.ajax({
+                url: url,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function(result) {
+                    console.log(result)
+                    // Set data to the edit organization form
+                    document.getElementById("depName").value = result.department.department_name;
+                    document.getElementById("depNumber").value = result.department.department_phone_number;
+                    document.getElementById("depEmail").value = result.department.department_email;
+                    document.getElementById("depAddress").value = result.department.department_address;
+                }
+            });
+        }
+
 
         function show_edit_branch(id) {
             let branch_id = id;
@@ -142,13 +166,13 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'unset');
+            $('#editDepartment').css('display', 'none');
             populate_branch_data_for_editing(branch_id);
             toggle_active_class();
-
         }
-
+      
         function populate_branch_data_for_editing(id) {
-            let url = "{{ route('showOneBranch', 1 ) }}"
+            let url = "{{ route('showOneBranch', 101) }}"
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -156,16 +180,14 @@
                 processData: false,
                 success: function(result) {
                     // Set data to the edit organization form
-                    document.getElementById("branchRegno").value = result.branch.branch_id;
                     document.getElementById("branchName").value = result.branch.branch_name;
                     document.getElementById("branchNumber").value = result.branch.branch_phone_number;
                     document.getElementById("branchEmail").value = result.branch.branch_email;
                     document.getElementById("branchAddress").value = result.branch.branch_address;
                 }
             });
-
-
         }
+
         function show_edit_organization(id) {
             let organization_id = id;
             $('#dashboard').css('display', 'none');
@@ -179,37 +201,28 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             populate_organization_data_for_editing(organization_id);
             toggle_active_class();
-
         }
 
         function populate_organization_data_for_editing(id) {
-            let url = "{{ route('showOneOrganization', 20 ) }}"
+            let url = "{{ route('showOneOrganization', 20) }}"
             $.ajax({
                 url: url,
                 type: 'GET',
                 contentType: false,
                 processData: false,
                 success: function(result) {
-                    // Set data to the edit organization form
-                    document.getElementById("regno").value = result.organization.organization_id;
                     document.getElementById("name").value = result.organization.organization_name;
                     document.getElementById("number").value = result.organization.organization_phone_number;
                     document.getElementById("email").value = result.organization.organization_email;
                     document.getElementById("address").value = result.organization.organization_address;
                 }
             });
-
-
         }
 
-
-
-    
-
         function show_manage_branch() {
-           
             query_all_branches();
             $('#dashboard').css('display', 'none');
             $('#addUser').css('display', 'none');
@@ -222,16 +235,12 @@
             $('#manageBranch').css('display', 'unset');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
-            
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
         }
 
-        
-
-     
-
         function show_manage_department() {
+            query_all_departments();
             $('#dashboard').css('display', 'none');
             $('#addUser').css('display', 'none');
             $('#allUsers').css('display', 'none');
@@ -243,10 +252,9 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'unset');
             $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
             toggle_active_class();
-
         }
-
 
         function show_add_branch() {
             $('#addBranchForm').css('display', 'unset')
@@ -260,9 +268,7 @@
                     this.classList.add("active");
                 })
             });
-
         }
-
 
         function query_all_Users() {
             let url = "{{ route('showAllUsers') }}";
@@ -273,9 +279,7 @@
                 processData: false,
                 success: function(res) {
                     console.log(res)
-
                     res.allUser.map(data => {
-
                         $('#showAllUsers').append('<div class="well"> name: ' + data.name + ' ID' + data
                             .id + '</div>');
                     });
@@ -283,11 +287,21 @@
             });
         }
 
-
         function store_branch_and_exit(organization_id) {
             console.log(organization_id);
-            
-            let url = "{{ route('storeBranch',30) }}";
+            let url = "{{ route('storeBranch', 30) }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(document.getElementById('addBranchForm')),
+                contentType: false,
+                processData: false,
+                success: function(res) {}
+            });
+        }
+
+        function store_branch_and_continue(organization_id) {
+            let url = "{{ route('storeBranch', 30) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -295,16 +309,30 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    console.log(res.success)
-
+                    document.getElementById('addBranchForm').reset();
                 }
             });
         }
 
-        
+        function edit_organization_details(organization_id) {
+            let url = "{{ route('updateOrganization', 30) }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(document.getElementById('editOrganizationForm')),
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                   
+                }
+            });
+        }
+   
 
     </script>
 @endpush
+
+
 
 @section('content')
     <!-- dashboard -->
@@ -336,6 +364,9 @@
     </div>
     <div id="manageDepartment" style="display:none;">
         @include('department.manageDepartment')
+    </div>
+    <div id="editDepartment" style="display:none;">
+        @include('department.editDepartment')
     </div>
     <div id="userProfile" style="display:none;">
         @include('user.profile')

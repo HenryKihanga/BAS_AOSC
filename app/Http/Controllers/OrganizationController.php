@@ -92,17 +92,16 @@ class OrganizationController extends Controller
         ], 200);
     }
 
-    public function showAll(){
+    public function showAll()
+    {
         $organizations = Organization::all();
-        foreach($organizations as $organization){
+        foreach ($organizations as $organization) {
             $organization->devices;
             $organization->branches;
         }
         return response()->json([
-            'organizations'=> $organizations
+            'organizations' => $organizations
         ], 200);
-
-
     }
     /**
      * Show the form for editing the specified resource.
@@ -122,9 +121,40 @@ class OrganizationController extends Controller
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization)
+    public function update(Request $request, $organizationId)
     {
-        //
+        $validator =  Validator::make($request->all(), [
+            'registrationName' => 'required',
+            'phoneNumber' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => false
+            ], 404);
+        }
+
+        $organization = Organization::find($organizationId);
+        if (!$organization) {
+            return response()->json([
+                'error' => 'Organization not found'
+            ], 404);
+        }
+
+        $organization->update([
+            'organization_name' => $request->input('registrationName'),
+            'organization_phone_number' => $request->input('phoneNumber'),
+            'organization_email' => $request->input('email'),
+            'organization_address' => $request->input('address'),
+        ]);
+
+        return response()->json([
+            'organization' => $organization
+        ], 206);
+
     }
 
     /**
@@ -136,21 +166,21 @@ class OrganizationController extends Controller
     public function destroy(Organization $organization)
     {
     }
-    public function getLatestFive()
+    public function showLatestTen()
     {
-        $allOrganizations = Organization::orderBy('updated_at', 'desc')->take(5)->get();
+        $allOrganizations = Organization::orderBy('updated_at', 'desc')->take(10)->get();
         return response()->json([
             'organizations' => $allOrganizations
         ], 200);
     }
 
-    public function returnName($organizationId){
+    public function returnName($organizationId)
+    {
         $organization = Organization::find($organizationId);
         $name = $organization->organization_name;
         return response()->json([
-            'organozationName'=> $name
+            'organozationName' => $name
 
         ]);
-
     }
 }

@@ -63,7 +63,6 @@ class DepartmentController extends Controller
         //create new branch
         $department = new Department();
         $department->department_id = $request->input('registrationNumber');
-
         $department->department_name = $request->input('registrationName');
         $department->department_phone_number = $request->input('phoneNumber');
         $department->department_email = $request->input('email');
@@ -72,7 +71,7 @@ class DepartmentController extends Controller
             $newDepartment = Department::find($department->department_id);
             return response()->json([
                 'success' => 'success',
-                'branch' => $newDepartment
+                'newDepartment' => $newDepartment
             ]);
         }
     }
@@ -106,9 +105,39 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, $departmentId)
     {
-        //
+        $validator =  Validator::make($request->all(), [
+            'registrationName' => 'required',
+            'phoneNumber' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => false
+            ], 404);
+        }
+
+        $department = Department::find($departmentId);
+        if (!$department) {
+            return response()->json([
+                'error' => 'department not found'
+            ], 404);
+        }
+
+        $department->update([
+            'department_name' => $request->input('registrationName'),
+            'department_phone_number' => $request->input('phoneNumber'),
+            'department_email' => $request->input('email'),
+            'department_address' => $request->input('address'),
+        ]);
+
+        return response()->json([
+            'department' => $department
+        ], 206);
     }
 
     /**
@@ -127,12 +156,12 @@ class DepartmentController extends Controller
         $department = Department::find($departmentId);
         if (!$department) {
             return response()->json([
-                'error' => 'organization do not exist'
+                'error' => 'department do not exist'
             ], 404);
         }
 
         return response()->json([
-            'organization' => $department
+            'department' => $department
         ], 200);
     }
 
@@ -140,7 +169,7 @@ class DepartmentController extends Controller
     {
         $departments = Department::all();
         return response()->json([
-            'organizations' => $departments
+            'departments' => $departments
         ], 200);
     }
 }

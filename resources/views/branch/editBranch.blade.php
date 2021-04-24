@@ -1,14 +1,15 @@
 @push('scripts')
     <script>
         function store_department_and_exit(organization_id) {
-            let url = "{{ route('storeBranch', [50]) }}";
+            let url = "{{ route('storeDepartment', [101]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
-                data: new FormData(document.getElementById('addBranchForm')),
+                data: new FormData(document.getElementById('addDepartmentForm')),
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    document.getElementById('addDepartmentForm').reset();
                    
 
                 }
@@ -16,16 +17,31 @@
         }
 
         function store_department_and_continue(organization_id) {
-            let url = "{{ route('storeBranch', [50]) }}";
+            let url = "{{ route('storeDepartment', [101]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
-                data: new FormData(document.getElementByIde('addBranchForm')),
-                contentType: false;
-                processData: false;
+                data: new FormData(document.getElementById('addDepartmentForm')),
+                contentType: false,
+                processData: false,
                 success: function(res) {
-                    document.getElementById('addBranchForm').reset();
+                    document.getElementById('addDepartmentForm').reset();
 
+                }
+            });
+        }
+        function edit_branch_details(branch_id) {
+            alert('Are you sure you want to edit?')
+            let url = "{{ route('updateBranch', [101]) }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(document.getElementById('editBranchForm')),
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    
+                   
                 }
             });
         }
@@ -67,28 +83,20 @@
                         </div>
                     </div> <!-- /.card-header -->
                     <div class="card-body">
-                        <form >
+                        <form id="editBranchForm">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <!-- text input -->
                                     <div class="form-group">
-                                        <label>Registration Number</label>
-                                        <input id="branchRegno" type="text" class="form-control" 
-                                            placeholder="Enter ...">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <!-- text input -->
-                                    <div class="form-group">
                                         <label>Name of Organization</label>
-                                        <input id="branchName" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="branchName" name="registrationName" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input id="branchNumber" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="branchNumber" name="phoneNumber" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
 
@@ -98,14 +106,14 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input id="branchEmail" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="branchEmail" name="email" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input id="branchAddress" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="branchAddress" name="address" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
                               
@@ -114,7 +122,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-info">Submit</button>
+                        <button type="button" class="btn btn-info" onclick="edit_branch_details(101)">Submit</button>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-lg-addDepartment">Add
                             Department</button>
                     </div><!-- /.card-footer -->

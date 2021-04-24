@@ -1,20 +1,5 @@
 @push('scripts')
     <script>
-        function store_branch_and_continue(organization_id) {
-            let url = "{{ route('storeBranch', [50]) }}";
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: new FormData(document.getElementByIde('addBranchForm')),
-                contentType: false;
-                processData: false;
-                success: function(res) {
-                    document.getElementById('addBranchForm').reset();
-
-                }
-            });
-        }
-
     </script>
 @endpush
 
@@ -52,55 +37,47 @@
                         </div>
                     </div> <!-- /.card-header -->
                     <div class="card-body">
-                        <form>
+                        <form id="editOrganizationForm">
                             <div class="row">
-                                <div class="col-lg-4">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>Registration Number</label>
-                                        <input id="regno" type="text" class="form-control" 
-                                            placeholder="Enter ...">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Name of Organization</label>
-                                        <input id="name" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="name" name="registrationName" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input id="number" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="number" name="phoneNumber" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
 
                             </div>
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input id="email" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="email" name="email" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input id="address" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="address" name="address" type="text" class="form-control" placeholder="Enter ...">
                                     </div>
                                 </div>
-                              
                             </div>
                         </form>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-info">Submit</button>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-lg-addBranch">Add
+                        <button type="button" class="btn btn-info swalDefaultSuccess" onclick="edit_organization_details(30)">Submit</button>
+                        <button type="button" class="btn btn-info" data-toggle="modal"
+                            data-target="#modal-lg-addBranch">Add
                             Branch</button>
                     </div><!-- /.card-footer -->
                 </div><!-- /.card -->
@@ -157,7 +134,7 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
                         onclick="store_branch_and_exit(30)"><i class="fas fa-save pr-2"></i>Submit</button>
-                    <button type="button" class="btn btn-primary" onclick="store_branch_and_continue()"><i
+                    <button type="button" class="btn btn-primary" onclick="store_branch_and_continue(30)"><i
                             class="fas fa-plus-circle pr-2"></i>Add More</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->

@@ -55,19 +55,22 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Routes for organization controller
 Route::get('organization/showOne/{id}', [App\Http\Controllers\OrganizationController::class, 'showOne'])->name('showOneOrganization');
 Route::get('organization/showAll', [App\Http\Controllers\OrganizationController::class, 'showAll'])->name('showAllOrganizations');
-Route::get('organization/getLatestFive', [App\Http\Controllers\OrganizationController::class, 'getLatestFive'])->name('getLatestFiveOrganizations');
+Route::get('organization/showLatestTen', [App\Http\Controllers\OrganizationController::class, 'showLatestTen'])->name('showLatestTenOrganizations');
 Route::post('organization/store', [App\Http\Controllers\OrganizationController::class, 'store'])->name('storeOrganization');
 Route::get('organization/returnName/{id}', [App\Http\Controllers\OrganizationController::class, 'returnName'])->name('returnOrganizationName');
+Route::post('organization/update/{id}', [App\Http\Controllers\OrganizationController::class, 'update'])->name('updateOrganization');
 
 // Routes for Branch controller
 Route::get('branch/showOne/{id}', [App\Http\Controllers\BranchController::class, 'showOne'])->name('showOneBranch');
 Route::post('branch/store/{organizationId}', [App\Http\Controllers\BranchController::class, 'store'])->name('storeBranch');
 Route::get('branch/showAll', [App\Http\Controllers\BranchController::class, 'showAll'])->name('showAllBranches');
+Route::post('branch/update/{id}', [App\Http\Controllers\BranchController::class, 'update'])->name('updateBranch');
 
 // Routes for Department controller
 Route::post('department/store/{branchId}', [App\Http\Controllers\DepartmentController::class, 'store'])->name('storeDepartment');
-Route::get('/department/showOne/{id}', [App\Http\Controllers\DepartmentController::class, 'showOne'])->name('showOneDepartments');
+Route::get('/department/showOne/{id}', [App\Http\Controllers\DepartmentController::class, 'showOne'])->name('showOneDepartment');
 Route::get('/department/showAll', [App\Http\Controllers\DepartmentController::class, 'showAll'])->name('showAllDepartments');
+Route::post('department/update/{id}', [App\Http\Controllers\DepartmentController::class, 'update'])->name('updateDepartment');
 
 // Routes for Device controller
 Route::post('device/store/{organizationId}', [App\Http\Controllers\DeviceController::class, 'store'])->name('storeDevice');

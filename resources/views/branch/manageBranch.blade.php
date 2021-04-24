@@ -13,8 +13,7 @@
                     document.getElementById('newBranchForm').reset();
                     let branch = res.branch;
                     let id = branch.branch_id;
-                    $('#tableAllBranches').prepend('<tr> <td class="filterable-cell" style="width: 5%">' +
-                            1 + '</td> <td class="filterable-cell">' +
+                    $('#tableAllBranches').prepend('<tr><td class="filterable-cell">' +
                             branch.branch_id + '</td> <td class="filterable-cell">' +
                             branch.branch_name + '</td> <td class="filterable-cell">' +
                             branch.branch_phone_number +
@@ -39,24 +38,23 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    let sn = 1;
+                   
                     res.branches.map(branch => {
                         let id = branch.branch_id;
-                        $('#tableAllBranches').append('<tr> <td class="filterable-cell" style="width: 5%">' +
-                            sn + '</td> <td class="filterable-cell">' +
+                        $('#tableAllBranches').append('<tr><td class="filterable-cell">' +
                             branch.branch_id + '</td> <td class="filterable-cell">' +
                             branch.branch_name + '</td> <td class="filterable-cell">' +
                             branch.branch_phone_number +
                             '</td> <td class="filterable-cell" style="width: 20%">' +
                             branch.branch_email +
-                            '</td> <td class="filterable-cell" style="width: 8%">' +
+                            '</td> <td class="filterable-cell" style="width: 10%">' +
                             branch.branch_address +
-                            '</td> <td class="project-actions text-right" style="width: 22%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                            '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                             '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_branch('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
 
-                        sn++;
+                       
                     });
                 }
             });
@@ -145,13 +143,13 @@
                         <table class="table table-hover ">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width: 5%">S/N</th>
+                                   
                                     <th scope="col">Reg Number</th>
                                     <th scope="col">Reg Name</th>
                                     <th scope="col">Phone Number</th>
                                     <th scope="col" style="width: 20%">Email</th>
-                                    <th scope="col" style="width: 8%">Address</th>
-                                    <th scope="col" style="width: 22%">.</th>
+                                    <th scope="col" style="width: 10%">Address</th>
+                                    <th scope="col" style="width: 25%">.</th>
                                 </tr>
                             </thead>
                             <tbody id="tableAllBranches">

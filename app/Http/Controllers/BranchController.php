@@ -26,7 +26,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -106,9 +106,40 @@ class BranchController extends Controller
      * @param  \App\Models\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Branch $branch)
+    public function update(Request $request, $branchId)
     {
-        //
+        $validator =  Validator::make($request->all(), [
+            'registrationName' => 'required',
+            'phoneNumber' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => false
+            ], 404);
+        }
+
+        $branch = Branch::find($branchId);
+        if (!$branch) {
+            return response()->json([
+                'error' => 'branch not found'
+            ], 404);
+        }
+
+        $branch->update([
+            'branch_name' => $request->input('registrationName'),
+            'branch_phone_number' => $request->input('phoneNumber'),
+            'branch_email' => $request->input('email'),
+            'branch_address' => $request->input('address'),
+        ]);
+
+        return response()->json([
+            'branch' => $branch
+        ], 206);
+
     }
 
     /**
