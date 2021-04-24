@@ -30,22 +30,6 @@ var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ ".
 var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/axios/lib/core/createError.js");
 
 
-// CUSTOME JAVA SCRIPT
-// toggle active class in nav link
-navtab.forEach(element => {
-  element.addEventListener("click" , function(){
-    navtab.forEach(nav => nav.classList.remove("active"))
-    this.classList.add("active");
-  })
-});
-
-
-
-
-
-
-
-
 
 
 

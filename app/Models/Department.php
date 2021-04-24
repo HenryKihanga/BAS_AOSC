@@ -6,21 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Device extends Model
+class Department extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    Use SoftDeletes;
 
-    protected $primaryKey = 'device_token';
+    protected $primaryKey = 'department_id';
     public $incrementing = false;
 
+
     protected $fillable = [
-        'device_token','device_name', 'device_mode', 'device_location'
+        'department_id','organization_id', 'department_phone_number', 'department_email', 'department_address'
     ];
 
     protected $dates = ['deleted_at' , 'date_of_birth'];
 
-    public function organization(){
-        return $this->belongsTo(Organization::class);
+    public function branch(){
+        return $this->belongsTo(Branch::class);
     }
 }

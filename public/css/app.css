@@ -135,6 +135,37 @@ body {
   max-width: 70%;
 }
 
+/* SROLLABLE TABLE */
+table {
+  width: 100px;
+}
+
+thead, tbody, tr, td, th { display: block; }
+
+tr:after {
+  content: '';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+tbody {
+  max-height: 435px;
+  overflow-y: auto;
+}
+
+
+tbody td, thead th {
+  width: 15%;
+  float: left;
+  height: 15%;
+  text-align: left;
+}
+
+/* ./ SROLLABLE TABLE */
+
+
+
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;

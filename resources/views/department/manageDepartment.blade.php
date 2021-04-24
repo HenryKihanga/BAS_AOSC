@@ -1,64 +1,44 @@
 @push('scripts')
     <script>
-        function store_organizations() {
-            let url = "{{ route('storeOrganization') }}";
+        function store_department(branch_id) {
+            let url = "{{ route('storeDepartment', [50]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
-                data: new FormData(document.getElementById('addOrganizationForm')),
+                data: new FormData(document.getElementById('addDepartmentForm')),
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    document.getElementById('addOrganizationForm').reset();
-                    let organization = res.newOrganization;
-                    let id = organization.organization_id;
-                    $('#tableData').prepend('<tr> <td class="filterable-cell" style="width: 5%">' +
-                        1 + '</td> <td class="filterable-cell">' +
-                        organization.organization_id + '</td> <td class="filterable-cell">' +
-                        organization.organization_name + '</td> <td class="filterable-cell">' +
-                        organization.organization_phone_number +
-                        '</td> <td class="filterable-cell" style="width: 20%">' +
-                        organization.organization_email +
-                        '</td> <td class="filterable-cell" style="width: 8%">' +
-                        organization.organization_address +
-                        '</td> <td class="project-actions text-right" style="width: 22%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                        '<a class="btn btn-info btn-sm filterable-cell m-1" href="#" onclick="show_edit_organization('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
-                        ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
-                    );
-
+                    document.getElementById('addDepatmentsForm').reset();
+                    query_all_departments();
                 }
             });
         }
 
-        function query_all_organizations() {
-            let url = "{{ route('getLatestFiveOrganizations') }}";
+        function query_all_departments() {
+            let url = "{{ route('showAllDepartments') }}";
             $.ajax({
                 url: url,
                 type: 'GET',
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    if (res.organizations.length < 1) {
-                        $('#tableData').text('There is no Organization Registered')
-                    }
-
                     let sn = 1;
-                    res.organizations.map(organization => {
-                        let id = organization.organization_id;
+                    res.departments.map(department => {
                         $('#tableData').append('<tr> <td class="filterable-cell" style="width: 5%">' +
                             sn + '</td> <td class="filterable-cell">' +
-                            organization.organization_id + '</td> <td class="filterable-cell">' +
-                            organization.organization_name + '</td> <td class="filterable-cell">' +
-                            organization.organization_phone_number +
+                        department.department_id + '</td> <td class="filterable-cell">' +
+                        department.department_name + '</td> <td class="filterable-cell">' +
+                        department.department_phone_number +
                             '</td> <td class="filterable-cell" style="width: 20%">' +
-                            organization.organization_email +
+                        department.department_email +
                             '</td> <td class="filterable-cell" style="width: 8%">' +
-                            organization.organization_address +
+                        department.department_address +
                             '</td> <td class="project-actions text-right" style="width: 22%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_organization(' +
-                            id + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" href="#" onclick=""><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
-                            );
+                        );
+
                         sn++;
                     });
                 }
@@ -66,8 +46,6 @@
         }
 
     </script>
-
-    {{-- <script src="{{ asset('js/custome.js') }}"></script> --}}
 @endpush
 
 <!-- Content Header (Page header) -->
@@ -75,12 +53,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Organizations</h1>
+                <h1>Departments</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Organizations</li>
+                    <li class="breadcrumb-item active">Departments</li>
                 </ol>
             </div>
         </div>
@@ -91,21 +69,13 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <!-- REGISTRATION FORM -->
-            <!-- col -->
             <div class="col-md-3">
-                <!-- card -->
                 <div class="card card-primary">
-                    <!-- card-header -->
                     <div class="card-header">
-                        <h3 class="card-title">Add Organization Details</h3>
-                    </div>
-                    <!-- /.card-header -->
-
-                    <!-- form start -->
-                    <form id="addOrganizationForm">
+                        <h3 class="card-title">Add Department Details</h3>
+                    </div><!-- /.card-header -->
+                    <form id="addDepartmentForm">
                         @csrf
-                        <!--card-body -->
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="InputRegistrationNumber">Registration Number :</label>
@@ -132,33 +102,38 @@
                                 <input type="text" class="form-control" id="InputNameofAddress"
                                     placeholder="Enter Address" name="address">
                             </div>
-                        </div>
-                        <!-- /.card-body -->
-
-                        <!-- card-footer -->
+                            <div class="form-group">
+                                <label for="InputOrganization">Select Organization</label>
+                                <select class="form-control" id="InputOrganization">
+                                    <option>e-Government Authority</option>
+                                    <option>Univeristy of Dar es Salaam</option>
+                                    <option>UTUMISHI</option>
+                                    <option>TAMISEMI</option>
+                                    <option>Tanzania Portal Authority</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputBranch">Select Branch</label>
+                                <select class="form-control" id="InputBranch">
+                                    <option>Main</option>
+                                    <option>Dodoma</option>
+                                    <option>Iringa</option>
+                                    <option>Morogoro</option>
+                                    <option>Mwanza</option>
+                                </select>
+                            </div>
+                        </div> <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary"
-                                onclick="store_organizations()">Submit</button>
-                        </div>
-                        <!-- /.card-footer -->
-
-                    </form>
-                </div>
-                <!-- /.card -->
-            </div>
-            <!-- /. REGISTRATION FORM -->
-            <!-- /.col -->
-
-
-
-
-            <!-- col -->
+                            <button type="button" class="btn btn-primary" onclick="store_department()">Submit</button>
+                        </div><!-- /.card-footer -->
+                    </form><!-- /.form -->
+                </div><!-- /.card -->
+            </div> <!-- /.col -->
             <div class="col-md-9">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">List of Organizations</h3>
-                    </div>
-                    <!-- /.card-header -->
+                        <h3 class="card-title">List of Departments</h3>
+                    </div><!-- /.card-header -->
                     <div class="card-body">
                         <table class="table table-hover ">
                             <thead>
@@ -173,20 +148,30 @@
                                 </tr>
                             </thead>
                             <tbody id="tableData">
-
+                                <tr>
+                                    <td class="filterable-cell" style="width: 5%">1</td>
+                                    <td class="filterable-cell">11</td>
+                                    <td class="filterable-cell">EGA</td>
+                                    <td class="filterable-cell">0653470846</td>
+                                    <td class="filterable-cell" style="width: 20%">admin@admin.com</td>
+                                    <td class="filterable-cell" style="width: 8%">5678</td>
+                                    <td class="project-actions text-right" style="width: 22%">
+                                        <a class="btn btn-primary btn-sm filterable-cell">
+                                            <i class="fas fa-folder"> </i>View
+                                        </a>
+                                        <a class="btn btn-info btn-sm filterable-cell"
+                                            onclick="show_edit_department()"><i class="fas fa-pencil-alt"></i>Edit
+                                        </a>
+                                        <a class="btn btn-danger btn-sm filterable-cell" href="#"
+                                            onclick=""> <i class="fas fa-trash"></i>Delete
+                                        </a>
+                                    </td>
+                                </tr>
                             </tbody>
-
                         </table>
-
-
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-
-
-            </div>
-            <!-- /.col -->
+                    </div><!-- /.card-body -->
+                </div><!-- /.card -->
+            </div><!-- /.col -->
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->

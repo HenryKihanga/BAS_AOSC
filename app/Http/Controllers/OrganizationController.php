@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Models\Organization_organization_id;
+use Illuminate\Support\Facades\Validator;
+
+use function PHPUnit\Framework\isEmpty;
 
 class OrganizationController extends Controller
 {
@@ -35,8 +39,37 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator =  Validator::make($request->all(), [
+            'registrationNumber' => 'required',
+            'registrationName' => 'required',
+            'phoneNumber' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+
+        ]);
+        //check if validator fails
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => false
+            ], 404);
+        }
+        //create new organization
+        $organization = new Organization();
+        $organization->organization_id = $request->input('registrationNumber');
+        $organization->organization_name = $request->input('registrationName');
+        $organization->organization_phone_number = $request->input('phoneNumber');
+        $organization->organization_email = $request->input('email');
+        $organization->organization_address = $request->input('address');
+        if ($organization->save()) {
+            $newOrganization = Organization::find($organization->organization_id);
+            return response()->json([
+                'success' => 'success', 'newOrganization' => $newOrganization
+            ]);
+        }
     }
+
+
 
     /**
      * Display the specified resource.
@@ -44,11 +77,33 @@ class OrganizationController extends Controller
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function show(Organization $organization)
+    public function showOne($organizationId)
     {
-        //
+        $organization = Organization::find($organizationId);
+        if (!$organization) {
+            return response()->json([
+                'error' => 'organization do not exist'
+            ], 404);
+        }
+        $organization->branches;
+        $organization->devices;
+        return response()->json([
+            'organization' => $organization
+        ], 200);
     }
 
+    public function showAll(){
+        $organizations = Organization::all();
+        foreach($organizations as $organization){
+            $organization->devices;
+            $organization->branches;
+        }
+        return response()->json([
+            'organizations'=> $organizations
+        ], 200);
+
+
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -80,6 +135,22 @@ class OrganizationController extends Controller
      */
     public function destroy(Organization $organization)
     {
-       
+    }
+    public function getLatestFive()
+    {
+        $allOrganizations = Organization::orderBy('updated_at', 'desc')->take(5)->get();
+        return response()->json([
+            'organizations' => $allOrganizations
+        ], 200);
+    }
+
+    public function returnName($organizationId){
+        $organization = Organization::find($organizationId);
+        $name = $organization->organization_name;
+        return response()->json([
+            'organozationName'=> $name
+
+        ]);
+
     }
 }

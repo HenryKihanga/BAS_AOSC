@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Device;
+use App\Models\Branch;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class DeviceController extends Controller
+class BranchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return view('device/index');
+        //
     }
 
     /**
@@ -38,18 +38,22 @@ class DeviceController extends Controller
     public function store(Request $request, $organization_id)
     {
         $validator =  Validator::make($request->all(), [
-            'deviceToken' => 'required',
-            'deviceName' => 'required',
-            'deviceLocation' => 'required',
+            'registrationNumber' => 'required',
+            'registrationName' => 'required',
+            'phoneNumber' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+
         ]);
 
-          //check if validator fails
-          if ($validator->fails()) {
+        //check if validator fails
+        if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors(),
                 'status' => false
             ], 404);
         }
+        //fetch parent
         $organization = Organization::find($organization_id);
         if (!$organization) {
             return response()->json([
@@ -57,27 +61,29 @@ class DeviceController extends Controller
             ]);
         }
 
-        $device = new Device();
-        $device->device_token = $request->input('deviceToken');
-        $device->device_name = $request->input('deviceName');
-        $device->device_location = $request->input('deviceLocation');
-        if($organization->devices()->save($device)){
-            $newDevice = Device::find($device->device_token);
+        //create new branch
+        $branch = new Branch();
+        $branch->branch_id = $request->input('registrationNumber');
+        $branch->branch_name = $request->input('registrationName');
+        $branch->branch_phone_number = $request->input('phoneNumber');
+        $branch->branch_email = $request->input('email');
+        $branch->branch_address = $request->input('address');
+        if ($organization->branches()->save($branch)) {
+            $newBranch = Branch::find($branch->branch_id);
             return response()->json([
                 'success' => 'success',
-                'newDevice' => $newDevice
+                'branch' => $newBranch
             ]);
         }
-        
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Device  $device
+     * @param  \App\Models\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function show(Device $device)
+    public function show(Branch $branch)
     {
         //
     }
@@ -85,10 +91,10 @@ class DeviceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Device  $device
+     * @param  \App\Models\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function edit(Device $device)
+    public function edit(Branch $branch)
     {
         //
     }
@@ -97,10 +103,10 @@ class DeviceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Device  $device
+     * @param  \App\Models\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Device $device)
+    public function update(Request $request, Branch $branch)
     {
         //
     }
@@ -108,35 +114,38 @@ class DeviceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Device  $device
+     * @param  \App\Models\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Device $device)
+    public function destroy(Branch $branch)
     {
         //
     }
-
-    public function showOne($deviceId)
+    public function showOne($branchId)
     {
-        $device = Device::find($deviceId);
-        if (!$device) {
+        $branch = Branch::find($branchId);
+        if (!$branch) {
             return response()->json([
-                'error' => 'orgavice do not exist'
+                'error' => 'branch do not exist'
             ], 404);
         }
 
+        $branch->departments;
         return response()->json([
-            'device' => $device
+            'branch' => $branch
         ], 200);
     }
+
 
     public function showAll()
     {
-        $devices = Device::all();
+        $branches = Branch::all();
+        foreach ($branches as $branch) {
+            $branch->departments;
+        }
+
         return response()->json([
-            'devices' => $devices
+            'branches' => $branches
         ], 200);
     }
 }
-
-

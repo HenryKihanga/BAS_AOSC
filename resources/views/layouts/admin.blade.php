@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>BAS&AOSC</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -28,26 +29,20 @@
     <link rel="stylesheet" href="{{ asset('template/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('template/plugins/summernote/summernote-bs4.min.css') }}">
-
     @stack('head')
-
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{ asset('img/bas-icon1.png') }}" alt="bas logo" height="60"
                 width="60">
         </div>
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -58,9 +53,7 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
                 </li>
-            </ul>
-
-            <!-- Right navbar links -->
+            </ul><!-- /.Left navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="nav-item">
@@ -84,7 +77,6 @@
                         </form>
                     </div>
                 </li>
-
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -105,8 +97,7 @@
                                     <p class="text-sm">Call me whenever you can...</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
-                            </div>
-                            <!-- Message End -->
+                            </div> <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
@@ -122,8 +113,7 @@
                                     <p class="text-sm">I got your message bro</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
-                            </div>
-                            <!-- Message End -->
+                            </div><!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
@@ -140,8 +130,7 @@
                                     <p class="text-sm">The subject goes here</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
-                            </div>
-                            <!-- Message End -->
+                            </div> <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
@@ -184,7 +173,7 @@
                         <i class="fas fa-th-large"></i>
                     </a>
                 </li>
-            </ul>
+            </ul><!-- /.Right navbar links -->
         </nav>
         <!-- /.navbar -->
 
@@ -197,7 +186,6 @@
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">BAS&AOSC</span>
             </a>
-
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
@@ -210,16 +198,10 @@
                         <a href="#" class="d-block">Henry Kihanga</a>
                     </div>
                 </div>
-
-
                 <!-- Sidebar Menu -->
-
                 <nav class="mt-2 myNavtab">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
                         <li class="nav-item">
                             <a href="#" class="nav-link active myNavLink" onclick="show_dashboard()">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -234,16 +216,12 @@
                                 <p>New User</p>
                             </a>
                         </li>
-
-
                         <li class="nav-item">
                             <a class="nav-link myNavLink" onclick="show_all_users()">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>View Users</p>
                             </a>
                         </li>
-
-
                         <li class="nav-item">
                             <a class="nav-link" onclick="show_organization_manage()">
                                 <i class="nav-icon fas fa-university"></i>
@@ -252,7 +230,22 @@
                                 </p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="show_manage_branch()">
+                                <i class="nav-icon fas fa-university"></i>
+                                <p>
+                                    Branch Manage
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="show_manage_department()">
+                                <i class="nav-icon fas fa-university"></i>
+                                <p>
+                                    Department Manage
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" onclick="show_device_manage()">
                                 <i class="nav-icon fas fa-microchip"></i>
@@ -261,8 +254,6 @@
                                 </p>
                             </a>
                         </li>
-
-
                         <li class="nav-item">
                             <a class="nav-link" onclick="show_user_profile()">
                                 <i class="nav-icon fas fa-address-card"></i>
@@ -308,41 +299,23 @@
                                 </p>
                             </a>
                         </li>
-
-
                     </ul>
-                </nav>
-
-                <!-- /.sidebar-menu -->
+                </nav> <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
         </aside>
-
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" id="wrapper">
-
             @yield('content')
-
-
-        </div>
-
-
-        <!-- /.content-wrapper -->
+        </div> <!-- /.content-wrapper -->
         <footer class="main-footer">
             <strong>Copyright &copy; 2020-2021.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Final Year Project</b> UDSM COICT
             </div>
-        </footer>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
-    </div>
-    <!-- ./wrapper -->
+        </footer> <!-- /.footer-->
+    </div><!-- ./wrapper -->
 
     <!-- jQuery -->
     <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
@@ -384,7 +357,7 @@
     @stack('scripts')
 
     <!-- Scripts -->
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+    
 </body>
 
 </html>
