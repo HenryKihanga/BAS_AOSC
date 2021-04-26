@@ -19,9 +19,9 @@
                             branch.branch_phone_number +
                             '</td> <td class="filterable-cell" style="width: 20%">' +
                             branch.branch_email +
-                            '</td> <td class="filterable-cell" style="width: 8%">' +
+                            '</td> <td class="filterable-cell" style="width: 10%">' +
                             branch.branch_address +
-                            '</td> <td class="project-actions text-right" style="width: 22%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                            '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                             '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_branch('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );

@@ -25,7 +25,6 @@
                         token + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                         ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                     );
-
                 }
             });
         }
@@ -52,16 +51,82 @@
                             device.device_name +
                             '</td> <td class="filterable-cell" style="width: 20%">' +
                             device.organization_id +
-                            '</td> <td class="filterable-cell" style="width: 20%">' +
+                            '</td> <td class="filterable-cell" style="width: 15%">' +
                             device.device_location +
-                            '</td> <td class="filterable-cell" style="width: 10%">' +
-                            device.device_mode +
-                            '</td> <td class="project-actions text-right" style="width: 30%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" href="#" onclick="show_edit_organization(' +
-                            token + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                            '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                            '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
+                            token +
+                            ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
                     });
+                }
+            });
+        }
+
+        function populate_device_data_for_editing(id) {
+            let url = "{{ route('showOneDevice', 456456) }}"
+            $.ajax({
+                url: url,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function(result) {
+                    console.log(result)
+                    // Set data to the edit organization form
+                    document.getElementById("currentDeviceName").value = result.device.device_name;
+                    document.getElementById("currentDeviceLocation").value = result.device.device_location;
+
+                }
+            });
+        }
+
+        function edit_device_details(device_id) {
+            let url = "{{ route('updateDevice', 456456) }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(document.getElementById('editDeviceForm')),
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    console.log(res)
+
+                }
+            });
+        }
+
+        function enrollment_mode(device_id) {
+            let url = "{{ route('changeDeviceMode', 456456) }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    'device_mode': 0
+                },
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    console.log(res)
+
+                }
+            });
+        }
+        function attendance_mode(device_id) {
+            let url = "{{ route('changeDeviceMode', 456456) }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    'device_mode': 1
+                },
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    console.log(res)
+
                 }
             });
         }
@@ -153,38 +218,13 @@
                                     <th scope="col" style="width: 10%">Device Token</th>
                                     <th scope="col" style="width: 10%">Device Name</th>
                                     <th scope="col" style="width: 20%">Device Organization</th>
-                                    <th scope="col" style="width: 20%">Location</th>
-                                    <th scope="col" style="width: 10%">mode</th>
-                                    <th scope="col" style="width: 30%">.</th>
+                                    <th scope="col" style="width: 15%">Location</th>
+                                    <th scope="col" style="width: 25% ">mode</th>
+                                    <th scope="col" style="width: 20%">.</th>
                                 </tr>
                             </thead>
                             <tbody id="tableDataDevice">
-                                <tr>
-                                    <td style="width: 10%">2345677</td>
-                                    <td style="width: 10%">DEVICE 1</td>
-                                    <td style="width: 20%">EGA</td>
-                                    <td style="width: 20%">Server Room</td>
-                                    <td style="width: 10%" class="project-state">
-                                        <span class="badge badge-success">Attendance</span>
-                                    </td>
-                                    <td style="width: 30%" class="project-actions text-right">
-                                        <a class="btn btn-primary btn-sm" href="#">
-                                            <i class="fas fa-folder">
-                                            </i>
-                                            View
-                                        </a>
-                                        <a class="btn btn-info btn-sm" href="#">
-                                            <i class="fas fa-pencil-alt">
-                                            </i>
-                                            Edit
-                                        </a>
-                                        <a class="btn btn-danger btn-sm" href="#">
-                                            <i class="fas fa-trash">
-                                            </i>
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
+
 
                             </tbody>
 
@@ -202,5 +242,57 @@
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
+
+
+    <div class="modal fade" id="modal-lg-editDevice">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">EDIT DEVICE</h4>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                </div><!-- /.model-header-->
+                <div class="modal-body">
+                    <div class="card card-primary ">
+                        <div class="card-header">
+                            <h3 class="card-title">DEVICE Details</h3>
+                        </div>
+                        <!--/. card-header -->
+                        <div class="card-body">
+                            <form id="editDeviceForm">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Name of Device</label>
+                                    <input id="currentDeviceName" name="deviceName" type="text" class="form-control"
+                                        placeholder="Enter ...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Device Location</label>
+                                    <input id="currentDeviceLocation" name="deviceLocation" type="text"
+                                        class="form-control" placeholder="Enter ...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputOrganization">Select Organization</label>
+                                    <select class="form-control" id="InputOrganization">
+                                        <option>e-Government Authority</option>
+                                        <option>Univeristy of Dar es Salaam</option>
+                                        <option>UTUMISHI</option>
+                                        <option>TAMISEMI</option>
+                                        <option>Tanzania Portal Authority</option>
+                                    </select>
+                                </div>
+
+                            </form><!-- /.form -->
+                        </div><!-- /.card-body -->
+                    </div><!-- /.card -->
+                </div><!-- /.model-body-->
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        onclick="edit_device_details(456456)"><i class="fas fa-save pr-2"></i>Submit</button>
+                </div><!-- /.model-footer-->
+            </div><!-- /.modal-content -->
+        </div> <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </section>
 <!-- /.content -->

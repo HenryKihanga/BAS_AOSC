@@ -1,7 +1,7 @@
 @push('scripts')
     <script>
-        function store_department_and_exit(organization_id) {
-            let url = "{{ route('storeDepartment', [101]) }}";
+        function add_department(branch_id) {
+            let url = "{{ route('storeDepartment', [1000]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -16,23 +16,10 @@
             });
         }
 
-        function store_department_and_continue(organization_id) {
-            let url = "{{ route('storeDepartment', [101]) }}";
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: new FormData(document.getElementById('addDepartmentForm')),
-                contentType: false,
-                processData: false,
-                success: function(res) {
-                    document.getElementById('addDepartmentForm').reset();
-
-                }
-            });
-        }
+ 
         function edit_branch_details(branch_id) {
             alert('Are you sure you want to edit?')
-            let url = "{{ route('updateBranch', [101]) }}";
+            let url = "{{ route('updateBranch', [1000]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -179,8 +166,8 @@
                 </div><!-- /.model-body-->
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="store_department_and_exit(50)"><i class="fas fa-save pr-2"></i>Submit</button>
-                    <button type="button" class="btn btn-primary" onclick="store_department_and_continue()"><i
+                        onclick="add_department(1000)"><i class="fas fa-save pr-2"></i>Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="add_department(1000)"><i
                             class="fas fa-plus-circle pr-2"></i>Add More</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->

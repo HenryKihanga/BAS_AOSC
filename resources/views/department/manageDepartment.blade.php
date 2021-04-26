@@ -12,7 +12,7 @@
                     document.getElementById('newDepartmentForm').reset();
                     let department = res.newDepartment;
                     let id = department.department_id;
-                    $('#tableDataDepartment').append('<tr><td class="filterable-cell">' +
+                    $('#tableDataDepartment').prepend('<tr><td class="filterable-cell">' +
                             department.department_id + '</td> <td class="filterable-cell">' +
                             department.department_name + '</td> <td class="filterable-cell">' +
                             department.department_phone_number +

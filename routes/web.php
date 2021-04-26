@@ -74,8 +74,10 @@ Route::post('department/update/{id}', [App\Http\Controllers\DepartmentController
 
 // Routes for Device controller
 Route::post('device/store/{organizationId}', [App\Http\Controllers\DeviceController::class, 'store'])->name('storeDevice');
-Route::get('/device/showOne/{id}', [App\Http\Controllers\DeviceController::class, 'showOne'])->name('showOneDevice');
-Route::get('/device/showAll', [App\Http\Controllers\DeviceController::class, 'showAll'])->name('showAllDevices');
+Route::get('device/showOne/{id}', [App\Http\Controllers\DeviceController::class, 'showOne'])->name('showOneDevice');
+Route::get('device/showAll', [App\Http\Controllers\DeviceController::class, 'showAll'])->name('showAllDevices');
+Route::post('device/update/{deviceId}', [App\Http\Controllers\DeviceController::class, 'update'])->name('updateDevice');
+Route::post('device/changeMode/{deviceId}', [App\Http\Controllers\DeviceController::class, 'changeMode'])->name('changeDeviceMode');
 
 // Routes for User controller
 Route::get('/user/allUsers', [App\Http\Controllers\UserController::class, 'viewAll'])->name('allUsers');

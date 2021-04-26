@@ -133,8 +133,8 @@
                 </div><!-- /.model-body-->
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="store_branch_and_exit(30)"><i class="fas fa-save pr-2"></i>Submit</button>
-                    <button type="button" class="btn btn-primary" onclick="store_branch_and_continue(30)"><i
+                        onclick="add_branch(20)"><i class="fas fa-save pr-2"></i>Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="add_branch(20)"><i
                             class="fas fa-plus-circle pr-2"></i>Add More</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->

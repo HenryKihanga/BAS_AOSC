@@ -43,8 +43,8 @@ class DeviceController extends Controller
             'deviceLocation' => 'required',
         ]);
 
-          //check if validator fails
-          if ($validator->fails()) {
+        //check if validator fails
+        if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors(),
                 'status' => false
@@ -61,14 +61,13 @@ class DeviceController extends Controller
         $device->device_token = $request->input('deviceToken');
         $device->device_name = $request->input('deviceName');
         $device->device_location = $request->input('deviceLocation');
-        if($organization->devices()->save($device)){
+        if ($organization->devices()->save($device)) {
             $newDevice = Device::find($device->device_token);
             return response()->json([
                 'success' => 'success',
                 'newDevice' => $newDevice
             ]);
         }
-        
     }
 
     /**
@@ -100,9 +99,37 @@ class DeviceController extends Controller
      * @param  \App\Models\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Device $device)
+    public function update(Request $request, $deviceId)
     {
-        //
+        $validator =  Validator::make($request->all(), [
+
+            'deviceName' => 'required',
+            'deviceLocation' => 'required',
+        ]);
+        //check if validator fails
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => false
+            ], 404);
+        }
+        $device = Device::find($deviceId);
+        if (!$device) {
+            return response()->json([
+                'error' => 'device Not Exist,make sure you register organization'
+            ]);
+        }
+
+        $device->update([
+            'device_name' => $request->input('deviceName'),
+            'device_location' => $request->input('deviceLocation'),
+            'organization_id' => $device->organization_id,
+            'device_mode' => $device->device_mode,
+
+        ]);
+        return response()->json([
+            'device' => $device
+        ], 206);
     }
 
     /**
@@ -121,7 +148,7 @@ class DeviceController extends Controller
         $device = Device::find($deviceId);
         if (!$device) {
             return response()->json([
-                'error' => 'orgavice do not exist'
+                'error' => 'device do not exist'
             ], 404);
         }
 
@@ -137,6 +164,21 @@ class DeviceController extends Controller
             'devices' => $devices
         ], 200);
     }
+
+    public function changeMode(Request $request, $deviceId)
+    {
+        $validator =  Validator::make($request->all(), [
+            'device_mode' => 'required',
+
+        ]);
+        $device = Device::find($deviceId);
+        $device->update([
+            'device_mode' => $request->input('device_mode')
+        ]);
+
+        return response()->json([
+            'success' => 'success',
+            'device'=> $device
+        ]);
+    }
 }
-
-

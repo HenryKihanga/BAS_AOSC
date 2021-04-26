@@ -15,6 +15,7 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             toggle_active_class();
         }
 
@@ -31,6 +32,7 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             toggle_active_class();
         }
 
@@ -47,6 +49,7 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             toggle_active_class();
         }
 
@@ -64,6 +67,7 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             toggle_active_class();
         }
 
@@ -81,6 +85,7 @@
             $('#manageBranch').css('display', 'none');
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             $('#editDepartment').css('display', 'none');
             toggle_active_class();
         }
@@ -98,6 +103,7 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             toggle_active_class();
         }
 
@@ -114,6 +120,26 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
+            toggle_active_class();
+        }
+        function show_edit_device(id) {
+            let device_id = id;
+            $('#dashboard').css('display', 'none');
+            $('#addUser').css('display', 'none');
+            $('#allUsers').css('display', 'none');
+            $('#organizationManage').css('display', 'none');
+            $('#deviceManage').css('display', 'none');
+            $('#userProfile').css('display', 'none');
+            $('#userChangePassword').css('display', 'none');
+            $('#organizationEdit').css('display', 'none');
+            $('#manageBranch').css('display', 'none');
+            $('#manageDepartment').css('display', 'none');
+            $('#editBranch').css('display', 'none');
+            $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'unset');
+          
+            // populate_department_data_for_editing(device_id);
             toggle_active_class();
         }
         function show_edit_department(id) {
@@ -130,12 +156,13 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'unset');
+            $('#editDevice').css('display', 'none');
           
             populate_department_data_for_editing(department_id);
             toggle_active_class();
         }
         function populate_department_data_for_editing(id) {
-            let url = "{{ route('showOneDepartment', 11) }}"
+            let url = "{{ route('showOneDepartment', 10000) }}"
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -144,10 +171,10 @@
                 success: function(result) {
                     console.log(result)
                     // Set data to the edit organization form
-                    document.getElementById("depName").value = result.department.department_name;
-                    document.getElementById("depNumber").value = result.department.department_phone_number;
-                    document.getElementById("depEmail").value = result.department.department_email;
-                    document.getElementById("depAddress").value = result.department.department_address;
+                    document.getElementById("oldDepartmentName").value = result.department.department_name;
+                    document.getElementById("oldDepartmentNumber").value = result.department.department_phone_number;
+                    document.getElementById("oldDepartmentEmail").value = result.department.department_email;
+                    document.getElementById("oldDepartmentAddress").value = result.department.department_address;
                 }
             });
         }
@@ -167,12 +194,13 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'unset');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             populate_branch_data_for_editing(branch_id);
             toggle_active_class();
         }
       
         function populate_branch_data_for_editing(id) {
-            let url = "{{ route('showOneBranch', 101) }}"
+            let url = "{{ route('showOneBranch', 1000) }}"
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -202,6 +230,7 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             populate_organization_data_for_editing(organization_id);
             toggle_active_class();
         }
@@ -236,6 +265,7 @@
             $('#manageDepartment').css('display', 'none');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             toggle_active_class();
         }
 
@@ -253,6 +283,7 @@
             $('#manageDepartment').css('display', 'unset');
             $('#editBranch').css('display', 'none');
             $('#editDepartment').css('display', 'none');
+            $('#editDevice').css('display', 'none');
             toggle_active_class();
         }
 
@@ -287,21 +318,9 @@
             });
         }
 
-        function store_branch_and_exit(organization_id) {
+        function add_branch(organization_id) {
             console.log(organization_id);
-            let url = "{{ route('storeBranch', 30) }}";
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: new FormData(document.getElementById('addBranchForm')),
-                contentType: false,
-                processData: false,
-                success: function(res) {}
-            });
-        }
-
-        function store_branch_and_continue(organization_id) {
-            let url = "{{ route('storeBranch', 30) }}";
+            let url = "{{ route('storeBranch', 20) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -314,8 +333,10 @@
             });
         }
 
+  
+
         function edit_organization_details(organization_id) {
-            let url = "{{ route('updateOrganization', 30) }}";
+            let url = "{{ route('updateOrganization', 20) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -358,6 +379,9 @@
     </div>
     <div id="deviceManage" style="display:none;">
         @include('device.deviceManage')
+    </div>
+    <div id="editDevice" style="display:none;">
+        @include('device.editDevice')
     </div>
     <div id="editBranch" style="display:none;">
         @include('branch.editBranch')
