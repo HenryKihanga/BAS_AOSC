@@ -1,7 +1,7 @@
 @push('scripts')
     <script>
         function store_department(branch_id) {
-            let url = "{{ route('storeDepartment', [100]) }}";
+            let url = "{{ route('storeDepartment', [1000]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -136,7 +136,7 @@
                             </div>
                         </div> <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary" onclick="store_department()">Submit</button>
+                            <button type="button" class="btn btn-primary" onclick="store_department(1000)">Submit</button>
                         </div><!-- /.card-footer -->
                     </form><!-- /.form -->
                 </div><!-- /.card -->

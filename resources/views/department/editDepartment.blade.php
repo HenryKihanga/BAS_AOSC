@@ -3,7 +3,7 @@
 
         function edit_department_details(department_id) {
             alert('Are you sure you want to edit?')
-            let url = "{{ route('updateDepartment', [10000]) }}";
+            let url = "{{ route('updateDepartment', [100]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -92,7 +92,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="button" class="btn btn-info" onclick="edit_department_details(11)">Submit</button>
+                        <button type="button" class="btn btn-info" onclick="edit_department_details(100)">Submit</button>
                        
                     </div><!-- /.card-footer -->
                 </div><!-- /.card -->

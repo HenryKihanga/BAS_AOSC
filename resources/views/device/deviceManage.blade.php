@@ -1,7 +1,7 @@
 @push('scripts')
     <script>
         function store_device() {
-            let url = "{{ route('storeDevice', [20]) }}";
+            let url = "{{ route('storeDevice', [10000]) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -12,19 +12,23 @@
                     document.getElementById('addDeviceForm').reset();
                     let device = res.newDevice;
                     let token = device.device_token;
-                    $('#tableDataDevice').prepend('<tr> <td class="filterable-cell" style="width: 10%">' +
-                        device.device_token + '</td> <td class="filterable-cell" style="width: 10%">' +
-                        device.device_name + '</td> <td class="filterable-cell" style="width: 20%">' +
-                        device.organization_id +
-                        '</td> <td class="filterable-cell" style="width: 20%">' +
-                        device.device_location +
-                        '</td> <td class="filterable-cell" style="width: 10%">' +
-                        device.device_mode +
-                        '</td> <td class="project-actions text-right" style="width: 30%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                        '<a class="btn btn-info btn-sm filterable-cell m-1" href="#" onclick="show_edit_organization(' +
-                        token + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
-                        ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
-                    );
+                    $('#tableDataDevice').prepend(
+                            '<tr> <td class="filterable-cell" style="width: 10%">' +
+                            device.device_token +
+                            '</td> <td class="filterable-cell" style="width: 10%">' +
+                            device.device_name +
+                            '</td> <td class="filterable-cell" style="width: 20%">' +
+                            device.organization_id +
+                            '</td> <td class="filterable-cell" style="width: 15%">' +
+                            device.device_location +
+                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                            '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                            '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
+                            token +
+                            ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
+                        );
                 }
             });
         }
@@ -41,7 +45,7 @@
                         $('#tableDataDevice').text('There is no devices Registered')
                     }
 
-                    let sn = 1;
+                    
                     res.devices.map(device => {
                         let token = device.device_token;
                         $('#tableDataDevice').prepend(
@@ -67,7 +71,7 @@
         }
 
         function populate_device_data_for_editing(id) {
-            let url = "{{ route('showOneDevice', 456456) }}"
+            let url = "{{ route('showOneDevice', 10) }}"
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -84,7 +88,7 @@
         }
 
         function edit_device_details(device_id) {
-            let url = "{{ route('updateDevice', 456456) }}";
+            let url = "{{ route('updateDevice', 10) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -99,7 +103,7 @@
         }
 
         function enrollment_mode(device_id) {
-            let url = "{{ route('changeDeviceMode', 456456) }}";
+            let url = "{{ route('changeDeviceMode', 10) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -115,7 +119,7 @@
             });
         }
         function attendance_mode(device_id) {
-            let url = "{{ route('changeDeviceMode', 456456) }}";
+            let url = "{{ route('changeDeviceMode', 10) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -289,7 +293,7 @@
                 </div><!-- /.model-body-->
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="edit_device_details(456456)"><i class="fas fa-save pr-2"></i>Submit</button>
+                        onclick="edit_device_details(10)"><i class="fas fa-save pr-2"></i>Submit</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->
         </div> <!-- /.modal-dialog -->

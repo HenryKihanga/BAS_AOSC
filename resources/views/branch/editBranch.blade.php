@@ -109,7 +109,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="button" class="btn btn-info" onclick="edit_branch_details(101)">Submit</button>
+                        <button type="button" class="btn btn-info" onclick="edit_branch_details(1000)">Submit</button>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-lg-addDepartment">Add
                             Department</button>
                     </div><!-- /.card-footer -->

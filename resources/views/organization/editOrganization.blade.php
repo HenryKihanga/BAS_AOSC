@@ -75,7 +75,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="button" class="btn btn-info swalDefaultSuccess" onclick="edit_organization_details(30)">Submit</button>
+                        <button type="button" class="btn btn-info swalDefaultSuccess" onclick="edit_organization_details(10000)">Submit</button>
                         <button type="button" class="btn btn-info" data-toggle="modal"
                             data-target="#modal-lg-addBranch">Add
                             Branch</button>
@@ -133,8 +133,8 @@
                 </div><!-- /.model-body-->
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="add_branch(20)"><i class="fas fa-save pr-2"></i>Submit</button>
-                    <button type="button" class="btn btn-primary" onclick="add_branch(20)"><i
+                        onclick="add_branch(10000)"><i class="fas fa-save pr-2"></i>Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="add_branch(10000)"><i
                             class="fas fa-plus-circle pr-2"></i>Add More</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->

@@ -162,7 +162,7 @@
             toggle_active_class();
         }
         function populate_department_data_for_editing(id) {
-            let url = "{{ route('showOneDepartment', 10000) }}"
+            let url = "{{ route('showOneDepartment', 100) }}"
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -236,7 +236,7 @@
         }
 
         function populate_organization_data_for_editing(id) {
-            let url = "{{ route('showOneOrganization', 20) }}"
+            let url = "{{ route('showOneOrganization', 10000) }}"
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -320,7 +320,7 @@
 
         function add_branch(organization_id) {
             console.log(organization_id);
-            let url = "{{ route('storeBranch', 20) }}";
+            let url = "{{ route('storeBranch', 10000) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -336,7 +336,7 @@
   
 
         function edit_organization_details(organization_id) {
-            let url = "{{ route('updateOrganization', 20) }}";
+            let url = "{{ route('updateOrganization', 10000) }}";
             $.ajax({
                 url: url,
                 type: 'POST',
