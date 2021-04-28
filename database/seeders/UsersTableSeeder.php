@@ -37,6 +37,9 @@ class UsersTableSeeder extends Seeder
         $admin->birth_date = '12/12/2020';
         $admin->email = 'mnadisarah@gmail.com';
         $admin->password = Hash::make(strtoupper('mnadi'));
+        $admin->status()->create([
+            'enrollement_status'=> 1
+        ]);
         $admin->roles()->attach($adminRole);
         $department->users()->save($admin);
 
@@ -50,6 +53,7 @@ class UsersTableSeeder extends Seeder
         $organizationHead->birth_date = '12/12/2020';
         $organizationHead->email = 'kilumawilliam@gmail.com';
         $organizationHead->password = Hash::make(strtoupper('Kiluma'));
+        $organizationHead->status()->create();
         $organizationHead->roles()->attach($organizationHeadRole);
         $department->users()->save($organizationHead);
 
@@ -62,6 +66,7 @@ class UsersTableSeeder extends Seeder
         $branchHead->birth_date = '12/12/2020';
         $branchHead->email = 'hongokelvin@gmail.com';
         $branchHead->password = Hash::make(strtoupper('Hongo'));
+        $branchHead->status()->create();
         $branchHead->roles()->attach($branchHeadRole);
         $department->users()->save($branchHead);
 
@@ -75,6 +80,7 @@ class UsersTableSeeder extends Seeder
         $departmentHead->birth_date = '12/12/2020';
         $departmentHead->email = 'mwaiselampoki@gmail.com';
         $departmentHead->password = Hash::make(strtoupper('Mwaisela'));
+        $departmentHead->status()->create();
         $departmentHead->roles()->attach($departmentHeadRole);
         $department->users()->save($departmentHead);
 
@@ -87,6 +93,7 @@ class UsersTableSeeder extends Seeder
         $staff->birth_date = '12/12/2020';
         $staff->email = 'rashidishabani@gmail.com';
         $staff->password = null;
+        $staff->status()->create();
         $staff->roles()->attach($staffRole);
         $department->users()->save($staff);
  

@@ -37,7 +37,20 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
+
     {
+    //     $p = Permintaan::create([
+    //         'NOMOR_TICKET' =>$value,
+    //         'TGL_PERMINTAAN' =>$value,
+    //         'NAMA_REQUESTER' =>$value,
+    //     ]);
+       
+    //    $p->pembatalan()->create([
+    //        'ALASAN_PEMBATALAN' =>$value,
+    //        'TGL_PEMBATALAN' =>$value,
+    //        'FILE_PEMBATALAN' =>$value,
+    //        'STATUS_PEMBATALAN' =>$value,
+    //     ]);
         $validator =  Validator::make($request->all(), [
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' =>  ['required', 'string', 'max:255'],
@@ -48,6 +61,7 @@ class UserController extends Controller
             'organization' => 'required',
             'branch' => 'required',
             'department' => 'required',
+
         ]);
 
         if ($validator->fails()) {
@@ -79,6 +93,7 @@ class UserController extends Controller
         }
 
         //associate roles then save user
+        $user->status()->create();
         $user->roles()->sync($request->input('roles'));
         $department->users()->save($user);
 
@@ -136,6 +151,7 @@ class UserController extends Controller
     {
         $users = User::all();
         foreach ($users as $user) {
+            $user->status;
             $user->roles;
         }
         return response()->json([
