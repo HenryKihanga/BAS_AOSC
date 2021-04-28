@@ -17,6 +17,7 @@ class CreateUserstatusesTable extends Migration
             
             $table->id();
             $table->string('user_id');
+            $table->string('fingerprint_id')->nullable();
             $table->boolean('enrollement_status')->default(0);
             $table->boolean('delete_status')->default(0);
             $table->timestamps();
