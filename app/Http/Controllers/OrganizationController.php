@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use Illuminate\Http\Request;
-use App\Models\Organization_organization_id;
 use Illuminate\Support\Facades\Validator;
 
 use function PHPUnit\Framework\isEmpty;
@@ -121,9 +120,10 @@ class OrganizationController extends Controller
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $organizationId)
+    public function update(Request $request )
     {
         $validator =  Validator::make($request->all(), [
+            'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required',
@@ -137,7 +137,7 @@ class OrganizationController extends Controller
             ], 404);
         }
 
-        $organization = Organization::find($organizationId);
+        $organization = Organization::find($request->input('registrationNumber'));
         if (!$organization) {
             return response()->json([
                 'error' => 'Organization not found'

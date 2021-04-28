@@ -58,16 +58,16 @@ Route::get('organization/showAll', [App\Http\Controllers\OrganizationController:
 Route::get('organization/showLatestTen', [App\Http\Controllers\OrganizationController::class, 'showLatestTen'])->name('showLatestTenOrganizations');
 Route::post('organization/store', [App\Http\Controllers\OrganizationController::class, 'store'])->name('storeOrganization');
 Route::get('organization/returnName/{id}', [App\Http\Controllers\OrganizationController::class, 'returnName'])->name('returnOrganizationName');
-Route::post('organization/update/{id}', [App\Http\Controllers\OrganizationController::class, 'update'])->name('updateOrganization');
+Route::post('organization/update/', [App\Http\Controllers\OrganizationController::class, 'update'])->name('updateOrganization');
 
 // Routes for Branch controller
 Route::get('branch/showOne/{id}', [App\Http\Controllers\BranchController::class, 'showOne'])->name('showOneBranch');
-Route::post('branch/store/{organizationId}', [App\Http\Controllers\BranchController::class, 'store'])->name('storeBranch');
+Route::post('branch/store/', [App\Http\Controllers\BranchController::class, 'store'])->name('storeBranch');
 Route::get('branch/showAll', [App\Http\Controllers\BranchController::class, 'showAll'])->name('showAllBranches');
-Route::post('branch/update/{id}', [App\Http\Controllers\BranchController::class, 'update'])->name('updateBranch');
+Route::post('branch/update', [App\Http\Controllers\BranchController::class, 'update'])->name('updateBranch');
 
 // Routes for Department controller
-Route::post('department/store/{branchId}', [App\Http\Controllers\DepartmentController::class, 'store'])->name('storeDepartment');
+Route::post('department/store', [App\Http\Controllers\DepartmentController::class, 'store'])->name('storeDepartment');
 Route::get('/department/showOne/{id}', [App\Http\Controllers\DepartmentController::class, 'showOne'])->name('showOneDepartment');
 Route::get('/department/showAll', [App\Http\Controllers\DepartmentController::class, 'showAll'])->name('showAllDepartments');
 Route::post('department/update/{id}', [App\Http\Controllers\DepartmentController::class, 'update'])->name('updateDepartment');
@@ -80,5 +80,6 @@ Route::post('device/update/{deviceId}', [App\Http\Controllers\DeviceController::
 Route::post('device/changeMode/{deviceId}', [App\Http\Controllers\DeviceController::class, 'changeMode'])->name('changeDeviceMode');
 
 // Routes for User controller
-Route::get('/user/allUsers', [App\Http\Controllers\UserController::class, 'viewAll'])->name('allUsers');
-Route::get('showAllUsers', [App\Http\Controllers\RoughController::class, 'show_all_users'])->name('showAllUsers');
+// Route::resource('/user','App\Http\Controllers\UserController');
+Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll'])->name('showAllUsers');
+Route::post('user/addUser', [App\Http\Controllers\UserController::class, 'store'])->name('addUser');

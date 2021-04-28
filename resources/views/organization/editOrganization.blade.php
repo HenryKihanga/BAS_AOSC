@@ -39,18 +39,22 @@
                     <div class="card-body">
                         <form id="editOrganizationForm">
                             <div class="row">
+
                                 <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Name of Organization</label>
-                                        <input id="name" name="registrationName" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="name" name="registrationName" type="text" class="form-control"
+                                            placeholder="Enter ...">
+                                        <input id="registrationNumber" name="registrationNumber" type="hidden">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input id="number" name="phoneNumber" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="number" name="phoneNumber" type="text" class="form-control"
+                                            placeholder="Enter ...">
                                     </div>
                                 </div>
 
@@ -60,14 +64,16 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input id="email" name="email" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="email" name="email" type="text" class="form-control"
+                                            placeholder="Enter ...">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input id="address" name="address" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="address" name="address" type="text" class="form-control"
+                                            placeholder="Enter ...">
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +81,8 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="button" class="btn btn-info swalDefaultSuccess" onclick="edit_organization_details(10000)">Submit</button>
+                        <button type="button" class="btn btn-info swalDefaultSuccess"
+                            onclick="edit_organization_details()">Submit</button>
                         <button type="button" class="btn btn-info" data-toggle="modal"
                             data-target="#modal-lg-addBranch">Add
                             Branch</button>
@@ -104,8 +111,10 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="InputRegistrationNumber">Registration Number :</label>
+
                                     <input type="text" class="form-control" id="InputRegistrationNumber"
                                         placeholder="Enter Registration Number" name="registrationNumber">
+                                    <input id="organizationId" name="organizationId" type="hidden">
                                 </div>
                                 <div class="form-group">
                                     <label for="InputNameofRegistrationName">Registration Name :</label>
@@ -132,9 +141,9 @@
                     </div><!-- /.card -->
                 </div><!-- /.model-body-->
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="add_branch(10000)"><i class="fas fa-save pr-2"></i>Submit</button>
-                    <button type="button" class="btn btn-primary" onclick="add_branch(10000)"><i
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_branch()"><i
+                            class="fas fa-save pr-2"></i>Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="add_branch()"><i
                             class="fas fa-plus-circle pr-2"></i>Add More</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->

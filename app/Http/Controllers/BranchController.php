@@ -35,9 +35,10 @@ class BranchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $organization_id)
+    public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
+            'organizationId' => 'required',
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
@@ -54,7 +55,7 @@ class BranchController extends Controller
             ], 404);
         }
         //fetch parent
-        $organization = Organization::find($organization_id);
+        $organization = Organization::find($request->input('organizationId'));
         if (!$organization) {
             return response()->json([
                 'error' => 'Organization Not Exist,make sure you register organization'
@@ -106,9 +107,10 @@ class BranchController extends Controller
      * @param  \App\Models\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $branchId)
+    public function update(Request $request)
     {
         $validator =  Validator::make($request->all(), [
+            'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required',
@@ -122,7 +124,7 @@ class BranchController extends Controller
             ], 404);
         }
 
-        $branch = Branch::find($branchId);
+        $branch = Branch::find($request->input('registrationNumber'));
         if (!$branch) {
             return response()->json([
                 'error' => 'branch not found'

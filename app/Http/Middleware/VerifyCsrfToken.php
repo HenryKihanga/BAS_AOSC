@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
         '/branch/*',
         '/department/*',
         '/device/*',
+        '/user/*'
     ];
 }

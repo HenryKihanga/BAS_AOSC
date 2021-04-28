@@ -1,7 +1,7 @@
 @push('scripts')
     <script>
-        function add_department(branch_id) {
-            let url = "{{ route('storeDepartment', [1000]) }}";
+        function add_department() {
+            let url = "{{ route('storeDepartment') }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -9,17 +9,18 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    document.getElementById('addDepartmentForm').reset();
-                   
-
+                    document.getElementById('InputDepartmentNumber').value = '';
+                    document.getElementById('InputDepartmentRegistrationName').value = '';
+                    document.getElementById('InputDepartmentPhoneNumber').value = '';
+                    document.getElementById('InputDepartmentEmail').value = '';
+                    document.getElementById('InputDepartmentAddress').value = '';
                 }
             });
         }
 
  
-        function edit_branch_details(branch_id) {
-            alert('Are you sure you want to edit?')
-            let url = "{{ route('updateBranch', [1000]) }}";
+        function edit_branch_details() {
+            let url = "{{ route('updateBranch') }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -75,8 +76,9 @@
                                 <div class="col-lg-4">
                                     <!-- text input -->
                                     <div class="form-group">
-                                        <label>Name of Organization</label>
+                                        <label>Name of Branch</label>
                                         <input id="branchName" name="registrationName" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="branchRegistrationNumber" name="registrationNumber" type="hidden" >
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -109,7 +111,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="button" class="btn btn-info" onclick="edit_branch_details(1000)">Submit</button>
+                        <button type="button" class="btn btn-info" onclick="edit_branch_details()">Submit</button>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-lg-addDepartment">Add
                             Department</button>
                     </div><!-- /.card-footer -->
@@ -137,27 +139,28 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="InputRegistrationNumber">Registration Number :</label>
-                                    <input type="text" class="form-control" id="InputRegistrationNumber"
+                                    <input type="text" class="form-control" id="InputDepartmentNumber"
                                         placeholder="Enter Registration Number" name="registrationNumber">
+                                        <input id="branchIdToAddDeparement" name="branchId" type="hidden" >
                                 </div>
                                 <div class="form-group">
                                     <label for="InputNameofRegistrationName">Registration Name :</label>
-                                    <input type="text" class="form-control" id="InputNameofRegistrationName"
+                                    <input type="text" class="form-control" id="InputDepartmentRegistrationName"
                                         placeholder="Enter Registration Name" name="registrationName">
                                 </div>
                                 <div class="form-group">
                                     <label for="InputNameofPhoneNumber">Phone Number :</label>
-                                    <input type="text" class="form-control" id="InputNameofPhoneNumber"
+                                    <input type="text" class="form-control" id="InputDepartmentPhoneNumber"
                                         placeholder="Enter Phone Number" name="phoneNumber">
                                 </div>
                                 <div class="form-group">
                                     <label for="InputNameofEmail">Email :</label>
-                                    <input type="text" class="form-control" id="InputNameofEmail"
+                                    <input type="text" class="form-control" id="InputDepartmentEmail"
                                         placeholder="Enter Email" name="email">
                                 </div>
                                 <div class="form-group">
                                     <label for="InputNameofAddress">Address :</label>
-                                    <input type="text" class="form-control" id="InputNameofAddress"
+                                    <input type="text" class="form-control" id="InputDepartmentAddress"
                                         placeholder="Enter Address" name="address">
                                 </div>
                             </form><!-- /.form -->
@@ -166,8 +169,8 @@
                 </div><!-- /.model-body-->
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="add_department(1000)"><i class="fas fa-save pr-2"></i>Submit</button>
-                    <button type="button" class="btn btn-primary" onclick="add_department(1000)"><i
+                        onclick="add_department()"><i class="fas fa-save pr-2"></i>Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="add_department()"><i
                             class="fas fa-plus-circle pr-2"></i>Add More</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->

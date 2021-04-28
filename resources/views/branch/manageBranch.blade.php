@@ -1,9 +1,9 @@
 @push('scripts')
     <script>
         function store_branch() {
-            let url = "{{ route('storeBranch',[10000]) }}";
+            let url = "{{ route('storeBranch', [10000]) }}";
             $.ajax({
-               
+
                 url: url,
                 type: 'POST',
                 data: new FormData(document.getElementById('newBranchForm')),
@@ -12,25 +12,25 @@
                 success: function(res) {
                     document.getElementById('newBranchForm').reset();
                     let branch = res.branch;
-                    let id = branch.branch_id;
                     $('#tableAllBranches').prepend('<tr><td class="filterable-cell">' +
-                            branch.branch_id + '</td> <td class="filterable-cell">' +
-                            branch.branch_name + '</td> <td class="filterable-cell">' +
-                            branch.branch_phone_number +
-                            '</td> <td class="filterable-cell" style="width: 20%">' +
-                            branch.branch_email +
-                            '</td> <td class="filterable-cell" style="width: 10%">' +
-                            branch.branch_address +
-                            '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_branch('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
-                            ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
-                        );
-                    
+                        branch.branch_id + '</td> <td class="filterable-cell">' +
+                        branch.branch_name + '</td> <td class="filterable-cell">' +
+                        branch.branch_phone_number +
+                        '</td> <td class="filterable-cell" style="width: 20%">' +
+                        branch.branch_email +
+                        '</td> <td class="filterable-cell" style="width: 10%">' +
+                        branch.branch_address +
+                        '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                        '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_branch(' +
+                        branch.branch_id + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                        ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
+                    );
+
                 }
             });
         }
+
         function query_all_branches() {
-            
             let url = "{{ route('showAllBranches') }}";
             $.ajax({
                 url: url,
@@ -38,9 +38,8 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                   
+                    $('#tableAllBranches').html('')
                     res.branches.map(branch => {
-                        let id = branch.branch_id;
                         $('#tableAllBranches').append('<tr><td class="filterable-cell">' +
                             branch.branch_id + '</td> <td class="filterable-cell">' +
                             branch.branch_name + '</td> <td class="filterable-cell">' +
@@ -50,15 +49,19 @@
                             '</td> <td class="filterable-cell" style="width: 10%">' +
                             branch.branch_address +
                             '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_branch('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_branch(' +
+                            branch.branch_id +
+                            ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
 
-                       
+
                     });
                 }
             });
         }
+
+
 
     </script>
 @endpush
@@ -119,17 +122,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
-                                <select class="form-control" id="InputOrganization">
-                                    <option>e-Government Authority</option>
-                                    <option>Univeristy of Dar es Salaam</option>
-                                    <option>UTUMISHI</option>
-                                    <option>TAMISEMI</option>
-                                    <option>Tanzania Portal Authority</option>
+                                <select class="form-control inputOrganizations" id="inputOrganizations" name="organizationId">
+
                                 </select>
                             </div>
                         </div> <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary" onclick="store_branch(10000)">Submit</button>
+                            <button type="button" class="btn btn-primary" onclick="store_branch()">Submit</button>
                         </div><!-- /.card-footer -->
                     </form><!-- /.form -->
                 </div><!-- /.card -->
@@ -143,7 +142,6 @@
                         <table class="table table-hover ">
                             <thead>
                                 <tr>
-                                   
                                     <th scope="col">Reg Number</th>
                                     <th scope="col">Reg Name</th>
                                     <th scope="col">Phone Number</th>
@@ -153,7 +151,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tableAllBranches">
-                               
+
                             </tbody>
                         </table>
                     </div><!-- /.card-body -->

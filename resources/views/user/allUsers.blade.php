@@ -1,3 +1,57 @@
+@push('scripts')
+    <script>
+        function query_all_users() {
+            let url = "{{ route('showAllUsers') }}";
+            $.ajax({
+                url: url,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    $('#tableAllUsers').html('')
+                    res.users.map(user => {
+                        if (false) {
+                            $('#tableAllUsers').append(
+                                '<tr class="clickable-row"><td style="width: 15%">' + user.user_id +
+                                '</td>' +
+                                '<td style="width: 20%"><ul class="list-inline">' +
+                                '<li class="list-inline-item"><img alt="Avatar" class="table-avatar mr-2"' +
+                                'src="{{ asset('template/dist/img/avatar.png') }}"></li>' +
+                                '<li class="list-inline-item"><a>' + user.first_name + ' ' + user
+                                .last_name +
+                                '</a></li></ul></td>' +
+                                '<td style="width: 20%">e-Government Authority</td>' +
+                                '<td style="width: 15%">Main</td>' +
+                                '<td style="width: 15%">Finance</td>' +
+                                '<td class="project-state" style="width: 10%">' +
+                                '<span class="badge badge-success">Enrolled</span></td>' +
+                                '<td class="clickable-btn" style="width: 5%"><a onclick="show_user(' +
+                                user.id + ')"><i class="fas fa-cogs"></i></a></td></tr>')
+                        } else {
+                            $('#tableAllUsers').append(
+                                '<tr ><td style="width: 15%">' + user.user_id +
+                                '</td>' +
+                                '<td style="width: 20%"><ul class="list-inline">' +
+                                '<li class="list-inline-item"><img alt="Avatar" class="table-avatar mr-2"' +
+                                'src="{{ asset('template/dist/img/avatar.png') }}"></li>' +
+                                '<li class="list-inline-item"><a>' + user.first_name + ' ' + user
+                                .last_name +
+                                '</a></li></ul></td>' +
+                                '<td style="width: 20%">e-Government Authority</td>' +
+                                '<td style="width: 15%">Main</td>' +
+                                '<td style="width: 15%">Finance</td>' +
+                                '<td class="project-state" style="width: 10%">' +
+                                '<span class="badge badge-danger">Unenrolled</span></td>' +
+                                '<td class="clickable-btn" style="width: 5%"> <a onclick="show_user(' +
+                                user.user_id + ')"><i class="fas fa-cogs"></i></a></td></tr>')
+                        }
+                    });
+                }
+            });
+        }
+
+    </script>
+@endpush
 <!-- Content Wrapper. Contains page content -->
 <section class="content-header">
     <div class="container-fluid">
@@ -36,11 +90,11 @@
                 <table class="table table-striped projects">
                     <thead>
                         <tr>
-                            <th style="width: 2%">
-                                S/N
+                            <th style="width: 15%">
+                                User ID
                             </th>
                             <th style="width: 20%">
-                                Avatar/User Name
+                                Avatar/ User Name
                             </th>
                             <th style="width: 20%">
                                 Organization
@@ -51,158 +105,16 @@
                             <th style="width: 15%">
                                 Department
                             </th>
-                            <th style="width: 8%" class="text-center">
+                            <th style="width: 10%" class="text-center">
                                 Status
                             </th>
-                            <th style="width: 20%">
-                            </th>
+                            <th style="width: 5%">.</th>
+
                         </tr>
+
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <img alt="Avatar" class="table-avatar"
-                                            src="{{ asset('template/dist/img/avatar.png') }}">
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a>
-                                            Henry Kihanga
-                                        </a>
-                                    </li>
-                                </ul>
+                    <tbody id="tableAllUsers">
 
-                            </td>
-                            <td>
-                                e-Government Authority
-                            </td>
-                            <td>
-                                Main
-                            </td>
-                            <td>
-                                Finance
-                            </td>
-                            <td class="project-state">
-                                <span class="badge badge-success">Enrolled</span>
-                            </td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="#">
-                                    <i class="fas fa-folder">
-                                    </i>
-                                    View
-                                </a>
-                                <a class="btn btn-info btn-sm" href="#">
-                                    <i class="fas fa-pencil-alt">
-                                    </i>
-                                    Edit
-                                </a>
-                                <a class="btn btn-danger btn-sm" href="#">
-                                    <i class="fas fa-trash">
-                                    </i>
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <img alt="Avatar" class="table-avatar"
-                                            src="{{ asset('template/dist/img/avatar.png') }}">
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a>
-                                            Henry Kihanga
-                                        </a>
-                                    </li>
-                                </ul>
-
-                            </td>
-                            <td>
-                                e-Government Authority
-                            </td>
-                            <td>
-                                Main
-                            </td>
-                            <td>
-                                Finance
-                            </td>
-                            <td class="project-state">
-                                <span class="badge badge-success">Enrolled</span>
-                            </td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="#">
-                                    <i class="fas fa-folder">
-                                    </i>
-                                    View
-                                </a>
-                                <a class="btn btn-info btn-sm" href="#">
-                                    <i class="fas fa-pencil-alt">
-                                    </i>
-                                    Edit
-                                </a>
-                                <a class="btn btn-danger btn-sm" href="#">
-                                    <i class="fas fa-trash">
-                                    </i>
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <img alt="Avatar" class="table-avatar"
-                                            src="{{ asset('template/dist/img/avatar.png') }}">
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a>
-                                            Henry Kihanga
-                                        </a>
-                                    </li>
-                                </ul>
-
-                            </td>
-                            <td>
-                                e-Government Authority
-                            </td>
-                            <td>
-                                Main
-                            </td>
-                            <td>
-                                Finance
-                            </td>
-                            <td class="project-state">
-                                <span class="badge badge-success">Enrolled</span>
-                            </td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="#">
-                                    <i class="fas fa-folder">
-                                    </i>
-                                    View
-                                </a>
-                                <a class="btn btn-info btn-sm" href="#">
-                                    <i class="fas fa-pencil-alt">
-                                    </i>
-                                    Edit
-                                </a>
-                                <a class="btn btn-danger btn-sm" href="#">
-                                    <i class="fas fa-trash">
-                                    </i>
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

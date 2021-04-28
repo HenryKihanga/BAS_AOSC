@@ -77,16 +77,21 @@ body {
 }
 /* CUSTOME CSS */
 .myCheckbox{
-  max-width: 1200px;
+  max-width: 100%;
   margin:0 auto;
+  padding: 10px;
   display: flex;
-  flex-wrap: wrap;
-  
+  flex-wrap:wrap;
   /* background-color: red; */
 }
 
 .myCheckbox div{
-  margin: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 20px;
+}
+.mylabel{
+  margin: 13px;
 }
 
 .myCheckbox div label{
@@ -103,7 +108,7 @@ body {
   background: gray;
   padding: 10px 10px;
   color: #000;
-  font-size: 15px;
+  font-size: 12px;
   border-radius: 10px ;
   transition: 0.5s;
   user-select: none;
@@ -160,6 +165,10 @@ tbody td, thead th {
   float: left;
   height: 15%;
   text-align: left;
+}
+
+.clickable-btn {
+  cursor: pointer;
 }
 
 /* ./ SROLLABLE TABLE */

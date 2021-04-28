@@ -35,4 +35,6 @@ class Organization extends Model
         return $this->hasMany(Device::class , 'organization_id');
     }
 
+    
+
 }

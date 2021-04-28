@@ -1,7 +1,7 @@
 @push('scripts')
     <script>
-        function store_department(branch_id) {
-            let url = "{{ route('storeDepartment', [1000]) }}";
+        function store_department() {
+            let url = "{{ route('storeDepartment') }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -37,9 +37,9 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                  
+                    $('#tableDataDepartment').html('')
                     res.departments.map(department => {
-                        let id = department.department_id;
+                       
                         $('#tableDataDepartment').append('<tr><td class="filterable-cell">' +
                             department.department_id + '</td> <td class="filterable-cell">' +
                             department.department_name + '</td> <td class="filterable-cell">' +
@@ -49,13 +49,14 @@
                             '</td> <td class="filterable-cell" style="width: 10%">' +
                             department.department_address +
                             '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_department('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_department('+ department.department_id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
                     });
                 }
             });
         }
+
 
     </script>
 @endpush
@@ -116,27 +117,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
-                                <select class="form-control" id="InputOrganization">
-                                    <option>e-Government Authority</option>
-                                    <option>Univeristy of Dar es Salaam</option>
-                                    <option>UTUMISHI</option>
-                                    <option>TAMISEMI</option>
-                                    <option>Tanzania Portal Authority</option>
+                                <select class="form-control inputOrganizations" id="InputOrganization">
+                                   
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="InputBranch">Select Branch</label>
-                                <select class="form-control" id="InputBranch">
-                                    <option>Main</option>
-                                    <option>Dodoma</option>
-                                    <option>Iringa</option>
-                                    <option>Morogoro</option>
-                                    <option>Mwanza</option>
+                                <select class="form-control inputBranches" id="InputBranch" name="branchId">
+                                   
                                 </select>
                             </div>
                         </div> <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary" onclick="store_department(1000)">Submit</button>
+                            <button type="button" class="btn btn-primary" onclick="store_department()">Submit</button>
                         </div><!-- /.card-footer -->
                     </form><!-- /.form -->
                 </div><!-- /.card -->

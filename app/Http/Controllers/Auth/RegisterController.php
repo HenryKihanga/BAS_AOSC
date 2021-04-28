@@ -62,6 +62,8 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
+
     protected function create(array $data)
     {
         return User::create([
@@ -71,7 +73,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function index(){
-        return view('user/addUser');
-    }
+   
+
+    
 }

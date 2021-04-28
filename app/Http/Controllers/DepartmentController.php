@@ -35,9 +35,10 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $branch_id)
+    public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
+            'branchId' => 'required',
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
@@ -54,7 +55,7 @@ class DepartmentController extends Controller
             ], 404);
         }
         //fetch parent
-        $branch = Branch::find($branch_id);
+        $branch = Branch::find($request->input('branchId'));
         if (!$branch) {
             return response()->json([
                 'error' => 'Branch Not Exist,make sure you register branch'

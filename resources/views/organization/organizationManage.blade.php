@@ -41,8 +41,7 @@
                     if (res.organizations.length < 1) {
                         $('#tableData').text('There is no Organization Registered')
                     }
-
-                   
+                    $('#tableData').html('')
                     res.organizations.map(organization => {
                         let id = organization.organization_id;
                         $('#tableData').append('<tr>  <td class="filterable-cell">' +

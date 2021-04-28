@@ -16,7 +16,7 @@ class Branch extends Model
 
 
     protected $fillable = [
-        'branch_id', 'organization_id', 'branch_phone_number', 'branch_email', 'branch_address'
+        'branch_id','branch_name', 'organization_id', 'branch_phone_number', 'branch_email', 'branch_address'
     ];
 
     protected $dates = ['deleted_at', 'date_of_birth'];

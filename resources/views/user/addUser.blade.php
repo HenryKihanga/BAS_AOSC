@@ -1,147 +1,151 @@
+@push('scripts')
+    <script>
+        function store_user() {
+            let url = "{{ route('addUser') }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(document.getElementById('addUserForm')),
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    document.getElementById('addUserForm').reset()
+                }
+            });
+        }
+
+    </script>
+@endpush
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Add User</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Add User</li>
-                </ol>
-            </div>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1>Add User</h1>
         </div>
-    </div><!-- /.container-fluid -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active">Add User</li>
+            </ol>
+        </div>
+    </div>
+</div><!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <!-- PRIMARY DETAILS CONTENT -->
-                <div class="card card-primary ">
-                    <div class="card-header">
-                        <h3 class="card-title">Primary User Details</h3>
+<div class="container-fluid">
+
+
+    <!-- PRIMARY DETAILS CONTENT -->
+    <div class="card card-primary ">
+        <div class="card-header">
+            <h3 class="card-title">New User Details</h3>
+        </div>
+
+        <div class="card-body">
+            <form id="addUserForm">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="InputFirstName">First Name</label>
+                            <input type="text" name="firstName" class="form-control" id="InputFirstName"
+                                placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputMiddleName">Middle Name</label>
+                            <input type="text" name="middleName" class="form-control" id="InputMiddleName"
+                                placeholder="Middle Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputLastName">Last Name</label>
+                            <input type="text" name="lastName" class="form-control" id="InputLastName"
+                                placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputStaffId">User ID</label>
+                            <input class="form-control" name="userID" type="number" placeholder="4223567"
+                                id="InputStaffId">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                                placeholder="Enter email">
+                        </div>
+                        <div class="form-group ">
+                            <label for="InputPhoneNumber">Telephone</label>
+                            <input class="form-control" name="phoneNumber" type="tel" placeholder="+255654383729"
+                                id="InputPhoneNumber">
+                        </div>
+                        <div class="form-group ">
+                            <label for="InputBirthDate">Birth Date</label>
+
+                            <input class="form-control" name="birthDate" type="date" placeholder="2001-08-19"
+                                id="InputBirthDate">
+                        </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="InputOrganization">Select Organization</label>
+                            <select class="form-control inputOrganizations" name="organization"
+                                id="InputOrganization">
 
-                    <!-- form start -->
-                    <form>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="InputFirstName">First Name</label>
-                                <input type="text" class="form-control" id="InputFirstName" placeholder="First Name">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputMiddleName">Middle Name</label>
-                                <input type="text" class="form-control" id="InputMiddleName" placeholder="Middle Name">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputLastName">Last Name</label>
-                                <input type="text" class="form-control" id="InputLastName" placeholder="Last Name">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputStaffId">User ID</label>
-                                <input class="form-control" type="number" placeholder="4223567" id="InputStaffId">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    placeholder="Enter email">
-                            </div>
-                            <div class="form-group ">
-                                <label for="InputPhoneNumber">Telephone</label>
-                                <input class="form-control" type="tel" placeholder="+255654383729"
-                                    id="InputPhoneNumber">
-                            </div>
-                            <div class="form-group ">
-                                <label for="InputBirthDate">Birth Date</label>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputBranch">Select Branch</label>
+                            <select class="form-control inputBranches" name="branch" id="InputBranch">
 
-                                <input class="form-control" type="date" placeholder="2001-08-19" id="InputBirthDate">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="InputDepartment">Select Department</label>
+                            <select class="form-control inputDeparments" name="department" id="InputDepartment">
+
+                            </select>
+                        </div>
+                        <!-- checkbox -->
+                        <div class=" myCheckbox form-group row">
+                            <div>
+                                <label class="mylabel" for="">Choose Role</label>
+                            </div>
+
+                            <div>
+                                <label>
+                                    <input type="checkbox" value="1" name="roles[]">
+                                    <span>admin</span>
+                                </label>
+                            </div>
+
+                            <div>
+                                <label>
+                                    <input type="checkbox" value="2" name="roles[]">
+                                    <span>organizationHead</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input type="checkbox" value="3" name="roles[]">
+                                    <span>branchHead</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input type="checkbox" value="4" name="roles[]">
+                                    <span>departmentHead</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input type="checkbox" value="5" name="roles[]">
+                                    <span>staff</span>
+                                </label>
                             </div>
                         </div>
-                        <!-- /.card-body -->
-                    </form>
-                </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-md-6">
-
-                <!-- ADDITIONAL DETAILS CONTENT -->
-
-                <div class="card card-primary ">
-                    <div class="card-header">
-                        <h3 class="card-title">Additional User Details</h3>
-                    </div>
-                    <!-- form start -->
-                    <form>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="InputOrganization">Select Organization</label>
-                                <select class="form-control" id="InputOrganization">
-                                    <option>e-Government Authority</option>
-                                    <option>Univeristy of Dar es Salaam</option>
-                                    <option>UTUMISHI</option>
-                                    <option>TAMISEMI</option>
-                                    <option>Tanzania Portal Authority</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputBranch">Select Branch</label>
-                                <select class="form-control" id="InputBranch">
-                                    <option>Main</option>
-                                    <option>Dodoma</option>
-                                    <option>Iringa</option>
-                                    <option>Morogoro</option>
-                                    <option>Mwanza</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputDepartment">Select Department</label>
-                                <select class="form-control" id="InputDepartment">
-                                    <option>Finance</option>
-                                    <option>Sports</option>
-                                    <option>Utamaduni</option>
-                                    <option>Matengenezo</option>
-                                    <option>Productions</option>
-                                </select>
-                            </div>
-                            <!-- checkbox -->
-                            <div class=" myCheckbox form-group row">
-                                <label for="">Choose Role</label>
-                                <div>
-                                    <label>
-                                        <input type="checkbox" value="admin">
-                                        <span>Admin</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>
-                                        <input type="checkbox" value="staff">
-                                        <span>Staff</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>
-                                        <input type="checkbox" value="staff">
-                                        <span>Head of Organization</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>
-                                        <input type="checkbox" value="staff">
-                                        <span>Head of Branch</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>
-                                        <input type="checkbox" value="staff">
-                                        <span>Head of Department</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
+                        {{-- <div class="form-group">
                                 <label for="exampleInputFile">Profile Picture</label>
                                 <div class="input-group">
                                     <div class="custom-file">
@@ -152,18 +156,18 @@
                                         <span class="input-group-text">Upload</span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                            </div> --}}
+                    </div>
+
                 </div>
-            </div>
-            <!-- /.col -->
+            </form>
         </div>
-        <!-- /.row -->
-    </div><!-- /.container-fluid -->
+        <!-- /.card-body -->
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" onclick="store_user()">Submit</button>
+        </div>
+    </div>
+</div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
