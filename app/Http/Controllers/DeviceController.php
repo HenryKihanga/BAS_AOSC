@@ -35,9 +35,10 @@ class DeviceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $organization_id)
+    public function store(Request $request)
     {
         $validator =  Validator::make($request->all(), [
+            'organizationId' => 'required',
             'deviceToken' => 'required',
             'deviceName' => 'required',
             'deviceLocation' => 'required',
@@ -50,7 +51,7 @@ class DeviceController extends Controller
                 'status' => false
             ], 404);
         }
-        $organization = Organization::find($organization_id);
+        $organization = Organization::find($request->input('organizationId'));
         if (!$organization) {
             return response()->json([
                 'error' => 'Organization Not Exist,make sure you register organization'
@@ -99,12 +100,13 @@ class DeviceController extends Controller
      * @param  \App\Models\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $deviceId)
+    public function update(Request $request)
     {
         $validator =  Validator::make($request->all(), [
-
+            'deviceToken' => 'required',
             'deviceName' => 'required',
             'deviceLocation' => 'required',
+            'deviceOrganization' => 'required',
         ]);
         //check if validator fails
         if ($validator->fails()) {
@@ -113,7 +115,7 @@ class DeviceController extends Controller
                 'status' => false
             ], 404);
         }
-        $device = Device::find($deviceId);
+        $device = Device::find($request->input('deviceToken'));
         if (!$device) {
             return response()->json([
                 'error' => 'device Not Exist,make sure you register organization'
@@ -123,7 +125,7 @@ class DeviceController extends Controller
         $device->update([
             'device_name' => $request->input('deviceName'),
             'device_location' => $request->input('deviceLocation'),
-            'organization_id' => $device->organization_id,
+            'organization_id' => $request->input('deviceOrganization'),
             'device_mode' => $device->device_mode,
 
         ]);
@@ -160,6 +162,11 @@ class DeviceController extends Controller
     public function showAll()
     {
         $devices = Device::all();
+        foreach($devices as $device){
+            foreach($device->users as $user){
+                $user->status;
+            }
+        }
         return response()->json([
             'devices' => $devices
         ], 200);
@@ -181,4 +188,18 @@ class DeviceController extends Controller
             'device'=> $device
         ]);
     }
+
+
+    //check and return device mode
+    public function checkMode($deviceToken){
+        if($device = Device::find($deviceToken)){
+            $mode = $device->device_mode;
+            return  strval($mode);
+        }
+
+            return "device not found";
+       
+    }
+
+    
 }

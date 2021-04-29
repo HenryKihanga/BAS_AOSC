@@ -38,7 +38,7 @@ class UsersTableSeeder extends Seeder
         $admin->email = 'mnadisarah@gmail.com';
         $admin->password = Hash::make(strtoupper('mnadi'));
         $admin->status()->create([
-            'enrollement_status'=> 1
+            'enrollment_status'=> 1
         ]);
         $admin->roles()->attach($adminRole);
         $department->users()->save($admin);
@@ -88,6 +88,7 @@ class UsersTableSeeder extends Seeder
         $staff->user_id = 5;
         $staff->first_name = 'Shabani';
         $staff->middle_name = '';
+        $staff->device_token = 1;
         $staff->last_name = 'Rashidi';
         $staff->phone_number = '0676873456';
         $staff->birth_date = '12/12/2020';

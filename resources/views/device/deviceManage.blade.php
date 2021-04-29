@@ -1,7 +1,7 @@
 @push('scripts')
     <script>
         function store_device() {
-            let url = "{{ route('storeDevice', [10000]) }}";
+            let url = "{{ route('storeDevice') }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -10,9 +10,10 @@
                 processData: false,
                 success: function(res) {
                     document.getElementById('addDeviceForm').reset();
+                    $('#tableDataDevice').html();
                     let device = res.newDevice;
-                    let token = device.device_token;
-                    $('#tableDataDevice').prepend(
+                    if(false){
+                            $('#tableDataDevice').prepend(
                             '<tr> <td class="filterable-cell" style="width: 10%">' +
                             device.device_token +
                             '</td> <td class="filterable-cell" style="width: 10%">' +
@@ -21,14 +22,34 @@
                             device.organization_id +
                             '</td> <td class="filterable-cell" style="width: 15%">' +
                             device.device_location +
-                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                            '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                            '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
                             '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                             '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
-                            token +
+                            device.device_token +
                             ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
+                        }
+                        else{
+                            $('#tableDataDevice').prepend(
+                            '<tr> <td class="filterable-cell" style="width: 10%">' +
+                            device.device_token +
+                            '</td> <td class="filterable-cell" style="width: 10%">' +
+                            device.device_name +
+                            '</td> <td class="filterable-cell" style="width: 20%">' +
+                            device.organization_id +
+                            '</td> <td class="filterable-cell" style="width: 15%">' +
+                            device.device_location +
+                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                            '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                            '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
+                            device.device_token +
+                            ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
+                        );
+                        }
                 }
             });
         }
@@ -41,14 +62,13 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    $('#tableDataDevice').html('');
                     if (res.devices.length < 1) {
                         $('#tableDataDevice').text('There is no devices Registered')
                     }
-
-                    
                     res.devices.map(device => {
-                        let token = device.device_token;
-                        $('#tableDataDevice').prepend(
+                        if(false){
+                            $('#tableDataDevice').prepend(
                             '<tr> <td class="filterable-cell" style="width: 10%">' +
                             device.device_token +
                             '</td> <td class="filterable-cell" style="width: 10%">' +
@@ -57,21 +77,45 @@
                             device.organization_id +
                             '</td> <td class="filterable-cell" style="width: 15%">' +
                             device.device_location +
-                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                            '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                            '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
                             '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                             '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
-                            token +
+                            device.device_token +
                             ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
+                        }
+                        else{
+                            $('#tableDataDevice').prepend(
+                            '<tr> <td class="filterable-cell" style="width: 10%">' +
+                            device.device_token +
+                            '</td> <td class="filterable-cell" style="width: 10%">' +
+                            device.device_name +
+                            '</td> <td class="filterable-cell" style="width: 20%">' +
+                            device.organization_id +
+                            '</td> <td class="filterable-cell" style="width: 15%">' +
+                            device.device_location +
+                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                            '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                            '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing('+
+                            device.device_token +
+                            ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
+                        );
+                        }
+                      
                     });
                 }
             });
         }
 
-        function populate_device_data_for_editing(id) {
-            let url = "{{ route('showOneDevice', 10) }}"
+        function populate_device_data_for_editing(device_id) {
+            let base_url = '{{ url('') }}'
+            let path = "/device/showOne/" + device_id;
+            let url = base_url + path
+           
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -80,6 +124,7 @@
                 success: function(result) {
                     console.log(result)
                     // Set data to the edit organization form
+                    document.getElementById("currentDeviceToken").value = result.device.device_token;
                     document.getElementById("currentDeviceName").value = result.device.device_name;
                     document.getElementById("currentDeviceLocation").value = result.device.device_location;
 
@@ -87,8 +132,8 @@
             });
         }
 
-        function edit_device_details(device_id) {
-            let url = "{{ route('updateDevice', 10) }}";
+        function edit_device_details() {
+            let url = "{{ route('updateDevice') }}";
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -183,12 +228,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
-                                <select class="form-control" id="InputOrganization">
-                                    <option>e-Government Authority</option>
-                                    <option>Univeristy of Dar es Salaam</option>
-                                    <option>UTUMISHI</option>
-                                    <option>TAMISEMI</option>
-                                    <option>Tanzania Portal Authority</option>
+                                <select class="form-control inputOrganizations" id="InputOrganization" name="organizationId">
+                                  
                                 </select>
                             </div>
                             <div class="form-group">
@@ -267,6 +308,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Name of Device</label>
+                                    <input id="currentDeviceToken" name="deviceToken" type="hidden">
                                     <input id="currentDeviceName" name="deviceName" type="text" class="form-control"
                                         placeholder="Enter ...">
                                 </div>
@@ -278,12 +320,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="InputOrganization">Select Organization</label>
-                                    <select class="form-control" id="InputOrganization">
-                                        <option>e-Government Authority</option>
-                                        <option>Univeristy of Dar es Salaam</option>
-                                        <option>UTUMISHI</option>
-                                        <option>TAMISEMI</option>
-                                        <option>Tanzania Portal Authority</option>
+                                    <select class="form-control inputOrganizations" id="InputOrganization" name="deviceOrganization">
+                                        
                                     </select>
                                 </div>
 
@@ -293,7 +331,7 @@
                 </div><!-- /.model-body-->
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="edit_device_details(10)"><i class="fas fa-save pr-2"></i>Submit</button>
+                        onclick="edit_device_details()"><i class="fas fa-save pr-2"></i>Submit</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->
         </div> <!-- /.modal-dialog -->

@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->string('user_id')->unique();
             $table->string('department_id');
+            $table->string('device_token')->nullable();
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
@@ -28,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('department_id')->references('department_id')->on('departments');
+            $table->foreign('device_token')->references('device_token')->on('devices');
         });
     }
 

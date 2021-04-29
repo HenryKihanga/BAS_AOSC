@@ -63,4 +63,12 @@ class User extends Authenticatable
     public function status(){
         return $this->hasOne(Userstatus::class, 'user_id');
     }
+
+    public function device(){
+        return $this->belongsTo(Device::class);
+    }
+
+    public function logs(){
+        return $this->hasMany(Log::class , 'user_id');
+    }
 }

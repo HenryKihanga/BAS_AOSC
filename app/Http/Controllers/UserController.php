@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Device;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -39,18 +40,18 @@ class UserController extends Controller
     public function store(Request $request)
 
     {
-    //     $p = Permintaan::create([
-    //         'NOMOR_TICKET' =>$value,
-    //         'TGL_PERMINTAAN' =>$value,
-    //         'NAMA_REQUESTER' =>$value,
-    //     ]);
-       
-    //    $p->pembatalan()->create([
-    //        'ALASAN_PEMBATALAN' =>$value,
-    //        'TGL_PEMBATALAN' =>$value,
-    //        'FILE_PEMBATALAN' =>$value,
-    //        'STATUS_PEMBATALAN' =>$value,
-    //     ]);
+        //     $p = Permintaan::create([
+        //         'NOMOR_TICKET' =>$value,
+        //         'TGL_PERMINTAAN' =>$value,
+        //         'NAMA_REQUESTER' =>$value,
+        //     ]);
+
+        //    $p->pembatalan()->create([
+        //        'ALASAN_PEMBATALAN' =>$value,
+        //        'TGL_PEMBATALAN' =>$value,
+        //        'FILE_PEMBATALAN' =>$value,
+        //        'STATUS_PEMBATALAN' =>$value,
+        //     ]);
         $validator =  Validator::make($request->all(), [
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' =>  ['required', 'string', 'max:255'],
@@ -98,8 +99,9 @@ class UserController extends Controller
         $department->users()->save($user);
 
         return response()->json([
-            'message'=>'success',
-            'results' => $user]);
+            'message' => 'success',
+            'results' => $user
+        ]);
     }
 
     /**
@@ -157,5 +159,82 @@ class UserController extends Controller
         return response()->json([
             'users' => $users
         ]);
+    }
+
+
+
+    public function fingerPrintId($deviceToken)
+    {
+        $device = Device::find($deviceToken);
+        if ($device) {
+            $users = $device->users;
+            if (count($users) == 0) {
+                return "No user has been registered in this device";
+            } else {
+                foreach ($users as $user) {
+                    //check user that has been selected to be enrolled
+                    if ($user->status->ready_to_enroll) {
+                        return $user->status->fingerprint_id;
+
+                    } else {
+                        return 'No user ready for enrollment';
+                    }
+                }
+            }
+        } else {
+            return "Device not found";
+        }
+    }
+
+    public function deleteUserEnrolled($deviceToken){
+        $device = Device::find($deviceToken);
+        if ($device) {
+            $users = $device->users;
+            if (count($users) == 0) {
+                return "No user has been registered in this device";
+            } else {
+                foreach ($users as $user) {
+                    //check user that has been selected to be enrolled
+                    if ($user->status->delete_status) {
+                        return $user->status->fingerprint_id;
+                        //logics to delete user in the system
+
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        } else {
+            return "Device not found";
+        }
+
+    }
+
+
+
+    public function confirmEnrollment($fingerPrintId, $deviceToken)
+    {
+        $device = Device::find($deviceToken);
+        if ($device) {
+            $users = $device->users;
+            if (count($users) == 0) {
+                return "No user has been registered in this device";
+            } else {
+                foreach ($users as $user) {
+                    //check user that has been selected to be enrolled
+                    if ($user->status->fingerprint_id == $fingerPrintId) {
+                        $user->status->update([
+                            'ready_to_enroll' => 0,
+                            'enrollment_status' => 1
+                        ]);
+                        return "Succesfull Enrolled";
+                    } else {
+                        return 'No user is read to enroll';
+                    }
+                }
+            }
+        } else {
+            return "Device not found";
+        }
     }
 }

@@ -12,8 +12,9 @@ class Userstatus extends Model
     protected $fillable = [
         'user_id',
         'fingerprint_id',
-        'enrollement_status',
+        'enrollment_status',
         'middle_name',
+        'ready_to_enroll',
         'delete_status',
         
     ];

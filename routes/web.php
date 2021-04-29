@@ -73,13 +73,24 @@ Route::get('/department/showAll', [App\Http\Controllers\DepartmentController::cl
 Route::post('department/update/{id}', [App\Http\Controllers\DepartmentController::class, 'update'])->name('updateDepartment');
 
 // Routes for Device controller
-Route::post('device/store/{organizationId}', [App\Http\Controllers\DeviceController::class, 'store'])->name('storeDevice');
+Route::post('device/store', [App\Http\Controllers\DeviceController::class, 'store'])->name('storeDevice');
 Route::get('device/showOne/{id}', [App\Http\Controllers\DeviceController::class, 'showOne'])->name('showOneDevice');
 Route::get('device/showAll', [App\Http\Controllers\DeviceController::class, 'showAll'])->name('showAllDevices');
-Route::post('device/update/{deviceId}', [App\Http\Controllers\DeviceController::class, 'update'])->name('updateDevice');
-Route::post('device/changeMode/{deviceId}', [App\Http\Controllers\DeviceController::class, 'changeMode'])->name('changeDeviceMode');
+Route::post('device/update', [App\Http\Controllers\DeviceController::class, 'update'])->name('updateDevice');
+Route::post('device/changeMode/{deviceToken}', [App\Http\Controllers\DeviceController::class, 'changeMode'])->name('changeDeviceMode');
+//hardware
+Route::get('device/checkMode/{deviceToken}', [App\Http\Controllers\DeviceController::class, 'checkMode'])->name('checkDeviceMode');
 
 // Routes for User controller
 // Route::resource('/user','App\Http\Controllers\UserController');
 Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll'])->name('showAllUsers');
 Route::post('user/addUser', [App\Http\Controllers\UserController::class, 'store'])->name('addUser');
+//hardware
+Route::get('user/fingerprintId/{deviceToken}', [App\Http\Controllers\UserController::class, 'fingerPrintId'])->name('userFingerPrintId');
+Route::get('user/confirmEnrollment/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\UserController::class, 'confirmEnrollment'])->name('confirmUserEnrollment');
+Route::get('user/deleteUserEnrolled/{deviceToken}', [App\Http\Controllers\UserController::class, 'deleteUserEnrolled'])->name('userFingerPrintId');
+
+
+
+// Routes for Log controller
+Route::get('log/checkInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'checkInOrOut'])->name('checkInOrOut');

@@ -38,7 +38,7 @@
         }
 
         function show_device_manage() {
-
+            all_organizations();
             query_all_devices();
             $('#dashboard').css('display', 'none');
             $('#addUser').css('display', 'none');
@@ -141,7 +141,7 @@
             let base_url = '{{ url('') }}'
             let path = "/branch/showOne/" + branch_id;
             url = base_url + path
-            alert(url)
+           
             $.ajax({
                 url: url,
                 type: 'GET',

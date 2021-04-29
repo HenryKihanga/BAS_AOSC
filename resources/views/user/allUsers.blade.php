@@ -10,8 +10,8 @@
                 success: function(res) {
                     $('#tableAllUsers').html('')
                     res.users.map(user => {
-                        console.log(user.status.enrollement_status)
-                        if (user.status.enrollement_status) {
+                    
+                        if (user.status.enrollment_status) {
                             $('#tableAllUsers').append(
                                 '<tr class="clickable-row"><td style="width: 15%">' + user.user_id +
                                 '</td>' +

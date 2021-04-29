@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserstatusesTable extends Migration
+class CreateLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateUserstatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('userstatuses', function (Blueprint $table) {
-            
+        Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->string('fingerprint_id')->nullable();
-            $table->boolean('ready_to_enroll')->default(0);
-            $table->boolean('enrollment_status')->default(0);
-            $table->boolean('delete_status')->default(0);
+            $table->time('time_in');
+            $table->time('time_out')->nullable();
+            $table->date('date');
             $table->timestamps();
+            $table->softDeletes();
             // $table->foreign('user_id')->references('user_id')->on('users');
         });
     }
@@ -33,6 +32,6 @@ class CreateUserstatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userstatuses');
+        Schema::dropIfExists('logs');
     }
 }
