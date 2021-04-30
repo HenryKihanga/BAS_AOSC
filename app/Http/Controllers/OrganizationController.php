@@ -38,21 +38,28 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required',
             'address' => 'required',
-
         ]);
-        //check if validator fails
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
+        // $validator =  Validator::make($request->all(), [
+        //     'registrationNumber' => 'required',
+        //     'registrationName' => 'required',
+        //     'phoneNumber' => 'required',
+        //     'email' => 'required',
+        //     'address' => 'required',
+
+        // ]);
+        // //check if validator fails
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'error' => $validator->errors(),
+        //         'status' => false
+        //     ], 404);
+        // }
         //create new organization
         $organization = new Organization();
         $organization->organization_id = $request->input('registrationNumber');

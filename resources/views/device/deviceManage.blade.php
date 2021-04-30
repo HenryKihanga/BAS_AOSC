@@ -23,7 +23,7 @@
                     });
                     $('#tableDataDevice').html();
                     let device = res.newDevice;
-                    if (false) {
+                    if (device.device_mode) {
                         $('#tableDataDevice').prepend(
                             '<tr> <td class="filterable-cell" style="width: 10%">' +
                             device.device_token +
@@ -78,7 +78,7 @@
                         $('#tableDataDevice').text('There is no devices Registered')
                     }
                     res.devices.map(device => {
-                        if (false) {
+                        if (device.device_mode) {
                             $('#tableDataDevice').prepend(
                                 '<tr> <td class="filterable-cell" style="width: 10%">' +
                                 device.device_token +
@@ -88,8 +88,8 @@
                                 device.organization_id +
                                 '</td> <td class="filterable-cell" style="width: 15%">' +
                                 device.device_location +
-                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                                '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="change_mode_to_attendance('+device.device_token+')"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                                '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="change_mode_to_enrollement('+device.device_token+')"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
                                 '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                                 '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
                                 device.device_token +
@@ -106,8 +106,8 @@
                                 device.organization_id +
                                 '</td> <td class="filterable-cell" style="width: 15%">' +
                                 device.device_location +
-                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                                '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="change_mode_to_attendance('+device.device_token+')"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                                '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="change_mode_to_enrollement('+device.device_token+')"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
                                 '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                                 '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
                                 device.device_token +
@@ -169,35 +169,42 @@
             });
         }
 
-        function enrollment_mode(device_id) {
-            let url = "{{ route('changeDeviceMode', 10) }}";
+        function enrollment_mode(device_token) {
+           
+            let base_url = '{{ url('') }}'
+            let path = "/device/changeMode/" + device_token;
+            let url = base_url + path
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: {
                     'device_mode': 0
                 },
-                contentType: false,
-                processData: false,
+                // contentType: false,
+                // processData: false,
                 success: function(res) {
-                    console.log(res)
+                    query_all_devices();
+                   
 
                 }
             });
         }
 
-        function attendance_mode(device_id) {
-            let url = "{{ route('changeDeviceMode', 10) }}";
+        function attendance_mode(device_token) {
+            let base_url = '{{ url('') }}'
+            let path = "/device/changeMode/" + device_token;
+            let url = base_url + path
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: {
                     'device_mode': 1
                 },
-                contentType: false,
-                processData: false,
+                // contentType: false,
+                // processData: false,
                 success: function(res) {
-                    console.log(res)
+                    query_all_devices();
+                    
 
                 }
             });

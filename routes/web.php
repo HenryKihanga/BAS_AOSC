@@ -35,7 +35,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Route::get('/user/changepassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changepassword')->middleware('auth');
 // Route::get('/organization/index', [App\Http\Controllers\OrganizationController::class, 'index'])->name('organization')->middleware('auth');
 
-// Route::get('/organizations/queryAll', [App\Http\Controllers\OrganizationController::class, 'getLastFiveOrganizations'])->name('queryAllOrganizations');
+Route::view('/rough', 'rough');
+Route::post('/rough', [App\Http\Controllers\RoughController::class, 'index'])->name('roughIndex');
+
 
 
 

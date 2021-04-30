@@ -18,22 +18,35 @@
             toggle_active_class();
         }
 
-        function show_edit_device(id) {
-            let device_id = id;
-            $('#dashboard').css('display', 'none');
-            $('#addUser').css('display', 'none');
-            $('#allUsers').css('display', 'none');
-            $('#organizationManage').css('display', 'none');
-            $('#deviceManage').css('display', 'none');
-            $('#userProfile').css('display', 'none');
-            $('#userChangePassword').css('display', 'none');
-            $('#organizationEdit').css('display', 'none');
-            $('#manageBranch').css('display', 'none');
-            $('#manageDepartment').css('display', 'none');
-            $('#editBranch').css('display', 'none');
-            $('#editDepartment').css('display', 'none');
-            $('#editDevice').css('display', 'unset');
-
-            // populate_department_data_for_editing(device_id);
-            toggle_active_class();
+        function change_mode_to_enrollement(device_token){
+            Swal.fire({
+                // title: 'Are you sure?',
+                text: "Do you wanna change mode to enrollment?",
+                // icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    enrollment_mode(device_token)
+                }
+              })
         }
+        function change_mode_to_attendance(device_token){
+            Swal.fire({
+                // title: 'Are you sure?',
+                text: "Do you wanna change mode to attendance?",
+                // icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    attendance_mode(device_token)
+                }
+              })
+        }
+
+

@@ -162,8 +162,8 @@ class DeviceController extends Controller
     public function showAll()
     {
         $devices = Device::all();
-        foreach($devices as $device){
-            foreach($device->users as $user){
+        foreach ($devices as $device) {
+            foreach ($device->users as $user) {
                 $user->status;
             }
         }
@@ -172,13 +172,21 @@ class DeviceController extends Controller
         ], 200);
     }
 
-    public function changeMode(Request $request, $deviceId)
+    public function changeMode(Request $request, $deviceToken)
     {
         $validator =  Validator::make($request->all(), [
             'device_mode' => 'required',
 
         ]);
-        $device = Device::find($deviceId);
+          //check if validator fails
+          if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+                'status' => false
+            ], 404);
+        }
+
+        $device = Device::find($deviceToken);
         $device->update([
             'device_mode' => $request->input('device_mode')
         ]);
@@ -191,15 +199,13 @@ class DeviceController extends Controller
 
 
     //check and return device mode
-    public function checkMode($deviceToken){
-        if($device = Device::find($deviceToken)){
+    public function checkMode($deviceToken)
+    {
+        if ($device = Device::find($deviceToken)) {
             $mode = $device->device_mode;
             return  strval($mode);
         }
 
-            return "device not found";
-       
+        return "device not found";
     }
-
-    
 }

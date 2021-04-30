@@ -5,45 +5,9 @@
     <script src="{{ url('js/custom/branch.js') }}"></script>
     <script src="{{ url('js/custom/department.js') }}"></script>
     <script src="{{ url('js/custom/device.js') }}"></script>
+    <script src="{{ url('js/custom/dashboard.js') }}"></script>
     {{-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> --}}
     <script>
-      
-
-        function show_dashboard() {
-            $('#dashboard').css('display', 'unset');
-            $('#addUser').css('display', 'none');
-            $('#allUsers').css('display', 'none');
-            $('#organizationManage').css('display', 'none');
-            $('#deviceManage').css('display', 'none');
-            $('#userProfile').css('display', 'none');
-            $('#userChangePassword').css('display', 'none');
-            $('#organizationEdit').css('display', 'none');
-            $('#manageBranch').css('display', 'none');
-            $('#manageDepartment').css('display', 'none');
-            $('#editBranch').css('display', 'none');
-            $('#editDepartment').css('display', 'none');
-            $('#editDevice').css('display', 'none');
-            toggle_active_class();
-        }
-
-
-
-
-
-
-
-
-      
-
- 
-
-
-
-
-
-
-
-     
 
         function toggle_active_class() {
             var navtab = document.querySelector('.myNavtab').querySelectorAll('a')
@@ -54,13 +18,6 @@
                 })
             });
         }
-
-
-
-
-
-
-
 
         function all_organizations() {
             let url = "{{ route('showAllOrganizations') }}";
@@ -118,9 +75,6 @@
 
     </script>
 @endpush
-
-
-
 @section('content')
     <!-- dashboard -->
     <div id="dashboard">
@@ -145,9 +99,6 @@
     </div>
     <div id="deviceManage" style="display:none;">
         @include('device.deviceManage')
-    </div>
-    <div id="editDevice" style="display:none;">
-        @include('device.editDevice')
     </div>
     <div id="editBranch" style="display:none;">
         @include('branch.editBranch')

@@ -119,6 +119,11 @@
                                 <label for="InputRegistrationNumber">Registration Number :</label>
                                 <input type="text" class="form-control" id="newOrganizationRegistrationNumber"
                                     placeholder="Enter Registration Number" name="registrationNumber">
+                                    {{-- @error('registrationNumber')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror --}}
                             </div>
                             <!--Registration Name Field-->
                             <div class="form-group">
@@ -179,5 +184,6 @@
                 </div><!-- /.card -->
             </div> <!-- /.col -->
         </div><!-- /.row -->
+        {{ $errors }}
     </div><!-- /.container-fluid -->
 </section><!-- /.content -->
