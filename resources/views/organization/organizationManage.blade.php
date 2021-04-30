@@ -1,6 +1,13 @@
 @push('scripts')
     <script>
         function new_organization() {
+            //clear error message spans
+            $('#newOrgRegistrationNumberError').text('');
+            $('#newOrgRegistrationNameError').text('');
+            $('#newOrgPhoneNumberError').text('');
+            $('#newOrgEmailError').text('');
+            $('#newOrgAddressError').text('');
+
             let url = "{{ route('storeOrganization') }}"; //url for registering new organization
             $.ajax({
                 url: url,
@@ -9,6 +16,7 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+
                     document.getElementById('newOrganizationForm').reset(); //clear registration form
                     //show confirmation message to user
                     var Toast = Swal.mixin({
@@ -37,6 +45,14 @@
                         ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                         ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                     );
+
+                },
+                error: function(response) {
+                    $('#newOrgRegistrationNumberError').text(response.responseJSON.errors.registrationNumber);
+                    $('#newOrgRegistrationNameError').text(response.responseJSON.errors.registrationName);
+                    $('#newOrgPhoneNumberError').text(response.responseJSON.errors.phoneNumber);
+                    $('#newOrgEmailError').text(response.responseJSON.errors.email);
+                    $('#newOrgAddressError').text(response.responseJSON.errors.address);
                 }
             });
         }
@@ -119,35 +135,36 @@
                                 <label for="InputRegistrationNumber">Registration Number :</label>
                                 <input type="text" class="form-control" id="newOrganizationRegistrationNumber"
                                     placeholder="Enter Registration Number" name="registrationNumber">
-                                    {{-- @error('registrationNumber')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror --}}
+                                <span class="text-danger" id="newOrgRegistrationNumberError" ></span>
+
                             </div>
                             <!--Registration Name Field-->
                             <div class="form-group">
                                 <label for="InputNameofRegistrationName">Registration Name :</label>
                                 <input type="text" class="form-control" id="newOrganizationRegistrationName"
                                     placeholder="Enter Registration Name" name="registrationName">
+                                <span class="text-danger" id="newOrgRegistrationNameError"></span>
                             </div>
                             <!--Phone Number Field-->
                             <div class="form-group">
                                 <label for="InputNameofPhoneNumber">Phone Number :</label>
                                 <input type="text" class="form-control" id="newOrganizationPhoneNumber"
                                     placeholder="Enter Phone Number" name="phoneNumber">
+                                <span class="text-danger" id="newOrgPhoneNumberError"></span>
                             </div>
                             <!--Email Field-->
                             <div class="form-group">
                                 <label for="InputNameofEmail">Email :</label>
                                 <input type="text" class="form-control" id="newOrganizationEmail"
                                     placeholder="Enter Email" name="email">
+                                <span class="text-danger" id="newOrgEmailError"></span>
                             </div>
                             <!--Address Field-->
                             <div class="form-group">
                                 <label for="InputNameofAddress">Address :</label>
                                 <input type="text" class="form-control" id="newOrganizationAddress"
                                     placeholder="Enter Address" name="address">
+                                <span class="text-danger" id="newOrgAddressError"></span>
                             </div>
                         </div><!-- /.card-body -->
                         <!-- card-footer -->
@@ -184,6 +201,5 @@
                 </div><!-- /.card -->
             </div> <!-- /.col -->
         </div><!-- /.row -->
-        {{ $errors }}
     </div><!-- /.container-fluid -->
 </section><!-- /.content -->

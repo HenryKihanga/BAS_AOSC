@@ -26,7 +26,6 @@ class BranchController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -37,23 +36,15 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'organizationId' => 'required',
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required',
             'address' => 'required',
-
         ]);
 
-        //check if validator fails
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
         //fetch parent
         $organization = Organization::find($request->input('organizationId'));
         if (!$organization) {
@@ -109,20 +100,14 @@ class BranchController extends Controller
      */
     public function update(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required',
             'address' => 'required',
-
         ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
+
 
         $branch = Branch::find($request->input('registrationNumber'));
         if (!$branch) {
@@ -141,7 +126,6 @@ class BranchController extends Controller
         return response()->json([
             'branch' => $branch
         ], 206);
-
     }
 
     /**

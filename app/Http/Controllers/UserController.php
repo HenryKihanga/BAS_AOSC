@@ -40,7 +40,7 @@ class UserController extends Controller
     public function store(Request $request)
 
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' =>  ['required', 'string', 'max:255'],
             'userID' => 'required',
@@ -50,20 +50,9 @@ class UserController extends Controller
             'organization' => 'required',
             'branch' => 'required',
             'department' => 'required',
-
+            'roles' => 'required'
         ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
-        if ($request->input('roles') == null) {
-            return response()->json([
-                'error' => 'Select atleast one role'
-            ]);
-        }
+      
 
         $department = Department::find($request->input('department'));
         $user = new User();

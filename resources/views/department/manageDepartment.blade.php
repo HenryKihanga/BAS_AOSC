@@ -1,6 +1,12 @@
 @push('scripts')
     <script>
         function new_department() {
+            //clear error message spans
+            $('#newDepartmentRegistrationNumberError').text('');
+            $('#newDepartmentRegistrationNameError').text('');
+            $('#newDepartmentPhoneNumberError').text('');
+            $('#newDepartmentEmailError').text('');
+            $('#newDepartmentAddressError').text('');
             let url = "{{ route('storeDepartment') }}";
             $.ajax({
                 url: url,
@@ -10,8 +16,8 @@
                 processData: false,
                 success: function(res) {
                     document.getElementById('newDepartmentForm').reset();
-                     //show confirmation message to user
-                     var Toast = Swal.mixin({
+                    //show confirmation message to user
+                    var Toast = Swal.mixin({
                         toast: true,
                         position: 'center',
                         showConfirmButton: false,
@@ -35,6 +41,15 @@
                         department.department_id + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                         ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                     );
+                },
+                error: function(response) {
+                    $('#newDepartmentRegistrationNumberError').text(response.responseJSON.errors
+                        .registrationNumber);
+                    $('#newDepartmentRegistrationNameError').text(response.responseJSON.errors
+                    .registrationName);
+                    $('#newDepartmentPhoneNumberError').text(response.responseJSON.errors.phoneNumber);
+                    $('#newDepartmentEmailError').text(response.responseJSON.errors.email);
+                    $('#newDepartmentAddressError').text(response.responseJSON.errors.address);
                 }
             });
         }
@@ -104,26 +119,31 @@
                                 <label for="InputRegistrationNumber">Registration Number :</label>
                                 <input type="text" class="form-control" id="InputRegistrationNumber"
                                     placeholder="Enter Registration Number" name="registrationNumber">
+                                <span class="text-danger" id="newDepartmentRegistrationNumberError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofRegistrationName">Registration Name :</label>
                                 <input type="text" class="form-control" id="InputNameofRegistrationName"
                                     placeholder="Enter Registration Name" name="registrationName">
+                                <span class="text-danger" id="newDepartmentRegistrationNameError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofPhoneNumber">Phone Number :</label>
                                 <input type="text" class="form-control" id="InputNameofPhoneNumber"
                                     placeholder="Enter Phone Number" name="phoneNumber">
+                                <span class="text-danger" id="newDepartmentPhoneNumberError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofEmail">Email :</label>
                                 <input type="text" class="form-control" id="InputNameofEmail" placeholder="Enter Email"
                                     name="email">
+                                <span class="text-danger" id="newDepartmentEmailError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofAddress">Address :</label>
                                 <input type="text" class="form-control" id="InputNameofAddress"
                                     placeholder="Enter Address" name="address">
+                                <span class="text-danger" id="newDepartmentAddressError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>

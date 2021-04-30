@@ -1,6 +1,9 @@
 @push('scripts')
     <script>
         function new_device() {
+            $('#newDeviceTokenError').text('');
+            $('#newDeviceNameError').text('');
+            $('#newDeviceLocationError').text('');
             let url = "{{ route('storeDevice') }}";
             $.ajax({
                 url: url,
@@ -9,9 +12,10 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+
                     document.getElementById('newDeviceForm').reset();
-                     //show confirmation message to user
-                     var Toast = Swal.mixin({
+                    //show confirmation message to user
+                    var Toast = Swal.mixin({
                         toast: true,
                         position: 'center',
                         showConfirmButton: false,
@@ -60,7 +64,15 @@
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
                     }
+                },
+                error: function(response) {
+                    $('#newDeviceTokenError').text(response.responseJSON.errors.deviceToken);
+                    $('#newDeviceNameError').text(response.responseJSON.errors.deviceName);
+                    $('#newDeviceLocationError').text(response.responseJSON.errors.deviceLocation);
+
                 }
+
+
             });
         }
 
@@ -72,7 +84,7 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                   
+
                     $('#tableDataDevice').html('');
                     if (res.devices.length < 1) {
                         $('#tableDataDevice').text('There is no devices Registered')
@@ -88,8 +100,12 @@
                                 device.organization_id +
                                 '</td> <td class="filterable-cell" style="width: 15%">' +
                                 device.device_location +
-                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="change_mode_to_attendance('+device.device_token+')"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                                '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="change_mode_to_enrollement('+device.device_token+')"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="change_mode_to_attendance(' +
+                                device.device_token +
+                                ')"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                                '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="change_mode_to_enrollement(' +
+                                device.device_token +
+                                ')"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
                                 '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                                 '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
                                 device.device_token +
@@ -106,8 +122,12 @@
                                 device.organization_id +
                                 '</td> <td class="filterable-cell" style="width: 15%">' +
                                 device.device_location +
-                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="change_mode_to_attendance('+device.device_token+')"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                                '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="change_mode_to_enrollement('+device.device_token+')"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="change_mode_to_attendance(' +
+                                device.device_token +
+                                ')"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                                '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="change_mode_to_enrollement(' +
+                                device.device_token +
+                                ')"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
                                 '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
                                 '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
                                 device.device_token +
@@ -132,7 +152,7 @@
                 processData: false,
                 success: function(result) {
                     let device = result.device;
-                 
+
                     // Set data to the edit organization form
                     document.getElementById("currentDeviceToken").value = device.device_token;
                     document.getElementById("currentDeviceName").value = device.device_name;
@@ -144,6 +164,8 @@
         }
 
         function edit_device_details() {
+            $('#editDeviceNameError').text('');
+            $('#editDeviceLocationError').text('');
             let url = "{{ route('updateDevice') }}";
             $.ajax({
                 url: url,
@@ -152,8 +174,9 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                        //show confirmation message to user
-                        var Toast = Swal.mixin({
+                    $("#modal-lg-editDevice").modal("hide");
+                    //show confirmation message to user
+                    var Toast = Swal.mixin({
                         toast: true,
                         position: 'center',
                         showConfirmButton: false,
@@ -165,12 +188,18 @@
                     });
                     show_device_manage();
 
+                },
+                error: function(response) {
+
+                    $('#editDeviceNameError').text(response.responseJSON.errors.deviceName);
+                    $('#editDeviceLocationError').text(response.responseJSON.errors.deviceLocation);
+
                 }
             });
         }
 
         function enrollment_mode(device_token) {
-           
+
             let base_url = '{{ url('') }}'
             let path = "/device/changeMode/" + device_token;
             let url = base_url + path
@@ -184,7 +213,7 @@
                 // processData: false,
                 success: function(res) {
                     query_all_devices();
-                   
+
 
                 }
             });
@@ -204,7 +233,7 @@
                 // processData: false,
                 success: function(res) {
                     query_all_devices();
-                    
+
 
                 }
             });
@@ -246,11 +275,13 @@
                                 <label for="InputDeviceToken">Device Token</label>
                                 <input type="text" name="deviceToken" class="form-control" id="InputDeviceToken"
                                     placeholder="Enter Device Token">
+                                <span class="text-danger" id="newDeviceTokenError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofDevice">Device Name</label>
                                 <input type="text" name="deviceName" class="form-control" id="InputNameofDevice"
                                     placeholder="Enter Device Name">
+                                <span class="text-danger" id="newDeviceNameError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
@@ -263,6 +294,7 @@
                                 <label for="InputLocationofDevice">Device Location</label>
                                 <input type="text" name="deviceLocation" class="form-control" id="InputLocationofDevice"
                                     placeholder="Enter Device Location">
+                                <span class="text-danger" id="newDeviceLocationError"></span>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -322,14 +354,15 @@
                                 <div class="form-group">
                                     <label>Name of Device</label>
                                     <input id="currentDeviceToken" name="deviceToken" type="hidden">
-                                    <input id="currentDeviceName" name="deviceName" type="text" class="form-control"
-                                        placeholder="Enter ...">
+                                    <input id="currentDeviceName" name="deviceName" type="text" class="form-control">
+                                    <span class="text-danger" id="editDeviceNameError"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Device Location</label>
                                     <input id="currentDeviceLocation" name="deviceLocation" type="text"
-                                        class="form-control" placeholder="Enter ...">
+                                        class="form-control">
+                                    <span class="text-danger" id="editDeviceLocationError"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="InputOrganization">Select Organization</label>
@@ -344,8 +377,8 @@
                     </div><!-- /.card -->
                 </div><!-- /.model-body-->
                 <div class="modal-footer ">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="edit_device_details()"><i class="fas fa-save pr-2"></i>Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="edit_device_details()"><i
+                            class="fas fa-save pr-2"></i>Submit</button>
                 </div><!-- /.model-footer-->
             </div><!-- /.modal-content -->
         </div> <!-- /.modal-dialog -->

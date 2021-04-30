@@ -1,6 +1,12 @@
 @push('scripts')
     <script>
         function new_branch() {
+            $('#newBranchRegistrationNumberError').text('');
+            $('#newBranchRegistrationNameError').text('');
+            $('#newBranchPhoneNumberError').text('');
+            $('#newBranchEmailError').text('');
+            $('#newBranchAddressError').text('');
+            $('#newBranchOrganizationError').text('');
             let url = "{{ route('storeBranch') }}";
             $.ajax({
                 url: url,
@@ -9,6 +15,7 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+
                     document.getElementById('newBranchForm').reset();
                     //show confirmation message to user
                     var Toast = Swal.mixin({
@@ -35,6 +42,15 @@
                         branch.branch_id + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                         ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                     );
+                },
+                error: function(response) {
+                    $('#newBranchRegistrationNumberError').text(response.responseJSON.errors
+                    .registrationNumber);
+                    $('#newBranchRegistrationNameError').text(response.responseJSON.errors.registrationName);
+                    $('#newBranchPhoneNumberError').text(response.responseJSON.errors.phoneNumber);
+                    $('#newBranchEmailError').text(response.responseJSON.errors.email);
+                    $('#newBranchAddressError').text(response.responseJSON.errors.address);
+                    $('#newBranchOrganizationError').text(response.responseJSON.errors.organizationId);
                 }
             });
         }
@@ -67,6 +83,7 @@
                 }
             });
         }
+
     </script>
 @endpush
 <!-- Content Header (Page header) -->
@@ -104,26 +121,31 @@
                                 <label for="InputRegistrationNumber">Registration Number :</label>
                                 <input type="text" class="form-control" id="newBranchRegistrationNumber"
                                     placeholder="Enter Registration Number" name="registrationNumber">
+                                <span class="text-danger" id="newBranchRegistrationNumberError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofRegistrationName">Registration Name :</label>
                                 <input type="text" class="form-control" id="newBranchRegistrationName"
                                     placeholder="Enter Registration Name" name="registrationName">
+                                <span class="text-danger" id="newBranchRegistrationNameError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofPhoneNumber">Phone Number :</label>
                                 <input type="text" class="form-control" id="newBranchPhoneNumber"
                                     placeholder="Enter Phone Number" name="phoneNumber">
+                                <span class="text-danger" id="newBranchPhoneNumberError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofEmail">Email :</label>
                                 <input type="text" class="form-control" id="newBranchEmail" placeholder="Enter Email"
                                     name="email">
+                                <span class="text-danger" id="newBranchEmailError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofAddress">Address :</label>
                                 <input type="text" class="form-control" id="newBranchAddress"
                                     placeholder="Enter Address" name="address">
+                                <span class="text-danger" id="newBranchAddressError"></span>
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
@@ -131,6 +153,7 @@
                                     name="organizationId">
                                     {{-- organization data are populate by java script method all_organizations() --}}
                                 </select>
+                                <span class="text-danger" id="newBranchOrganizationError"></span>
                             </div>
                         </div> <!-- /.card-body -->
                         <div class="card-footer">

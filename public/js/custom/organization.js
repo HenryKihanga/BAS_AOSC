@@ -45,8 +45,7 @@ function editOrganization() {
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-            edit_organization_details()
-            Swal.fire('Editted Seccesful', '', 'success')
+            edit_organization_details()//edit organization method call
         } else if (result.isDenied) {
             Swal.fire('Changes are not saved', '', 'info')
         }

@@ -37,20 +37,13 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'organizationId' => 'required',
             'deviceToken' => 'required',
             'deviceName' => 'required',
             'deviceLocation' => 'required',
         ]);
 
-        //check if validator fails
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
         $organization = Organization::find($request->input('organizationId'));
         if (!$organization) {
             return response()->json([
@@ -102,19 +95,13 @@ class DeviceController extends Controller
      */
     public function update(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'deviceToken' => 'required',
             'deviceName' => 'required',
             'deviceLocation' => 'required',
             'deviceOrganization' => 'required',
         ]);
-        //check if validator fails
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
+
         $device = Device::find($request->input('deviceToken'));
         if (!$device) {
             return response()->json([

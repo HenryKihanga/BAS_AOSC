@@ -37,23 +37,15 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'branchId' => 'required',
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required',
             'address' => 'required',
-
         ]);
-
-        //check if validator fails
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
+        
         //fetch parent
         $branch = Branch::find($request->input('branchId'));
         if (!$branch) {

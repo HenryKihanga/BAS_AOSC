@@ -48,7 +48,7 @@
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     edit_department_details()
-                    Swal.fire('Editted Seccesful', '', 'success')
+                   
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }

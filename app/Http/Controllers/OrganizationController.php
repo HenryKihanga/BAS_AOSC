@@ -42,24 +42,10 @@ class OrganizationController extends Controller
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
-            'email' => 'required',
+            'email' => 'required | email',
             'address' => 'required',
         ]);
-        // $validator =  Validator::make($request->all(), [
-        //     'registrationNumber' => 'required',
-        //     'registrationName' => 'required',
-        //     'phoneNumber' => 'required',
-        //     'email' => 'required',
-        //     'address' => 'required',
-
-        // ]);
-        // //check if validator fails
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'error' => $validator->errors(),
-        //         'status' => false
-        //     ], 404);
-        // }
+      
         //create new organization
         $organization = new Organization();
         $organization->organization_id = $request->input('registrationNumber');
@@ -127,23 +113,16 @@ class OrganizationController extends Controller
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request )
+    public function update(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $request->validate([
             'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
-            'email' => 'required',
+            'email' => 'required | email',
             'address' => 'required',
-
         ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
-
+    
         $organization = Organization::find($request->input('registrationNumber'));
         if (!$organization) {
             return response()->json([

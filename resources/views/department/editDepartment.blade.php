@@ -25,6 +25,11 @@
         }
 
         function edit_department_details() {
+             //clear error message spans
+             $('#editDepartmentRegistrationNameError').text('');
+            $('#editDepartmentPhoneNumberError').text('');
+            $('#editDepartmentEmailError').text('');
+            $('#editDepartmentAddressError').text('');
             let url = "{{ route('updateDepartment') }}";
             $.ajax({
                 url: url,
@@ -33,7 +38,20 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    Swal.fire('Editted Seccesful', '', 'success')
                     show_manage_department()
+                },
+                error: function(response) {
+                    //pop up notification
+                    Swal.fire({
+                        text: 'Something went wrong!',
+                        showConfirmButton: false,
+                    })
+                    $('#editDepartmentRegistrationNameError').text(response.responseJSON.errors.registrationName);
+                    $('#editDepartmentPhoneNumberError').text(response.responseJSON.errors.phoneNumber);
+                    $('#editDepartmentEmailError').text(response.responseJSON.errors.email);
+                    $('#editDepartmentAddressError').text(response.responseJSON.errors.address);
+
                 }
             });
         }
@@ -85,6 +103,7 @@
                                         <label>Name of Department</label>
                                         <input id="currentDepartmentName" name="registrationName" type="text"
                                             class="form-control">
+                                            <span class="text-danger" id="editDepartmentRegistrationNameError"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -93,6 +112,7 @@
                                         <label>Phone Number</label>
                                         <input id="currentDepartmentNumber" name="phoneNumber" type="text"
                                             class="form-control">
+                                            <span class="text-danger" id="editDepartmentPhoneNumberError"></span>
                                     </div>
                                 </div>
 
@@ -104,6 +124,7 @@
                                         <label>Email</label>
                                         <input id="currentDepartmentEmail" name="email" type="text"
                                             class="form-control">
+                                            <span class="text-danger" id="editDepartmentEmailError"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -112,6 +133,7 @@
                                         <label>Address</label>
                                         <input id="currentDepartmentAddress" name="address" type="text"
                                             class="form-control">
+                                            <span class="text-danger" id="editDepartmentAddressError"></span>
                                     </div>
                                 </div>
                             </div>
