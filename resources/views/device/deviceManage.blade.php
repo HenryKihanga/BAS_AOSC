@@ -1,19 +1,30 @@
 @push('scripts')
     <script>
-        function store_device() {
+        function new_device() {
             let url = "{{ route('storeDevice') }}";
             $.ajax({
                 url: url,
                 type: 'POST',
-                data: new FormData(document.getElementById('addDeviceForm')),
+                data: new FormData(document.getElementById('newDeviceForm')),
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    document.getElementById('addDeviceForm').reset();
+                    document.getElementById('newDeviceForm').reset();
+                     //show confirmation message to user
+                     var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'New Device has been added succesfully'
+                    });
                     $('#tableDataDevice').html();
                     let device = res.newDevice;
-                    if(false){
-                            $('#tableDataDevice').prepend(
+                    if (false) {
+                        $('#tableDataDevice').prepend(
                             '<tr> <td class="filterable-cell" style="width: 10%">' +
                             device.device_token +
                             '</td> <td class="filterable-cell" style="width: 10%">' +
@@ -30,9 +41,8 @@
                             ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
-                        }
-                        else{
-                            $('#tableDataDevice').prepend(
+                    } else {
+                        $('#tableDataDevice').prepend(
                             '<tr> <td class="filterable-cell" style="width: 10%">' +
                             device.device_token +
                             '</td> <td class="filterable-cell" style="width: 10%">' +
@@ -49,7 +59,7 @@
                             ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
-                        }
+                    }
                 }
             });
         }
@@ -62,50 +72,50 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                   
                     $('#tableDataDevice').html('');
                     if (res.devices.length < 1) {
                         $('#tableDataDevice').text('There is no devices Registered')
                     }
                     res.devices.map(device => {
-                        if(false){
+                        if (false) {
                             $('#tableDataDevice').prepend(
-                            '<tr> <td class="filterable-cell" style="width: 10%">' +
-                            device.device_token +
-                            '</td> <td class="filterable-cell" style="width: 10%">' +
-                            device.device_name +
-                            '</td> <td class="filterable-cell" style="width: 20%">' +
-                            device.organization_id +
-                            '</td> <td class="filterable-cell" style="width: 15%">' +
-                            device.device_location +
-                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                            '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
-                            '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
-                            device.device_token +
-                            ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
-                            ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
-                        );
-                        }
-                        else{
+                                '<tr> <td class="filterable-cell" style="width: 10%">' +
+                                device.device_token +
+                                '</td> <td class="filterable-cell" style="width: 10%">' +
+                                device.device_name +
+                                '</td> <td class="filterable-cell" style="width: 20%">' +
+                                device.organization_id +
+                                '</td> <td class="filterable-cell" style="width: 15%">' +
+                                device.device_location +
+                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-success btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                                '<a class="btn btn-danger btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                                '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                                '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
+                                device.device_token +
+                                ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                                ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
+                            );
+                        } else {
                             $('#tableDataDevice').prepend(
-                            '<tr> <td class="filterable-cell" style="width: 10%">' +
-                            device.device_token +
-                            '</td> <td class="filterable-cell" style="width: 10%">' +
-                            device.device_name +
-                            '</td> <td class="filterable-cell" style="width: 20%">' +
-                            device.organization_id +
-                            '</td> <td class="filterable-cell" style="width: 15%">' +
-                            device.device_location +
-                            '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
-                            '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
-                            '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing('+
-                            device.device_token +
-                            ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
-                            ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
-                        );
+                                '<tr> <td class="filterable-cell" style="width: 10%">' +
+                                device.device_token +
+                                '</td> <td class="filterable-cell" style="width: 10%">' +
+                                device.device_name +
+                                '</td> <td class="filterable-cell" style="width: 20%">' +
+                                device.organization_id +
+                                '</td> <td class="filterable-cell" style="width: 15%">' +
+                                device.device_location +
+                                '</td> <td class="text-right" style="width: 25%"> <a class="btn btn-danger btn-sm filterable-cell m-1" onclick="attendance_mode(456456)"><i class="fas fa-folder pr-1"> </i>Attendance</a>' +
+                                '<a class="btn btn-success btn-sm filterable-cell m-1" onclick="enrollment_mode(456456)"><i class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>' +
+                                '</td> <td class="text-right" style="width: 20%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                                '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="populate_device_data_for_editing(' +
+                                device.device_token +
+                                ')" data-toggle="modal" data-target="#modal-lg-editDevice"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                                ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
+                            );
                         }
-                      
+
                     });
                 }
             });
@@ -115,18 +125,19 @@
             let base_url = '{{ url('') }}'
             let path = "/device/showOne/" + device_id;
             let url = base_url + path
-           
             $.ajax({
                 url: url,
                 type: 'GET',
                 contentType: false,
                 processData: false,
                 success: function(result) {
-                    console.log(result)
+                    let device = result.device;
+                 
                     // Set data to the edit organization form
-                    document.getElementById("currentDeviceToken").value = result.device.device_token;
-                    document.getElementById("currentDeviceName").value = result.device.device_name;
-                    document.getElementById("currentDeviceLocation").value = result.device.device_location;
+                    document.getElementById("currentDeviceToken").value = device.device_token;
+                    document.getElementById("currentDeviceName").value = device.device_name;
+                    document.getElementById("currentDeviceLocation").value = device.device_location;
+                    document.getElementById("deviceNametoEdit").append(device.device_name);
 
                 }
             });
@@ -141,7 +152,18 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    console.log(res)
+                        //show confirmation message to user
+                        var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Device details has been updated succesfully'
+                    });
+                    show_device_manage();
 
                 }
             });
@@ -163,6 +185,7 @@
                 }
             });
         }
+
         function attendance_mode(device_id) {
             let url = "{{ route('changeDeviceMode', 10) }}";
             $.ajax({
@@ -181,21 +204,19 @@
         }
 
     </script>
-
-    {{-- <script src="{{ asset('js/custome.js') }}"></script> --}}
 @endpush
-
+{{-- ####################################################################################################################################################### --}}
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Device</h1>
+                <h1>Device Manage</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Device</li>
+                    <li class="breadcrumb-item active">Device Manage</li>
                 </ol>
             </div>
         </div>
@@ -207,14 +228,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
-                <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Add New Device</h3>
-                    </div>
-                    <!-- /.card-header -->
+                    </div><!-- /.card-header -->
                     <!-- form start -->
-                    <form id="addDeviceForm">
+                    <form id="newDeviceForm">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="InputDeviceToken">Device Token</label>
@@ -228,8 +247,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
-                                <select class="form-control inputOrganizations" id="InputOrganization" name="organizationId">
-                                  
+                                <select class="form-control inputOrganizations" id="InputOrganization"
+                                    name="organizationId">
+
                                 </select>
                             </div>
                             <div class="form-group">
@@ -237,12 +257,10 @@
                                 <input type="text" name="deviceLocation" class="form-control" id="InputLocationofDevice"
                                     placeholder="Enter Device Location">
                             </div>
-
-
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary" onclick="store_device()">Submit</button>
+                            <button type="button" class="btn btn-primary" onclick="new_device()">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -259,7 +277,6 @@
                         <table class="table table-hover ">
                             <thead>
                                 <tr>
-
                                     <th scope="col" style="width: 10%">Device Token</th>
                                     <th scope="col" style="width: 10%">Device Name</th>
                                     <th scope="col" style="width: 20%">Device Organization</th>
@@ -269,19 +286,12 @@
                                 </tr>
                             </thead>
                             <tbody id="tableDataDevice">
-
-
                             </tbody>
-
                         </table>
-
-
                     </div>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-
-
             </div>
             <!-- /.col -->
         </div>
@@ -292,16 +302,12 @@
     <div class="modal fade" id="modal-lg-editDevice">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">EDIT DEVICE</h4>
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title" id="deviceNametoEdit">EDIT </h4>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
                 </div><!-- /.model-header-->
                 <div class="modal-body">
                     <div class="card card-primary ">
-                        <div class="card-header">
-                            <h3 class="card-title">DEVICE Details</h3>
-                        </div>
                         <!--/. card-header -->
                         <div class="card-body">
                             <form id="editDeviceForm">
@@ -320,8 +326,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="InputOrganization">Select Organization</label>
-                                    <select class="form-control inputOrganizations" id="InputOrganization" name="deviceOrganization">
-                                        
+                                    <select class="form-control inputOrganizations" id="InputOrganization"
+                                        name="deviceOrganization">
+
                                     </select>
                                 </div>
 

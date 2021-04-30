@@ -70,7 +70,7 @@ Route::post('branch/update', [App\Http\Controllers\BranchController::class, 'upd
 Route::post('department/store', [App\Http\Controllers\DepartmentController::class, 'store'])->name('storeDepartment');
 Route::get('/department/showOne/{id}', [App\Http\Controllers\DepartmentController::class, 'showOne'])->name('showOneDepartment');
 Route::get('/department/showAll', [App\Http\Controllers\DepartmentController::class, 'showAll'])->name('showAllDepartments');
-Route::post('department/update/{id}', [App\Http\Controllers\DepartmentController::class, 'update'])->name('updateDepartment');
+Route::post('department/update', [App\Http\Controllers\DepartmentController::class, 'update'])->name('updateDepartment');
 
 // Routes for Device controller
 Route::post('device/store', [App\Http\Controllers\DeviceController::class, 'store'])->name('storeDevice');

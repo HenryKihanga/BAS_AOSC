@@ -1,9 +1,8 @@
 @push('scripts')
     <script>
-        function store_branch() {
-            let url = "{{ route('storeBranch', [10000]) }}";
+        function new_branch() {
+            let url = "{{ route('storeBranch') }}";
             $.ajax({
-
                 url: url,
                 type: 'POST',
                 data: new FormData(document.getElementById('newBranchForm')),
@@ -11,6 +10,17 @@
                 processData: false,
                 success: function(res) {
                     document.getElementById('newBranchForm').reset();
+                    //show confirmation message to user
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'New Branch has been added succesfully'
+                    });
                     let branch = res.branch;
                     $('#tableAllBranches').prepend('<tr><td class="filterable-cell">' +
                         branch.branch_id + '</td> <td class="filterable-cell">' +
@@ -25,7 +35,6 @@
                         branch.branch_id + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                         ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                     );
-
                 }
             });
         }
@@ -54,34 +63,30 @@
                             ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
-
-
                     });
                 }
             });
         }
-
-
-
     </script>
 @endpush
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Branches</h1>
+                <h1>Branche Manage</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Branches</li>
+                    <li class="breadcrumb-item active">Branche Manage</li>
                 </ol>
             </div>
         </div>
     </div><!-- /.container-fluid -->
 </section>
+{{-- ################################################################################################################################################################### --}}
+
 
 <!-- Main content -->
 <section class="content">
@@ -90,45 +95,46 @@
             <div class="col-md-3">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Branch Details</h3>
+                        <h3 class="card-title">Add New Branch</h3>
                     </div><!-- /.card-header -->
                     <form id="newBranchForm">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="InputRegistrationNumber">Registration Number :</label>
-                                <input type="text" class="form-control" id="InputRegistrationNumber"
+                                <input type="text" class="form-control" id="newBranchRegistrationNumber"
                                     placeholder="Enter Registration Number" name="registrationNumber">
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofRegistrationName">Registration Name :</label>
-                                <input type="text" class="form-control" id="InputNameofRegistrationName"
+                                <input type="text" class="form-control" id="newBranchRegistrationName"
                                     placeholder="Enter Registration Name" name="registrationName">
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofPhoneNumber">Phone Number :</label>
-                                <input type="text" class="form-control" id="InputNameofPhoneNumber"
+                                <input type="text" class="form-control" id="newBranchPhoneNumber"
                                     placeholder="Enter Phone Number" name="phoneNumber">
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofEmail">Email :</label>
-                                <input type="text" class="form-control" id="InputNameofEmail" placeholder="Enter Email"
+                                <input type="text" class="form-control" id="newBranchEmail" placeholder="Enter Email"
                                     name="email">
                             </div>
                             <div class="form-group">
                                 <label for="InputNameofAddress">Address :</label>
-                                <input type="text" class="form-control" id="InputNameofAddress"
+                                <input type="text" class="form-control" id="newBranchAddress"
                                     placeholder="Enter Address" name="address">
                             </div>
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
-                                <select class="form-control inputOrganizations" id="inputOrganizations" name="organizationId">
-
+                                <select class="form-control inputOrganizations" id="inputOrganizations"
+                                    name="organizationId">
+                                    {{-- organization data are populate by java script method all_organizations() --}}
                                 </select>
                             </div>
                         </div> <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary" onclick="store_branch()">Submit</button>
+                            <button type="button" class="btn btn-primary" onclick="new_branch()">Submit</button>
                         </div><!-- /.card-footer -->
                     </form><!-- /.form -->
                 </div><!-- /.card -->
@@ -151,7 +157,6 @@
                                 </tr>
                             </thead>
                             <tbody id="tableAllBranches">
-
                             </tbody>
                         </table>
                     </div><!-- /.card-body -->

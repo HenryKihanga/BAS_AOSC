@@ -40,18 +40,6 @@ class UserController extends Controller
     public function store(Request $request)
 
     {
-        //     $p = Permintaan::create([
-        //         'NOMOR_TICKET' =>$value,
-        //         'TGL_PERMINTAAN' =>$value,
-        //         'NAMA_REQUESTER' =>$value,
-        //     ]);
-
-        //    $p->pembatalan()->create([
-        //        'ALASAN_PEMBATALAN' =>$value,
-        //        'TGL_PEMBATALAN' =>$value,
-        //        'FILE_PEMBATALAN' =>$value,
-        //        'STATUS_PEMBATALAN' =>$value,
-        //     ]);
         $validator =  Validator::make($request->all(), [
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' =>  ['required', 'string', 'max:255'],
@@ -100,7 +88,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'success',
-            'results' => $user
+            'user' => $user
         ]);
     }
 

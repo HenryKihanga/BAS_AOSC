@@ -1,6 +1,6 @@
 @push('scripts')
     <script>
-        function store_department() {
+        function new_department() {
             let url = "{{ route('storeDepartment') }}";
             $.ajax({
                 url: url,
@@ -10,21 +10,31 @@
                 processData: false,
                 success: function(res) {
                     document.getElementById('newDepartmentForm').reset();
+                     //show confirmation message to user
+                     var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'New Department has been added succesfully'
+                    });
                     let department = res.newDepartment;
-                    let id = department.department_id;
                     $('#tableDataDepartment').prepend('<tr><td class="filterable-cell">' +
-                            department.department_id + '</td> <td class="filterable-cell">' +
-                            department.department_name + '</td> <td class="filterable-cell">' +
-                            department.department_phone_number +
-                            '</td> <td class="filterable-cell" style="width: 20%">' +
-                            department.department_email +
-                            '</td> <td class="filterable-cell" style="width: 10%">' +
-                            department.department_address +
-                            '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_department('+id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
-                            ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
-                        );
-                  
+                        department.department_id + '</td> <td class="filterable-cell">' +
+                        department.department_name + '</td> <td class="filterable-cell">' +
+                        department.department_phone_number +
+                        '</td> <td class="filterable-cell" style="width: 20%">' +
+                        department.department_email +
+                        '</td> <td class="filterable-cell" style="width: 10%">' +
+                        department.department_address +
+                        '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
+                        '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_department(' +
+                        department.department_id + ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                        ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
+                    );
                 }
             });
         }
@@ -39,7 +49,6 @@
                 success: function(res) {
                     $('#tableDataDepartment').html('')
                     res.departments.map(department => {
-                       
                         $('#tableDataDepartment').append('<tr><td class="filterable-cell">' +
                             department.department_id + '</td> <td class="filterable-cell">' +
                             department.department_name + '</td> <td class="filterable-cell">' +
@@ -49,14 +58,15 @@
                             '</td> <td class="filterable-cell" style="width: 10%">' +
                             department.department_address +
                             '</td> <td class="project-actions text-right" style="width: 25%"> <a class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i class="fas fa-folder pr-1"> </i>View</a>' +
-                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_department('+ department.department_id+')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
+                            '<a class="btn btn-info btn-sm filterable-cell m-1" onclick="show_edit_department(' +
+                            department.department_id +
+                            ')"><i class="fas fa-pencil-alt pr-1"> </i>Edit</a>' +
                             ' <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i class="fas fa-trash pr-1"> </i>Delete</a></td> </tr>'
                         );
                     });
                 }
             });
         }
-
 
     </script>
 @endpush
@@ -66,12 +76,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Departments</h1>
+                <h1>Department Manage</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Departments</li>
+                    <li class="breadcrumb-item active">Department Manage</li>
                 </ol>
             </div>
         </div>
@@ -85,7 +95,7 @@
             <div class="col-md-3">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Department Details</h3>
+                        <h3 class="card-title">Add New Department</h3>
                     </div><!-- /.card-header -->
                     <form id="newDepartmentForm">
                         @csrf
@@ -118,18 +128,18 @@
                             <div class="form-group">
                                 <label for="InputOrganization">Select Organization</label>
                                 <select class="form-control inputOrganizations" id="InputOrganization">
-                                   
+                                    {{-- List of organizations is populated by javascript method all_organizations() --}}
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="InputBranch">Select Branch</label>
                                 <select class="form-control inputBranches" id="InputBranch" name="branchId">
-                                   
+                                    {{-- List of branches is populated by javascript method all_branches() --}}
                                 </select>
                             </div>
                         </div> <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary" onclick="store_department()">Submit</button>
+                            <button type="button" class="btn btn-primary" onclick="new_department()">Submit</button>
                         </div><!-- /.card-footer -->
                     </form><!-- /.form -->
                 </div><!-- /.card -->
@@ -143,7 +153,7 @@
                         <table class="table table-hover ">
                             <thead>
                                 <tr>
-                                 
+
                                     <th scope="col">Reg Number</th>
                                     <th scope="col">Reg Name</th>
                                     <th scope="col">Phone Number</th>
@@ -153,7 +163,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tableDataDepartment">
-                            
+
                             </tbody>
                         </table>
                     </div><!-- /.card-body -->

@@ -106,9 +106,10 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $departmentId)
+    public function update(Request $request)
     {
         $validator =  Validator::make($request->all(), [
+            'registrationNumber' => 'required',
             'registrationName' => 'required',
             'phoneNumber' => 'required',
             'email' => 'required',
@@ -122,7 +123,7 @@ class DepartmentController extends Controller
             ], 404);
         }
 
-        $department = Department::find($departmentId);
+        $department = Department::find($request->input('registrationNumber'));
         if (!$department) {
             return response()->json([
                 'error' => 'department not found'

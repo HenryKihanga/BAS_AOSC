@@ -1,5 +1,41 @@
 @push('scripts')
     <script>
+        function populate_branch_data_for_editing(branch_id) {
+            let base_url = '{{ url('') }}'
+            let path = "/branch/showOne/" + branch_id;
+            url = base_url + path
+            $.ajax({
+                url: url,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function(result) {
+                    let branch = result.branch;
+                    // Set data to the edit organization form
+                    document.getElementById("branchIdToAddDeparement").value = branch.branch_id;
+                    document.getElementById("currentBranchRegistrationNumber").value = branch.branch_id;
+                    document.getElementById("currentBranchName").value = branch.branch_name;
+                    document.getElementById("currentBranchNumber").value = branch.branch_phone_number;
+                    document.getElementById("currentBranchEmail").value = branch.branch_email;
+                    document.getElementById("currentBranchAddress").value = branch.branch_address;
+                    document.getElementById("branchNametoEdit").append(branch.branch_name);
+                    document.getElementById("branchNametoAddOrganization").append(branch.branch_name);
+                }
+            });
+        }
+        function edit_branch_details() {
+            let url = "{{ route('updateBranch') }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(document.getElementById('editBranchForm')),
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    show_manage_branch();
+                }
+            });
+        }
         function add_department() {
             let url = "{{ route('storeDepartment') }}";
             $.ajax({
@@ -14,40 +50,33 @@
                     document.getElementById('InputDepartmentPhoneNumber').value = '';
                     document.getElementById('InputDepartmentEmail').value = '';
                     document.getElementById('InputDepartmentAddress').value = '';
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 4000
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Organization have been succesfully added to this Branch'
+                    });
                 }
             });
         }
-
- 
-        function edit_branch_details() {
-            let url = "{{ route('updateBranch') }}";
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: new FormData(document.getElementById('editBranchForm')),
-                contentType: false,
-                processData: false,
-                success: function(res) {
-                    
-                   
-                }
-            });
-        }
-
     </script>
 @endpush
 
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0">Edit Branch</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                     <li class="breadcrumb-item active">Edit Branch</li>
                 </ol>
             </div><!-- /.col -->
@@ -58,12 +87,12 @@
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Name of Branch</h3>
+                        <h3 class="card-title" id="branchNametoEdit">EDIT </h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-minus"></i>
@@ -73,36 +102,46 @@
                     <div class="card-body">
                         <form id="editBranchForm">
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Name of Branch</label>
-                                        <input id="branchName" name="registrationName" type="text" class="form-control" placeholder="Enter ...">
-                                        <input id="branchRegistrationNumber" name="registrationNumber" type="hidden" >
+                                        <input id="currentBranchRegistrationNumber" name="registrationNumber" type="hidden" >
+                                        <input id="currentBranchName" name="registrationName" type="text" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
                                         <label>Phone Number</label>
-                                        <input id="branchNumber" name="phoneNumber" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="currentBranchNumber" name="phoneNumber" type="text" class="form-control" >
                                     </div>
                                 </div>
 
                             </div>
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input id="branchEmail" name="email" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="currentBranchEmail" name="email" type="text" class="form-control" >
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <input id="branchAddress" name="address" type="text" class="form-control" placeholder="Enter ...">
+                                        <input id="currentBranchAddress" name="address" type="text" class="form-control" >
                                     </div>
                                 </div>
                               
@@ -111,7 +150,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="button" class="btn btn-info" onclick="edit_branch_details()">Submit</button>
+                        <button type="button" class="btn btn-info" onclick="editBranch()">Submit</button>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-lg-addDepartment">Add
                             Department</button>
                     </div><!-- /.card-footer -->
@@ -123,25 +162,24 @@
     <div class="modal fade" id="modal-lg-addDepartment">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Department(s) for branch's name</h4>
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title " id="branchNametoAddOrganization">ADD DEPARTMENT FOR </h4>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
                 </div><!-- /.model-header-->
                 <div class="modal-body">
                     <div class="card card-primary ">
-                        <div class="card-header">
-                            <h3 class="card-title">Department Details</h3>
-                        </div>
+                      
                         <!--/. card-header -->
                         <div class="card-body">
                             <form id="addDepartmentForm">
                                 @csrf
                                 <div class="form-group">
+                                    <input id="branchIdToAddDeparement" name="branchId" type="hidden" >
                                     <label for="InputRegistrationNumber">Registration Number :</label>
                                     <input type="text" class="form-control" id="InputDepartmentNumber"
                                         placeholder="Enter Registration Number" name="registrationNumber">
-                                        <input id="branchIdToAddDeparement" name="branchId" type="hidden" >
+                                        
                                 </div>
                                 <div class="form-group">
                                     <label for="InputNameofRegistrationName">Registration Name :</label>

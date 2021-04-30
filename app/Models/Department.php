@@ -16,7 +16,7 @@ class Department extends Model
 
 
     protected $fillable = [
-        'department_id','organization_id', 'department_phone_number', 'department_email', 'department_address'
+        'department_id','organization_id','department_name', 'department_phone_number', 'department_email', 'department_address'
     ];
 
     protected $dates = ['deleted_at' , 'date_of_birth'];
