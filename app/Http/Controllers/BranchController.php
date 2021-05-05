@@ -16,7 +16,12 @@ class BranchController extends Controller
      */
     public function index()
     {
-        //
+        $organizations = Organization::all();
+        $branches = Branch::orderBy('updated_at', 'asc')->take(5)->get();
+        return view('branch.manage')->with([
+            'branches' => $branches,
+            'organizations' => $organizations
+        ]);
     }
 
     /**
@@ -61,11 +66,12 @@ class BranchController extends Controller
         $branch->branch_email = $request->input('email');
         $branch->branch_address = $request->input('address');
         if ($organization->branches()->save($branch)) {
-            $newBranch = Branch::find($branch->branch_id);
-            return response()->json([
-                'success' => 'success',
-                'branch' => $newBranch
-            ]);
+            return redirect()->route('manageBranch');
+            // $newBranch = Branch::find($branch->branch_id);
+            // return response()->json([
+            //     'success' => 'success',
+            //     'branch' => $newBranch
+            // ]);
         }
     }
 
@@ -86,9 +92,12 @@ class BranchController extends Controller
      * @param  \App\Models\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function edit(Branch $branch)
+    public function edit($id)
     {
-        //
+        $branch = Branch::find($id);
+        return view('branch.edit')->with([
+            'branch' => $branch
+        ]);
     }
 
     /**
@@ -123,9 +132,10 @@ class BranchController extends Controller
             'branch_address' => $request->input('address'),
         ]);
 
-        return response()->json([
-            'branch' => $branch
-        ], 206);
+        return redirect()->route('manageBranch');
+        // return response()->json([
+        //     'branch' => $branch
+        // ], 206);
     }
 
     /**

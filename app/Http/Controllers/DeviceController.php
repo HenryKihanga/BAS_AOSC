@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
+use App\Models\Department;
 use App\Models\Device;
 use App\Models\Organization;
 use Illuminate\Http\Request;
@@ -16,7 +18,16 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return view('device/index');
+        $organizations = Organization::all();
+        $branches = Branch::all();
+        $departments = Department::all();
+        $devices = Device::orderBy('created_at', 'desc')->take(5)->get();
+        return view('device.manage')->with([
+            'branches' => $branches,
+            'organizations' => $organizations,
+            'departments' => $departments,
+            'devices' => $devices
+        ]);
     }
 
     /**
@@ -38,14 +49,14 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'organizationId' => 'required',
+            'departmentId' => 'required',
             'deviceToken' => 'required',
             'deviceName' => 'required',
             'deviceLocation' => 'required',
         ]);
 
-        $organization = Organization::find($request->input('organizationId'));
-        if (!$organization) {
+        $department = Department::find($request->input('departmentId'));
+        if (!$department) {
             return response()->json([
                 'error' => 'Organization Not Exist,make sure you register organization'
             ]);
@@ -55,12 +66,13 @@ class DeviceController extends Controller
         $device->device_token = $request->input('deviceToken');
         $device->device_name = $request->input('deviceName');
         $device->device_location = $request->input('deviceLocation');
-        if ($organization->devices()->save($device)) {
-            $newDevice = Device::find($device->device_token);
-            return response()->json([
-                'success' => 'success',
-                'newDevice' => $newDevice
-            ]);
+        if ($department->devices()->save($device)) {
+            return redirect()->route('deviceManage');
+            // $newDevice = Device::find($device->device_token);
+            // return response()->json([
+            //     'success' => 'success',
+            //     'newDevice' => $newDevice
+            // ]);
         }
     }
 
@@ -81,9 +93,12 @@ class DeviceController extends Controller
      * @param  \App\Models\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function edit(Device $device)
+    public function edit($id)
     {
-        //
+        $device = Device::find($id);
+        return response()->json([
+            'device' => $device
+        ]);
     }
 
     /**
@@ -99,7 +114,7 @@ class DeviceController extends Controller
             'deviceToken' => 'required',
             'deviceName' => 'required',
             'deviceLocation' => 'required',
-            'deviceOrganization' => 'required',
+            // 'deviceOrganization' => 'required',
         ]);
 
         $device = Device::find($request->input('deviceToken'));
@@ -159,29 +174,20 @@ class DeviceController extends Controller
         ], 200);
     }
 
-    public function changeMode(Request $request, $deviceToken)
+    public function changeMode($deviceToken , $mode)
     {
-        $validator =  Validator::make($request->all(), [
-            'device_mode' => 'required',
-
-        ]);
-          //check if validator fails
-          if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
-        }
+    
 
         $device = Device::find($deviceToken);
         $device->update([
-            'device_mode' => $request->input('device_mode')
+            'device_mode' => $mode
         ]);
 
-        return response()->json([
-            'success' => 'success',
-            'device'=> $device
-        ]);
+        return redirect()->route('deviceManage');
+        // return response()->json([
+        //     'success' => 'success',
+        //     'device' => $device
+        // ]);
     }
 
 

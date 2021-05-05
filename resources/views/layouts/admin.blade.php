@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>BAS&AOSC</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -37,10 +36,10 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
+        {{-- <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{ asset('img/bas-icon1.png') }}" alt="bas logo" height="60"
                 width="60">
-        </div>
+        </div> --}}
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <ul class="navbar-nav">
@@ -191,19 +190,20 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{ asset('template/dist/img/user2-160x160.jpg') }}"
-                            class="img-circle elevation-2" alt="User Image">
+                        <img src="{{ asset('template/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a>
+                        <a href="#" class="d-block">{{ Auth::user()->first_name }}
+                            {{ Auth::user()->last_name }}</a>
                     </div>
                 </div>
                 <!-- Sidebar Menu -->
                 <nav class="mt-2 myNavtab">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active myNavLink" onclick="show_dashboard()">
+                        <li class="nav-item ">
+                            <a href="{{ route('home') }}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -211,51 +211,54 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link myNavLink " onclick="show_add_user()">
+                            <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>New User</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link myNavLink" onclick="show_all_users()">
+                            <a href="{{ route('allUsers') }}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>View Users</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="show_organization_manage()">
+                            <a href="{{ route('manageOrganization') }}" class="nav-link"
+                                onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Organization Manage
+                                    Organizations
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="show_manage_branch()">
+                            <a href="{{ route('manageBranch') }}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Branch Manage
+                                    Branches
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="show_manage_department()">
+                            <a href="{{ route('manageDepartment') }}" class="nav-link"
+                                onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Department Manage
+                                    Departments
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="show_device_manage()">
+                            <a href="{{ route('deviceManage') }}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-microchip"></i>
                                 <p>
-                                    Device Management
+                                    Devices
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="show_user_profile()">
+                            <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link"
+                                onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-address-card"></i>
                                 <p>
                                     View Profile
@@ -271,7 +274,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="show_user_change_password()">
+                            <a href="{{ route('changePassword')}}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-key"></i>
                                 <p>
                                     Change Password
@@ -353,11 +356,43 @@
     <script src="{{ asset('template/dist/js/demo.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('template/dist/js/pages/dashboard.js') }}"></script>
+    {{-- cdn for swal tost --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(document).ready(
+            function toggle_active_class() {
+                // var url = window.location;
+                // $('ul.nav a[href="' + url + '"]').parent().addClass('active');
+                // $('ul.nav a').filter(function() {
+                //     return this.href == url;
+                // }).parent().addClass('active');
+                // $(document).ready(function() {
+                //     $('.myNavtab li a').click(function(e) {
+
+                //         $('.myNavtab li.active').removeClass('active');
+
+                //         var $parent = $(this).parent();
+                //         $parent.addClass('active');
+                //         // e.preventDefault();
+                //     });
+                // });
+                var navtab = document.querySelector('.myNavtab').querySelectorAll('a')
+                navtab.forEach(element => {
+                    element.addEventListener("click", function(e) {
+                        navtab.forEach(nav => nav.classList.remove("active"))
+                        this.classList.add("active");
+                        // e.preventDefault();
+                    })
+                });
+            }
+        )
+
+    </script>
 
     @stack('scripts')
 
     <!-- Scripts -->
-    
+
 </body>
 
 </html>

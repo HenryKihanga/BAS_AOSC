@@ -15,13 +15,13 @@ class Device extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'device_token','device_name', 'organization_id','device_mode', 'device_location'
+        'device_token','device_name', 'department_id','device_mode', 'device_location'
     ];
 
     protected $dates = ['deleted_at' , 'date_of_birth'];
 
-    public function organization(){
-        return $this->belongsTo(Organization::class);
+    public function department(){
+        return $this->belongsTo(Department::class);
     }
 
     public function users(){

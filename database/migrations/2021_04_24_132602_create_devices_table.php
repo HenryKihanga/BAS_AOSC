@@ -15,13 +15,13 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->string('device_token')->unique();
-            $table->string('organization_id');
+            $table->string('department_id');
             $table->string('device_name');
             $table->boolean('device_mode')->default(0);
             $table->string('device_location');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('organization_id')->references('organization_id')->on('organizations');
+            $table->foreign('department_id')->references('department_id')->on('departments');
         });
     }
 

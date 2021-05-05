@@ -31,9 +31,7 @@ class Organization extends Model
         return $this->hasManyThrough(Department::class , Branch::class, 'organization_id', 'branch_id');
     }
 
-    public function devices(){
-        return $this->hasMany(Device::class , 'organization_id');
-    }
+  
 
     
 

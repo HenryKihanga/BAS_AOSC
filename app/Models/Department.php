@@ -28,4 +28,7 @@ class Department extends Model
     public function users(){
         return $this->hasMany(User::class , 'department_id');
     }
+    public function devices(){
+        return $this->hasMany(Device::class , 'department_id');
+    }
 }

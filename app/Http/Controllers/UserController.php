@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Device;
+use App\Models\Organization;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -19,6 +21,14 @@ class UserController extends Controller
      */
     public function index()
     {
+        $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+        foreach ($users as $user) {
+            $user->status;
+            $user->roles;
+        }
+        return view('user.allUsers')->with([
+            'users' => $users
+        ]);
     }
 
     /**
@@ -28,7 +38,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $organizations = Organization::all();
+        $branches = Branch::all();
+        $departments = Department::all();
+        return view('user.addUser')->with([
+            'organizations' => $organizations,
+            'branches' => $branches,
+            'departments' => $departments
+        ]);
     }
 
     /**
@@ -42,6 +59,7 @@ class UserController extends Controller
     {
         $request->validate([
             'firstName' => ['required', 'string', 'max:255'],
+            'middleName' =>  ['required', 'string', 'max:255'],
             'lastName' =>  ['required', 'string', 'max:255'],
             'userID' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -52,7 +70,7 @@ class UserController extends Controller
             'department' => 'required',
             'roles' => 'required'
         ]);
-      
+
 
         $department = Department::find($request->input('department'));
         $user = new User();
@@ -75,10 +93,12 @@ class UserController extends Controller
         $user->roles()->sync($request->input('roles'));
         $department->users()->save($user);
 
-        return response()->json([
-            'message' => 'success',
-            'user' => $user
-        ]);
+        return redirect('user/AllUser');
+
+        // return response()->json([
+        //     'message' => 'success',
+        //     'user' => $user
+        // ]);
     }
 
     /**
@@ -87,9 +107,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function profile($id)
     {
-        //
+        $user = User::find($id);
+        return view('user.profile')->with([
+            'user' => $user,
+            'roles' => $user->roles
+        ]);
     }
 
     /**
@@ -126,6 +150,10 @@ class UserController extends Controller
         //
     }
 
+    public function changePassword(){
+        return view('user.changePassword');
+    }
+
     public function showAll()
     {
         $users = User::all();
@@ -152,7 +180,6 @@ class UserController extends Controller
                     //check user that has been selected to be enrolled
                     if ($user->status->ready_to_enroll) {
                         return $user->status->fingerprint_id;
-
                     } else {
                         return 'No user ready for enrollment';
                     }
@@ -163,7 +190,8 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUserEnrolled($deviceToken){
+    public function deleteUserEnrolled($deviceToken)
+    {
         $device = Device::find($deviceToken);
         if ($device) {
             $users = $device->users;
@@ -184,7 +212,6 @@ class UserController extends Controller
         } else {
             return "Device not found";
         }
-
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Department;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +17,14 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        $organizations = Organization::all();
+        $branches = Branch::all();
+        $departments = Department::orderBy('updated_at', 'asc')->take(5)->get();
+        return view('department.manage')->with([
+            'branches' => $branches,
+            'organizations' => $organizations,
+            'departments' => $departments
+        ]);
     }
 
     /**
@@ -45,7 +53,7 @@ class DepartmentController extends Controller
             'email' => 'required',
             'address' => 'required',
         ]);
-        
+
         //fetch parent
         $branch = Branch::find($request->input('branchId'));
         if (!$branch) {
@@ -61,11 +69,12 @@ class DepartmentController extends Controller
         $department->department_email = $request->input('email');
         $department->department_address = $request->input('address');
         if ($branch->departments()->save($department)) {
-            $newDepartment = Department::find($department->department_id);
-            return response()->json([
-                'success' => 'success',
-                'newDepartment' => $newDepartment
-            ]);
+            return redirect()->route('manageDepartment');
+            // $newDepartment = Department::find($department->department_id);
+            // return response()->json([
+            //     'success' => 'success',
+            //     'newDepartment' => $newDepartment
+            // ]);
         }
     }
 
@@ -86,9 +95,12 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function edit($id)
     {
-        //
+        $department = Department::find($id);
+        return view('department.edit')->with([
+            'department' => $department
+        ]);
     }
 
     /**
@@ -129,9 +141,10 @@ class DepartmentController extends Controller
             'department_address' => $request->input('address'),
         ]);
 
-        return response()->json([
-            'department' => $department
-        ], 206);
+        return redirect()->route('manageDepartment');
+        // return response()->json([
+        //     'department' => $department
+        // ], 206);
     }
 
     /**

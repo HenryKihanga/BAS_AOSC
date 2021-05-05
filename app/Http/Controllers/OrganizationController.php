@@ -17,7 +17,10 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        return view('organization/index');
+        $organizations = Organization::orderBy('updated_at', 'asc')->take(5)->get();
+        return view('organization.manage')->with([
+            'organizations' => $organizations
+        ]);
     }
 
     /**
@@ -54,10 +57,11 @@ class OrganizationController extends Controller
         $organization->organization_email = $request->input('email');
         $organization->organization_address = $request->input('address');
         if ($organization->save()) {
-            $newOrganization = Organization::find($organization->organization_id);
-            return response()->json([
-                'success' => 'success', 'newOrganization' => $newOrganization
-            ]);
+            return redirect()->route('manageOrganization');
+            // $newOrganization = Organization::find($organization->organization_id);
+            // return response()->json([
+            //     'success' => 'success', 'newOrganization' => $newOrganization
+            // ]);
         }
     }
 
@@ -101,9 +105,12 @@ class OrganizationController extends Controller
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function edit(Organization $organization)
+    public function edit($id)
     {
-        //
+        $organization = Organization::find($id);
+        return view('organization.edit')->with([
+            'organization' => $organization
+        ]);
     }
 
     /**
@@ -137,9 +144,11 @@ class OrganizationController extends Controller
             'organization_address' => $request->input('address'),
         ]);
 
-        return response()->json([
-            'organization' => $organization
-        ], 206);
+        return redirect()->route('manageOrganization');
+
+        // return response()->json([
+        //     'organization' => $organization
+        // ], 206);
 
     }
 
