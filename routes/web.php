@@ -86,10 +86,10 @@ Route::post('department/update', [App\Http\Controllers\DepartmentController::cla
 
 // Routes for Device controller
 Route::post('device/store', [App\Http\Controllers\DeviceController::class, 'store'])->name('storeDevice');
+Route::get('device/showAll', [App\Http\Controllers\DeviceController::class, 'showAll'])->name('showAllDevices');
 Route::get('device/{id}', [App\Http\Controllers\DeviceController::class, 'index'])->name('deviceManage');
 Route::get('device/edit/{id}', [App\Http\Controllers\DeviceController::class, 'edit'])->name('editDevice');
 Route::get('device/showOne/{id}', [App\Http\Controllers\DeviceController::class, 'showOne'])->name('showOneDevice');
-Route::get('device/showAll', [App\Http\Controllers\DeviceController::class, 'showAll'])->name('showAllDevices');
 Route::post('device/update', [App\Http\Controllers\DeviceController::class, 'update'])->name('updateDevice');
 Route::get('device/changeMode/{token}/{mode}', [App\Http\Controllers\DeviceController::class, 'changeMode'])->name('changeDeviceMode');
 //hardware
@@ -98,10 +98,11 @@ Route::get('device/checkMode/{deviceToken}', [App\Http\Controllers\DeviceControl
 // Routes for User controller
 // Route::resource('/user','App\Http\Controllers\UserController');
 Route::get('user/addUser', [App\Http\Controllers\UserController::class, 'create'])->name('addUser');
+Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll'])->name('showAllUsers');
 Route::get('user/profile/{id}', [App\Http\Controllers\UserController::class, 'profile'])->name('showUserProfile');
 Route::get('user/allUsers/{id}', [App\Http\Controllers\UserController::class, 'index'])->name('allUsers');
 Route::get('user/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changePassword');
-Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll'])->name('showAllUsers');
+
 Route::get('user/showOne/{id}', [App\Http\Controllers\UserController::class, 'showOne'])->name('showOneUsers');
 Route::post('user/addUser', [App\Http\Controllers\UserController::class, 'store'])->name('addUser');
 //hardware

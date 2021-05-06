@@ -73,7 +73,7 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'deviceToken' => 'required',
             'deviceName' => 'required',
@@ -83,7 +83,7 @@ class DeviceController extends Controller
             'departmentId' => 'required'
         ]);
 
-       
+
         $department = Department::find($request->input('departmentId'));
         if (!$department) {
             return response()->json([
@@ -98,14 +98,13 @@ class DeviceController extends Controller
         $device->organization_id = $request->input('organizationId');
         $device->branch_id = $request->input('branchId');
         if ($department->devices()->save($device)) {
-            return redirect()->route('deviceManage' , Auth::user()->user_id);
+            return redirect()->route('deviceManage', Auth::user()->user_id);
             // $newDevice = Device::find($device->device_token);
             // return response()->json([
             //     'success' => 'success',
             //     'newDevice' => $newDevice
             // ]);
         }
-        
     }
 
     /**
@@ -188,6 +187,10 @@ class DeviceController extends Controller
             ], 404);
         }
 
+        foreach($device->users as $user){
+            $user->status;
+        }
+        
         return response()->json([
             'device' => $device
         ], 200);
@@ -214,13 +217,10 @@ class DeviceController extends Controller
         $device->update([
             'device_mode' => $mode
         ]);
-
         return redirect()->route('deviceManage');
-        // return response()->json([
-        //     'success' => 'success',
-        //     'device' => $device
-        // ]);
     }
+
+
 
 
     //check and return device mode
@@ -230,7 +230,6 @@ class DeviceController extends Controller
             $mode = $device->device_mode;
             return  strval($mode);
         }
-
         return "device not found";
     }
 }
