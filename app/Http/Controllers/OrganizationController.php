@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-
-use function PHPUnit\Framework\isEmpty;
+use Illuminate\Support\Facades\Gate;
 
 class OrganizationController extends Controller
 {
@@ -15,12 +14,26 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        $organizations = Organization::orderBy('updated_at', 'asc')->take(5)->get();
-        return view('organization.manage')->with([
-            'organizations' => $organizations
-        ]);
+        if (Gate::allows('isAdmin')) {
+            // $organizations = Organization::orderBy('updated_at', 'asc')->take(5)->get();
+            $organizations = Organization::all();
+            return view('organization.manage')->with([
+                'organizations' => $organizations
+            ]);
+        }
+        if(Gate::allows('isOrganizationHead')){
+            $organizations = [];
+            $organization = User::find($userId)->organization;
+            array_push($organizations, $organization);
+            return view('organization.manage')->with([
+                'organizations' => $organizations
+            ]);
+        }
+
+        // dd($organizations);
+     
     }
 
     /**
@@ -48,7 +61,7 @@ class OrganizationController extends Controller
             'email' => 'required | email',
             'address' => 'required',
         ]);
-      
+
         //create new organization
         $organization = new Organization();
         $organization->organization_id = $request->input('registrationNumber');
@@ -129,7 +142,7 @@ class OrganizationController extends Controller
             'email' => 'required | email',
             'address' => 'required',
         ]);
-    
+
         $organization = Organization::find($request->input('registrationNumber'));
         if (!$organization) {
             return response()->json([

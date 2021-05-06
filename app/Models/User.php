@@ -56,9 +56,17 @@ class User extends Authenticatable
     public function roles(){
         return $this->belongsToMany(Role::class);
     }
-    public function department(){
-        return $this->belongsTo(Department::class);
+    public function organization(){
+        return $this->belongsTo(Organization::class , 'organization_id');
     }
+    public function branch(){
+        return $this->belongsTo(Branch::class , 'branch_id');
+    }
+    public function department(){
+        return $this->belongsTo(Department::class , 'department_id');
+    }
+   
+   
 
     public function status(){
         return $this->hasOne(Userstatus::class, 'user_id');
@@ -70,5 +78,20 @@ class User extends Authenticatable
 
     public function logs(){
         return $this->hasMany(Log::class , 'user_id');
+    }
+
+    public function hasAnyRoles($roles){
+        if($this->roles()->whereIn('name' , $roles)->first()){
+            return true;
+        }
+        
+        return false;
+    }
+    public function hasRole($role){
+        if($this->roles()->where('name' , $role)->first()){
+            return true;
+        }
+        
+        return false;
     }
 }

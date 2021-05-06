@@ -22,7 +22,7 @@ class Department extends Model
     protected $dates = ['deleted_at' , 'date_of_birth'];
 
     public function branch(){
-        return $this->belongsTo(Branch::class);
+        return $this->belongsTo(Branch::class , 'branch_id');
     }
 
     public function users(){

@@ -32,6 +32,8 @@ class UsersTableSeeder extends Seeder
         $admin->user_id = 1;
         $admin->first_name = 'Sarah';
         $admin->middle_name = 'Emmanuel';
+        $admin->organization_id = 1;
+        $admin->branch_id = 1;
         $admin->last_name = 'Mnadi';
         $admin->phone_number = '0676873456';
         $admin->birth_date = '12/12/2020';
@@ -48,6 +50,8 @@ class UsersTableSeeder extends Seeder
         $organizationHead->user_id = 2;
         $organizationHead->first_name = 'William';
         $organizationHead->middle_name = 'Jumanne';
+        $organizationHead->organization_id = 1;
+        $organizationHead->branch_id = 1;
         $organizationHead->last_name = 'Kiluma';
         $organizationHead->phone_number = '0676873456';
         $organizationHead->birth_date = '12/12/2020';
@@ -61,6 +65,8 @@ class UsersTableSeeder extends Seeder
         $branchHead->user_id = 3;
         $branchHead->first_name = 'Kelvin';
         $branchHead->middle_name = 'Mussa';
+        $branchHead->organization_id = 1;
+        $branchHead->branch_id = 1;
         $branchHead->last_name = 'Hongo';
         $branchHead->phone_number = '0676873456';
         $branchHead->birth_date = '12/12/2020';
@@ -75,6 +81,8 @@ class UsersTableSeeder extends Seeder
         $departmentHead->user_id = 4;
         $departmentHead->first_name = 'Mpoki';
         $departmentHead->middle_name = 'Abel';
+        $departmentHead->organization_id = 1;
+        $departmentHead->branch_id = 1;
         $departmentHead->last_name = 'Mwaisela';
         $departmentHead->phone_number = '0676873456';
         $departmentHead->birth_date = '12/12/2020';
@@ -87,6 +95,8 @@ class UsersTableSeeder extends Seeder
         $staff = new User();
         $staff->user_id = 5;
         $staff->first_name = 'Shabani';
+        $staff->organization_id = 1;
+        $staff->branch_id = 1;
         $staff->middle_name = '';
         $staff->device_token = 1;
         $staff->last_name = 'Rashidi';

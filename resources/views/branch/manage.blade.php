@@ -25,75 +25,78 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Add New Branch</h3>
-                        </div><!-- /.card-header -->
-                        <form method="POST" action="{{ route('storeBranch') }}">
-                            @csrf
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="InputRegistrationNumber">Registration Number :</label>
-                                    <input type="text" class="form-control @error('registrationNumber') in-valid @enderror"
-                                        value="{{ old('registrationNumber') }}" placeholder="Enter Registration Number"
-                                        name="registrationNumber">
-                                    @error('registrationNumber')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                @can('registerBranch')
+                    <div class="col-md-3">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Add New Branch</h3>
+                            </div><!-- /.card-header -->
+                            <form method="POST" action="{{ route('storeBranch') }}">
+                                @csrf
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="InputRegistrationNumber">Registration Number :</label>
+                                        <input type="text" class="form-control @error('registrationNumber') in-valid @enderror"
+                                            value="{{ old('registrationNumber') }}" placeholder="Enter Registration Number"
+                                            name="registrationNumber">
+                                        @error('registrationNumber')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="InputNameofRegistrationName">Registration Name :</label>
-                                    <input type="text" class="form-control @error('registrationName') in-valid @enderror"
-                                        value="{{ old('registrationName') }}" placeholder="Enter Registration Name"
-                                        name="registrationName">
-                                    @error('registrationName')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="InputNameofPhoneNumber">Phone Number :</label>
-                                    <input type="text" class="form-control @error('phoneNumber') in-valid @enderror"
-                                        value="{{ old('phoneNumber') }}" placeholder="Enter Phone Number"
-                                        name="phoneNumber">
-                                    @error('phoneNumber')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="InputNameofEmail">Email :</label>
-                                    <input type="text" class="form-control @error('email') in-valid @enderror"
-                                        value="{{ old('email') }}" placeholder="Enter Email" name="email">
-                                    @error('email')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="InputNameofAddress">Address :</label>
-                                    <input type="text" class="form-control @error('address') in-valid @enderror"
-                                        value="{{ old('address') }}" placeholder="Enter Address" name="address">
-                                    @error('address')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="InputOrganization">Select Organization</label>
-                                    <select class="form-control " name="organizationId">
-                                        @foreach ($organizations as $organization)
-                                        <option value="{{ $organization->organization_id }}">{{$organization->organization_name}}</option>
-                                            
-                                        @endforeach
-                                    </select>
-                                   
-                                </div>
-                            </div> <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" onclick="new_branch()">Submit</button>
-                            </div><!-- /.card-footer -->
-                        </form><!-- /.form -->
-                    </div><!-- /.card -->
-                </div> <!-- /.col -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputNameofRegistrationName">Registration Name :</label>
+                                        <input type="text" class="form-control @error('registrationName') in-valid @enderror"
+                                            value="{{ old('registrationName') }}" placeholder="Enter Registration Name"
+                                            name="registrationName">
+                                        @error('registrationName')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputNameofPhoneNumber">Phone Number :</label>
+                                        <input type="text" class="form-control @error('phoneNumber') in-valid @enderror"
+                                            value="{{ old('phoneNumber') }}" placeholder="Enter Phone Number"
+                                            name="phoneNumber">
+                                        @error('phoneNumber')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputNameofEmail">Email :</label>
+                                        <input type="text" class="form-control @error('email') in-valid @enderror"
+                                            value="{{ old('email') }}" placeholder="Enter Email" name="email">
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputNameofAddress">Address :</label>
+                                        <input type="text" class="form-control @error('address') in-valid @enderror"
+                                            value="{{ old('address') }}" placeholder="Enter Address" name="address">
+                                        @error('address')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputOrganization">Select Organization</label>
+                                        <select class="form-control " name="organizationId">
+                                            @foreach ($organizations as $organization)
+                                                <option value="{{ $organization->organization_id }}">
+                                                    {{ $organization->organization_name }}</option>
+
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+                                </div> <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div><!-- /.card-footer -->
+                            </form><!-- /.form -->
+                        </div><!-- /.card -->
+                    </div> <!-- /.col -->
+                @endcan
                 <div class="col-md-9">
                     <div class="card card-primary">
                         <div class="card-header">
@@ -112,26 +115,37 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tableAllBranches">
+                                    @if (count($branches) < 1)
+                                    <tr> <td colspan="4">No Branch which has been Registered</td></tr>
+                                        
+                                    @else
                                     @foreach ($branches as $branch)
-                                        <tr>
-                                            <td class="filterable-cell">{{ $branch->branch_id }}</td>
-                                            <td class="filterable-cell">{{ $branch->branch_name }}</td>
-                                            <td class="filterable-cell">{{ $branch->branch_phone_number }}</td>
-                                            <td class="filterable-cell" style="width: 20%">{{ $branch->branch_email }}
-                                            </td>
-                                            <td class="filterable-cell" style="width: 10%">{{ $branch->branch_address }}
-                                            </td>
-                                            <td class="project-actions text-right" style="width: 25%"> <a
-                                                    class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
-                                                        class="fas fa-folder pr-1"> </i>View</a>
+                                    <tr>
+                                        <td class="filterable-cell">{{ $branch->branch_id }}</td>
+                                        <td class="filterable-cell">{{ $branch->branch_name }}</td>
+                                        <td class="filterable-cell">{{ $branch->branch_phone_number }}</td>
+                                        <td class="filterable-cell" style="width: 20%">{{ $branch->branch_email }}
+                                        </td>
+                                        <td class="filterable-cell" style="width: 10%">{{ $branch->branch_address }}
+                                        </td>
+                                        <td class="project-actions text-right" style="width: 25%"> <a
+                                                class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
+                                                    class="fas fa-folder pr-1"> </i>View</a>
+                                            @can('editBranch')
                                                 <a class="btn btn-info btn-sm filterable-cell m-1"
-                                                    href="{{route('editBranch', [$branch->branch_id])}}"><i class="fas fa-pencil-alt pr-1">
+                                                    href="{{ route('editBranch', [$branch->branch_id]) }}"><i
+                                                        class="fas fa-pencil-alt pr-1">
                                                     </i>Edit</a>
+                                            @endcan
+                                            @can('deleteBranch')
                                                 <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i
                                                         class="fas fa-trash pr-1"> </i>Delete</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                    @endif
+                                    
 
                                 </tbody>
                             </table>

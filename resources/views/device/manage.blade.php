@@ -57,7 +57,6 @@
             });
         }
 
-
     </script>
 @endpush
 @section('content')
@@ -85,78 +84,81 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Add New Device</h3>
-                        </div><!-- /.card-header -->
-                        <!-- form start -->
-                        <form id="newDeviceForm" method="POST" action="{{ route('storeDevice') }}">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="InputDeviceToken">Device Token</label>
-                                    <input type="text" name="deviceToken"
-                                        class="form-control @error('deviceToken') in-valid @enderror"
-                                        value="{{ old('deviceToken') }}" placeholder="Enter Device Token">
-                                    @error('deviceToken')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                @can('registerDevice')
+                    <div class="col-md-3">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Add New Device</h3>
+                            </div><!-- /.card-header -->
+                            <!-- form start -->
+                            <form id="newDeviceForm" method="POST" action="{{ route('storeDevice') }}">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="InputDeviceToken">Device Token</label>
+                                        <input type="text" name="deviceToken"
+                                            class="form-control @error('deviceToken') in-valid @enderror"
+                                            value="{{ old('deviceToken') }}" placeholder="Enter Device Token">
+                                        @error('deviceToken')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="InputNameofDevice">Device Name</label>
-                                    <input type="text" name="deviceName"
-                                        class="form-control @error('deviceName') in-valid @enderror"
-                                        value="{{ old('deviceName') }}" placeholder="Enter Device Name">
-                                    @error('deviceName')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputNameofDevice">Device Name</label>
+                                        <input type="text" name="deviceName"
+                                            class="form-control @error('deviceName') in-valid @enderror"
+                                            value="{{ old('deviceName') }}" placeholder="Enter Device Name">
+                                        @error('deviceName')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="InputLocationofDevice">Device Location</label>
-                                    <input type="text" name="deviceLocation"
-                                        class="form-control @error('deviceLocation') in-valid @enderror"
-                                        value="{{ old('deviceLocation') }}" placeholder="Enter Device Location">
-                                    @error('deviceLocation')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <div class="form-group">
+                                        <label for="InputLocationofDevice">Device Location</label>
+                                        <input type="text" name="deviceLocation"
+                                            class="form-control @error('deviceLocation') in-valid @enderror"
+                                            value="{{ old('deviceLocation') }}" placeholder="Enter Device Location">
+                                        @error('deviceLocation')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputOrganization">Select Organization</label>
+                                        <select class="form-control" name="organizationId">
+                                            @foreach ($organizations as $organization)
+                                                <option value="{{ $organization->organization_id }}">
+                                                    {{ $organization->organization_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputOrganization">Select Branch</label>
+                                        <select class="form-control" name="branchId">
+                                            @foreach ($branches as $branch)
+                                                <option value="{{ $branch->branch_id }}">{{ $branch->branch_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputOrganization">Select Department</label>
+                                        <select class="form-control" name="departmentId">
+                                            @foreach ($departments as $department)
+                                                <option value="{{ $department->department_id }}">
+                                                    {{ $department->department_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="InputOrganization">Select Organization</label>
-                                    <select class="form-control">
-                                        @foreach ($organizations as $organization)
-                                            <option value="{{ $organization->organization_id }}">
-                                                {{ $organization->organization_name }}</option>
-                                        @endforeach
-                                    </select>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="InputOrganization">Select Branch</label>
-                                    <select class="form-control">
-                                        @foreach ($branches as $branch)
-                                            <option value="{{ $branch->branche_id }}">{{ $branch->branch_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="InputOrganization">Select Department</label>
-                                    <select class="form-control" name="departmentId">
-                                        @foreach ($departments as $department)
-                                            <option value="{{ $department->department_id }}">
-                                                {{ $department->department_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" onclick="new_devicgge()">Submit</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
+                        <!-- /.card -->
                     </div>
-                    <!-- /.card -->
-                </div>
+                @endcan
                 <!-- col -->
                 <div class="col-md-9">
                     <div class="card card-primary">
@@ -165,60 +167,72 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-hover ">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" style="width: 10%">Device Token</th>
-                                        <th scope="col" style="width: 10%">Device Name</th>
-                                        <th scope="col" style="width: 20%">Device Department</th>
-                                        <th scope="col" style="width: 15%">Location</th>
-                                        <th scope="col" style="width: 25% ">mode</th>
-                                        <th scope="col" style="width: 20%">.</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($devices as $device)
-                                        <tr>
-                                            <td class="filterable-cell" style="width: 10%">{{ $device->device_token }}
-                                            </td>
-                                            <td class="filterable-cell" style="width: 10%">{{ $device->device_name }}
-                                            </td>
-                                            <td class="filterable-cell" style="width: 20%">Department Name
-                                            </td>
-                                            <td class="filterable-cell" style="width: 15%">{{ $device->device_location }}
-                                            </td>
-                                            <td class="text-right" style="width: 25%">
-                                                @if ($device->device_mode)
-                                                    <a class="btn btn-success btn-sm filterable-cell m-1"
-                                                        href="{{ route('changeDeviceMode',['token' => $device->device_token, 'mode' => 1]) }}"><i
-                                                            class="fas fa-folder pr-1"> </i>Attendance</a>
-                                                    <a class="btn btn-danger btn-sm filterable-cell m-1"
-                                                        href="{{ route('changeDeviceMode',['token' => $device->device_token, 'mode' => 0]) }}"><i
-                                                            class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>
-                                                @else
-                                                    <a class="btn btn-danger btn-sm filterable-cell m-1"
-                                                        href="{{ route('changeDeviceMode',['token' => $device->device_token, 'mode' => 1]) }}"><i
-                                                            class="fas fa-folder pr-1"> </i>Attendance</a>
-                                                    <a class="btn btn-success btn-sm filterable-cell m-1"
-                                                        href="{{ route('changeDeviceMode',['token' => $device->device_token, 'mode' => 0]) }}"><i
-                                                            class="fas fa-pencil-alt pr-1"> </i>Enrollment</a>
-                                                @endif
-                                            </td>
-                                            <td class="text-right" style="width: 20%"> <a
-                                                    class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
-                                                        class="fas fa-folder pr-1"> </i>View</a>
-                                                <a class="btn btn-info btn-sm filterable-cell m-1"
-                                                    onclick="populate_device_data_for_editing({{ $device->device_token }})"
-                                                    data-toggle="modal" data-target="#modal-lg-editDevice"><i
-                                                        class="fas fa-pencil-alt pr-1"> </i>Edit</a>
-                                                <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i
-                                                        class="fas fa-trash pr-1"> </i>Delete</a>
-                                            </td>
-                                        </tr>
+                            @if (count($devices) < 1)
+                                There are no Device(s) registered
 
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            @else
+                                <table class="table table-hover ">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%">Device Token</th>
+                                            <th scope="col" style="width: 10%">Device Name</th>
+                                            <th scope="col" style="width: 20%">Device Department</th>
+                                            <th scope="col" style="width: 15%">Location</th>
+                                            @can('changeDeviceMode')
+                                                <th scope="col" style="width: 25% ">mode</th>
+                                            @endcan
+                                            <th scope="col" style="width: 20%">.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($devices as $device)
+                                            <tr>
+                                                <td class="filterable-cell" style="width: 10%">
+                                                    {{ $device->device_token }}
+                                                </td>
+                                                <td class="filterable-cell" style="width: 10%">{{ $device->device_name }}
+                                                </td>
+                                                <td class="filterable-cell" style="width: 20%">Department Name
+                                                </td>
+                                                <td class="filterable-cell" style="width: 15%">
+                                                    {{ $device->device_location }}
+                                                </td>
+                                                @can('changeDeviceMode')
+                                                    <td class="text-right" style="width: 20%">
+                                                        @if ($device->device_mode)
+                                                            <a class="btn btn-success btn-sm filterable-cell m-1"
+                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 1]) }}">Attendance</a>
+                                                            <a class="btn btn-danger btn-sm filterable-cell m-1"
+                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 0]) }}">Enrollment</a>
+                                                        @else
+                                                            <a class="btn btn-danger btn-sm filterable-cell m-1"
+                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 1]) }}">Attendance</a>
+                                                            <a class="btn btn-success btn-sm filterable-cell m-1"
+                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 0]) }}">Enrollment</a>
+                                                        @endif
+                                                    </td>
+                                                @endcan
+                                                <td class="text-right" style="width: 25%"> <a
+                                                        class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
+                                                            class="fas fa-folder pr-1"> </i>View</a>
+                                                    @can('editDevice')
+                                                        <a class="btn btn-info btn-sm filterable-cell m-1"
+                                                            onclick="populate_device_data_for_editing({{ $device->device_token }})"
+                                                            data-toggle="modal" data-target="#modal-lg-editDevice"><i
+                                                                class="fas fa-pencil-alt pr-1"> </i>Edit</a>
+                                                    @endcan
+                                                    @can('deleteDevice')
+                                                        <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i
+                                                                class="fas fa-trash pr-1"> </i>Delete</a>
+                                                    @endcan
+                                                </td>
+                                            </tr>
+
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+
                         </div>
                         <!-- /.card-body -->
                     </div>

@@ -7,7 +7,9 @@ use App\Models\Department;
 use App\Models\Device;
 use App\Models\Organization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DeviceController extends Controller
 {
@@ -16,18 +18,41 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        $organizations = Organization::all();
-        $branches = Branch::all();
-        $departments = Department::all();
-        $devices = Device::orderBy('created_at', 'desc')->take(5)->get();
-        return view('device.manage')->with([
-            'branches' => $branches,
-            'organizations' => $organizations,
-            'departments' => $departments,
-            'devices' => $devices
-        ]);
+        if (Gate::allows('isAdmin')) {
+            $organizations = Organization::all();
+            $branches = Branch::all();
+            $departments = Department::all();
+            // $devices = Device::orderBy('created_at', 'desc')->take(5)->get();
+            $devices = Device::all();
+            return view('device.manage')->with([
+                'branches' => $branches,
+                'organizations' => $organizations,
+                'departments' => $departments,
+                'devices' => $devices
+            ]);
+        }
+
+        if (Gate::allows('isOrganizationHead')) {
+            $devices = User::find($userId)->organization->devices;
+            return view('device.manage')->with([
+                'devices' => $devices
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $devices = User::find($userId)->branch->devices;
+            return view('device.manage')->with([
+                'devices' => $devices
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $devices = User::find($userId)->department->devices;
+            return view('device.manage')->with([
+                'devices' => $devices
+            ]);
+        }
     }
 
     /**
@@ -48,13 +73,17 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
-            'departmentId' => 'required',
             'deviceToken' => 'required',
             'deviceName' => 'required',
             'deviceLocation' => 'required',
+            'organizationId' => 'required',
+            'branchId' => 'required',
+            'departmentId' => 'required'
         ]);
 
+       
         $department = Department::find($request->input('departmentId'));
         if (!$department) {
             return response()->json([
@@ -66,14 +95,17 @@ class DeviceController extends Controller
         $device->device_token = $request->input('deviceToken');
         $device->device_name = $request->input('deviceName');
         $device->device_location = $request->input('deviceLocation');
+        $device->organization_id = $request->input('organizationId');
+        $device->branch_id = $request->input('branchId');
         if ($department->devices()->save($device)) {
-            return redirect()->route('deviceManage');
+            return redirect()->route('deviceManage' , Auth::user()->user_id);
             // $newDevice = Device::find($device->device_token);
             // return response()->json([
             //     'success' => 'success',
             //     'newDevice' => $newDevice
             // ]);
         }
+        
     }
 
     /**
@@ -174,9 +206,9 @@ class DeviceController extends Controller
         ], 200);
     }
 
-    public function changeMode($deviceToken , $mode)
+    public function changeMode($deviceToken, $mode)
     {
-    
+
 
         $device = Device::find($deviceToken);
         $device->update([

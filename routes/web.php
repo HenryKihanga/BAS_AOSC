@@ -57,7 +57,7 @@ Route::post('/rough', [App\Http\Controllers\RoughController::class, 'index'])->n
 
 
 // Routes for organization controller
-Route::get('organization/', [App\Http\Controllers\OrganizationController::class, 'index'])->name('manageOrganization');
+Route::get('organization/{id}', [App\Http\Controllers\OrganizationController::class, 'index'])->name('manageOrganization');
 Route::get('organization/edit/{id}', [App\Http\Controllers\OrganizationController::class, 'edit'])->name('editOrganization');
 Route::get('organization/showOne/{id}', [App\Http\Controllers\OrganizationController::class, 'showOne'])->name('showOneOrganization');
 Route::get('organization/showAll', [App\Http\Controllers\OrganizationController::class, 'showAll'])->name('showAllOrganizations');
@@ -67,15 +67,17 @@ Route::get('organization/returnName/{id}', [App\Http\Controllers\OrganizationCon
 Route::post('organization/update/', [App\Http\Controllers\OrganizationController::class, 'update'])->name('updateOrganization');
 
 // Routes for Branch controller
-Route::get('branch/', [App\Http\Controllers\BranchController::class, 'index'])->name('manageBranch');
+Route::get('branch/showAll', [App\Http\Controllers\BranchController::class, 'showAll'])->name('showAllBranches');
+Route::post('branch/store/', [App\Http\Controllers\BranchController::class, 'store'])->name('storeBranch');
+Route::get('branch/{id}', [App\Http\Controllers\BranchController::class, 'index'])->name('manageBranch');
 Route::get('branch/edit/{id}', [App\Http\Controllers\BranchController::class, 'edit'])->name('editBranch');
 Route::get('branch/showOne/{id}', [App\Http\Controllers\BranchController::class, 'showOne'])->name('showOneBranch');
-Route::post('branch/store/', [App\Http\Controllers\BranchController::class, 'store'])->name('storeBranch');
-Route::get('branch/showAll', [App\Http\Controllers\BranchController::class, 'showAll'])->name('showAllBranches');
+
+
 Route::post('branch/update', [App\Http\Controllers\BranchController::class, 'update'])->name('updateBranch');
 
 // Routes for Department controller
-Route::get('department/', [App\Http\Controllers\DepartmentController::class, 'index'])->name('manageDepartment');
+Route::get('department/{id}', [App\Http\Controllers\DepartmentController::class, 'index'])->name('manageDepartment');
 Route::get('department/edit/{id}', [App\Http\Controllers\DepartmentController::class, 'edit'])->name('editDepartment');
 Route::post('department/store', [App\Http\Controllers\DepartmentController::class, 'store'])->name('storeDepartment');
 Route::get('/department/showOne/{id}', [App\Http\Controllers\DepartmentController::class, 'showOne'])->name('showOneDepartment');
@@ -83,9 +85,9 @@ Route::get('/department/showAll', [App\Http\Controllers\DepartmentController::cl
 Route::post('department/update', [App\Http\Controllers\DepartmentController::class, 'update'])->name('updateDepartment');
 
 // Routes for Device controller
-Route::get('device/', [App\Http\Controllers\DeviceController::class, 'index'])->name('deviceManage');
-Route::get('device/edit/{id}', [App\Http\Controllers\DeviceController::class, 'edit'])->name('editDevice');
 Route::post('device/store', [App\Http\Controllers\DeviceController::class, 'store'])->name('storeDevice');
+Route::get('device/{id}', [App\Http\Controllers\DeviceController::class, 'index'])->name('deviceManage');
+Route::get('device/edit/{id}', [App\Http\Controllers\DeviceController::class, 'edit'])->name('editDevice');
 Route::get('device/showOne/{id}', [App\Http\Controllers\DeviceController::class, 'showOne'])->name('showOneDevice');
 Route::get('device/showAll', [App\Http\Controllers\DeviceController::class, 'showAll'])->name('showAllDevices');
 Route::post('device/update', [App\Http\Controllers\DeviceController::class, 'update'])->name('updateDevice');
@@ -96,10 +98,11 @@ Route::get('device/checkMode/{deviceToken}', [App\Http\Controllers\DeviceControl
 // Routes for User controller
 // Route::resource('/user','App\Http\Controllers\UserController');
 Route::get('user/addUser', [App\Http\Controllers\UserController::class, 'create'])->name('addUser');
-Route::get('user/AllUser', [App\Http\Controllers\UserController::class, 'index'])->name('allUsers');
 Route::get('user/profile/{id}', [App\Http\Controllers\UserController::class, 'profile'])->name('showUserProfile');
+Route::get('user/allUsers/{id}', [App\Http\Controllers\UserController::class, 'index'])->name('allUsers');
 Route::get('user/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changePassword');
 Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll'])->name('showAllUsers');
+Route::get('user/showOne/{id}', [App\Http\Controllers\UserController::class, 'showOne'])->name('showOneUsers');
 Route::post('user/addUser', [App\Http\Controllers\UserController::class, 'store'])->name('addUser');
 //hardware
 Route::get('user/fingerprintId/{deviceToken}', [App\Http\Controllers\UserController::class, 'fingerPrintId'])->name('userFingerPrintId');

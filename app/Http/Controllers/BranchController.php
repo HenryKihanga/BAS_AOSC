@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class BranchController extends Controller
 {
@@ -14,14 +16,34 @@ class BranchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        $organizations = Organization::all();
-        $branches = Branch::orderBy('updated_at', 'asc')->take(5)->get();
-        return view('branch.manage')->with([
-            'branches' => $branches,
-            'organizations' => $organizations
-        ]);
+        if (Gate::allows('isAdmin')) {
+            $organizations = Organization::all();
+            $branches = Branch::all();
+            // $branches = Branch::orderBy('created_at', 'desc')->take(5)->get();
+            return view('branch.manage')->with([
+                'branches' => $branches,
+                'organizations' => $organizations
+            ]);
+        }
+        if(Gate::allows('isOrganizationHead')){
+            $branches = User::find($userId)->organization->branches;
+            return view('branch.manage')->with([
+                'branches' => $branches,   
+            ]);
+        }
+
+        if(Gate::allows('isBranchHead')){
+            $branches = [];
+            $branch = User::find($userId)->branch;
+            array_push($branches, $branch);
+            return view('branch.manage')->with([
+                'branches' => $branches,  
+            ]);
+        }
+  
+       
     }
 
     /**
@@ -66,7 +88,7 @@ class BranchController extends Controller
         $branch->branch_email = $request->input('email');
         $branch->branch_address = $request->input('address');
         if ($organization->branches()->save($branch)) {
-            return redirect()->route('manageBranch');
+            return redirect()->route('manageBranch', Auth::user()->user_id);
             // $newBranch = Branch::find($branch->branch_id);
             // return response()->json([
             //     'success' => 'success',

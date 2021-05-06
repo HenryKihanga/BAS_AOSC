@@ -24,11 +24,18 @@ class Branch extends Model
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 
     public function departments()
     {
         return $this->hasMany(Department::class, 'branch_id');
+    }
+
+    public function users(){
+        return $this->hasMany(User::class , 'branch_id');
+    }
+    public function devices(){
+        return $this->hasMany(Device::class , 'branch_id');
     }
 }

@@ -30,6 +30,13 @@ class Organization extends Model
     public function departments(){
         return $this->hasManyThrough(Department::class , Branch::class, 'organization_id', 'branch_id');
     }
+    public function users(){
+        return $this->hasMany(User::class , 'organization_id');
+    }
+
+    public function devices(){
+        return $this->hasMany(Device::class , 'organization_id');
+    }
 
   
 

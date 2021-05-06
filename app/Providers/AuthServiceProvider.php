@@ -25,6 +25,79 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Organization Gates
+        Gate::define('registerOrganization', function($user){
+            return $user->hasRole('admin');
+        });
+        Gate::define('editOrganization', function($user){
+            return $user->hasAnyRoles(['admin', 'organizationHead']);
+        });
+        Gate::define('manageOrganization', function($user){
+            return $user->hasAnyRoles(['admin', 'organizationHead']);
+        });
+        Gate::define('deleteOrganization', function($user){
+            return $user->hasRole('admin');
+        });
+
+        // Branch gates
+        Gate::define('registerBranch', function($user){
+            return $user->hasRole('admin');
+        });
+        Gate::define('editBranch', function($user){
+            return $user->hasAnyRoles(['admin', 'organizationHead','branchHead']);
+        });
+        Gate::define('manageBranch', function($user){
+            return $user->hasAnyRoles(['admin', 'organizationHead','branchHead']);
+        });
+        Gate::define('userBranches', function($user){
+            return $user->hasAnyRoles([ 'organizationHead','branchHead']);
+        });
+        Gate::define('deleteBranch', function($user){
+            return $user->hasRole('admin');
+        });
+
+        // Department Gates
+        Gate::define('registerDepartment', function($user){
+            return $user->hasRole('admin');
+        });
+        Gate::define('editDepartment', function($user){
+            return $user->hasAnyRoles(['admin', 'organizationHead','branchHead','departmentHead']);
+        });
+        Gate::define('userDepartment', function($user){
+            return $user->hasAnyRoles(['organizationHead','branchHead','departmentHead']);
+        });
+        Gate::define('deleteDepartment', function($user){
+            return $user->hasRole('admin');
+        });
+
+        //Device Gates
+        Gate::define('registerDevice', function($user){
+            return $user->hasRole('admin');
+        });
+        Gate::define('editDevice', function($user){
+            return $user->hasAnyRoles(['admin', 'organizationHead','branchHead','departmentHead']);
+        });
+        Gate::define('deleteDevice', function($user){
+            return $user->hasRole('admin');
+        });
+        Gate::define('changeDeviceMode', function($user){
+            return $user->hasRole('departmentHead');
+        });
+
+
+
+
+        Gate::define('isAdmin', function($user){
+            return $user->hasRole('admin');
+        });
+        Gate::define('isOrganizationHead', function($user){
+            return $user->hasRole('organizationHead');
+        });
+        Gate::define('isBranchHead', function($user){
+            return $user->hasRole('branchHead');
+        });
+        Gate::define('isDepartmentHead', function($user){
+            return $user->hasRole('departmentHead');
+        });
     }
 }

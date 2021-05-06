@@ -217,13 +217,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('allUsers') }}" class="nav-link" onclick="toggle_active_class()">
+                            <a href="{{ route('allUsers',Auth::user()->user_id)  }}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>View Users</p>
                             </a>
                         </li>
+                        @can('manageOrganization')
                         <li class="nav-item">
-                            <a href="{{ route('manageOrganization') }}" class="nav-link"
+                            <a href="{{ route('manageOrganization', Auth::user()->user_id )}}" class="nav-link"
                                 onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
@@ -231,16 +232,19 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
+                        @can('manageBranch')
                         <li class="nav-item">
-                            <a href="{{ route('manageBranch') }}" class="nav-link" onclick="toggle_active_class()">
+                            <a href="{{ route('manageBranch', Auth::user()->user_id )}}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
                                     Branches
                                 </p>
                             </a>
                         </li>
+                        @endcan
                         <li class="nav-item">
-                            <a href="{{ route('manageDepartment') }}" class="nav-link"
+                            <a href="{{ route('manageDepartment',  Auth::user()->user_id) }}" class="nav-link"
                                 onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
@@ -248,14 +252,16 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('deviceManage') }}" class="nav-link" onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-microchip"></i>
-                                <p>
-                                    Devices
-                                </p>
-                            </a>
-                        </li>
+                       
+                            <li class="nav-item">
+                                <a href="{{ route('deviceManage',  Auth::user()->user_id) }}" class="nav-link" onclick="toggle_active_class()">
+                                    <i class="nav-icon fas fa-microchip"></i>
+                                    <p>
+                                        Devices
+                                    </p>
+                                </a>
+                            </li>
+                        
                         <li class="nav-item">
                             <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link"
                                 onclick="toggle_active_class()">
@@ -274,7 +280,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('changePassword')}}" class="nav-link" onclick="toggle_active_class()">
+                            <a href="{{ route('changePassword') }}" class="nav-link" onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-key"></i>
                                 <p>
                                     Change Password

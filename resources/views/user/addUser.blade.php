@@ -100,7 +100,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="InputOrganization">Select Organization</label>
-                                    <select class="form-control inputOrganizations " name="organization"
+                                    <select class="form-control inputOrganizations " name="organizationId"
                                         id="InputOrganization">
                                         @foreach ($organizations as $organization)
                                             <option value="{{ $organization->organization_id }}">
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="InputBranch">Select Branch</label>
-                                    <select class="form-control inputBranches " name="branch" id="InputBranch">
+                                    <select class="form-control inputBranches " name="branchId" id="InputBranch">
                                         @foreach ($branches as $branch)
                                             <option value="{{ $branch->branch_id }}">
                                                 {{ $branch->branch_name }} </option>
@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="InputDepartment">Select Department</label>
-                                    <select class="form-control inputDeparments " name="department" id="InputDepartment">
+                                    <select class="form-control inputDeparments " name="departmentId" id="InputDepartment">
                                         @foreach ($departments as $department)
                                             <option value="{{ $department->department_id }}">
                                                 {{ $department->department_name }} </option>
@@ -130,6 +130,7 @@
                                     </select>
                                 </div>
                                 <!-- checkbox -->
+                                @can('isAdmin')
                                 <div class=" myCheckbox form-group row">
                                     <div>
                                         <label class="mylabel" for="">Choose Role</label>
@@ -170,6 +171,7 @@
                                 @error('roles')
                                 <span class="text-danger"> {{ $message }}</span>
                                 @enderror
+                                @endcan
                                 {{-- <div class="form-group">
                                 <label for="exampleInputFile">Profile Picture</label>
                                 <div class="input-group">

@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 class DepartmentController extends Controller
 {
@@ -15,16 +18,44 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        $organizations = Organization::all();
-        $branches = Branch::all();
-        $departments = Department::orderBy('updated_at', 'asc')->take(5)->get();
-        return view('department.manage')->with([
-            'branches' => $branches,
-            'organizations' => $organizations,
-            'departments' => $departments
-        ]);
+        if (Gate::allows('isAdmin')) {
+            $organizations = Organization::all();
+            $branches = Branch::all();
+            $departments = Department::all();
+            // $departments = Department::orderBy('created_at', 'desc')->take(5)->get();
+            return view('department.manage')->with([
+                'branches' => $branches,
+                'organizations' => $organizations,
+                'departments' => $departments
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+            foreach (User::find($userId)->organization->branches as $branch) {
+                $departments =  $branch->departments;
+            }
+            return view('department.manage')->with([
+                'departments' => $departments
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $departments = User::find($userId)->branch->departments;
+
+            return view('department.manage')->with([
+                'departments' => $departments
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $departments = [];
+            $department = User::find($userId)->department;
+            array_push($departments, $department);
+            return view('department.manage')->with([
+                'departments' => $departments,
+            ]);
+        }
+
     }
 
     /**
@@ -69,7 +100,7 @@ class DepartmentController extends Controller
         $department->department_email = $request->input('email');
         $department->department_address = $request->input('address');
         if ($branch->departments()->save($department)) {
-            return redirect()->route('manageDepartment');
+            return redirect()->route('manageDepartment', Auth::user()->user_id);
             // $newDepartment = Department::find($department->department_id);
             // return response()->json([
             //     'success' => 'success',
@@ -168,7 +199,7 @@ class DepartmentController extends Controller
         }
 
         return response()->json([
-            'department' => $department
+            'department' => $department->users
         ], 200);
     }
 

@@ -20,8 +20,14 @@ class Device extends Model
 
     protected $dates = ['deleted_at' , 'date_of_birth'];
 
+    public function organization(){
+        return $this->belongsTo(Organization::class , 'organization_id');
+    }
+    public function branch(){
+        return $this->belongsTo(Branch::class , 'branch_id');
+    }
     public function department(){
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
     public function users(){

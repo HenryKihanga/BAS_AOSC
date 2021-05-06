@@ -25,78 +25,79 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- col -->
-                <div class="col-md-3">
-                    <!-- card -->
-                    <div class="card card-primary">
-                        <!-- card-header -->
-                        <div class="card-header">
-                            <h3 class="card-title">Add New Organization</h3>
-                        </div><!-- /.card-header -->
-                        <!-- form start -->
-                        <form id="newOrganizationForm" method="POST" action="{{ route('storeOrganization') }}">
-                            @csrf
-                            <!--card-body -->
-                            <div class="card-body">
-                                <!--Registration Number Field-->
-                                <div class="form-group">
-                                    <label for="InputRegistrationNumber">Registration Number :</label>
-                                    <input type="text" class="form-control @error('registrationNumber') in-valid @enderror"
-                                        value="{{ old('registrationNumber') }}" placeholder="Enter Registration Number"
-                                        name="registrationNumber">
-                                    @error('registrationNumber')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                @can('registerOrganization')
+                    <!-- col -->
+                    <div class="col-md-3">
+                        <!-- card -->
+                        <div class="card card-primary">
+                            <!-- card-header -->
+                            <div class="card-header">
+                                <h3 class="card-title">Add New Organization</h3>
+                            </div><!-- /.card-header -->
+                            <!-- form start -->
+                            <form id="newOrganizationForm" method="POST" action="{{ route('storeOrganization') }}">
+                                @csrf
+                                <!--card-body -->
+                                <div class="card-body">
+                                    <!--Registration Number Field-->
+                                    <div class="form-group">
+                                        <label for="InputRegistrationNumber">Registration Number :</label>
+                                        <input type="text" class="form-control @error('registrationNumber') in-valid @enderror"
+                                            value="{{ old('registrationNumber') }}" placeholder="Enter Registration Number"
+                                            name="registrationNumber">
+                                        @error('registrationNumber')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
 
 
-                                </div>
-                                <!--Registration Name Field-->
-                                <div class="form-group">
-                                    <label for="InputNameofRegistrationName">Registration Name :</label>
-                                    <input type="text" class="form-control @error('registrationName') in-valid @enderror"
-                                        value="{{ old('registrationName') }}" placeholder="Enter Registration Name"
-                                        name="registrationName">
-                                    @error('registrationNumber')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!--Phone Number Field-->
-                                <div class="form-group">
-                                    <label for="InputNameofPhoneNumber">Phone Number :</label>
-                                    <input type="text" class="form-control @error('phoneNumber') in-valid @enderror"
-                                        value="{{ old('phoneNumber') }}" placeholder="Enter Phone Number"
-                                        name="phoneNumber">
-                                    @error('phoneNumber')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!--Email Field-->
-                                <div class="form-group">
-                                    <label for="InputNameofEmail">Email :</label>
-                                    <input type="text" class="form-control @error('email') in-valid @enderror"
-                                        value="{{ old('email') }}" placeholder="Enter Email" name="email">
-                                    @error('email')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!--Address Field-->
-                                <div class="form-group">
-                                    <label for="InputNameofAddress">Address :</label>
-                                    <input type="text" class="form-control @error('address') in-valid @enderror"
-                                        value="{{ old('address') }}" placeholder="Enter Address"
-                                        name="address">
-                                    @error('address')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div><!-- /.card-body -->
-                            <!-- card-footer -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div><!-- /.card-footer -->
-                        </form>
-                    </div><!-- /.card -->
-                </div><!-- /.col -->
+                                    </div>
+                                    <!--Registration Name Field-->
+                                    <div class="form-group">
+                                        <label for="InputNameofRegistrationName">Registration Name :</label>
+                                        <input type="text" class="form-control @error('registrationName') in-valid @enderror"
+                                            value="{{ old('registrationName') }}" placeholder="Enter Registration Name"
+                                            name="registrationName">
+                                        @error('registrationNumber')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!--Phone Number Field-->
+                                    <div class="form-group">
+                                        <label for="InputNameofPhoneNumber">Phone Number :</label>
+                                        <input type="text" class="form-control @error('phoneNumber') in-valid @enderror"
+                                            value="{{ old('phoneNumber') }}" placeholder="Enter Phone Number"
+                                            name="phoneNumber">
+                                        @error('phoneNumber')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!--Email Field-->
+                                    <div class="form-group">
+                                        <label for="InputNameofEmail">Email :</label>
+                                        <input type="text" class="form-control @error('email') in-valid @enderror"
+                                            value="{{ old('email') }}" placeholder="Enter Email" name="email">
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!--Address Field-->
+                                    <div class="form-group">
+                                        <label for="InputNameofAddress">Address :</label>
+                                        <input type="text" class="form-control @error('address') in-valid @enderror"
+                                            value="{{ old('address') }}" placeholder="Enter Address" name="address">
+                                        @error('address')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div><!-- /.card-body -->
+                                <!-- card-footer -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div><!-- /.card-footer -->
+                            </form>
+                        </div><!-- /.card -->
+                    </div><!-- /.col -->
+                @endcan
                 {{-- ######################################################################################################################################## --}}
                 <!-- col -->
                 <div class="col-md-9">
@@ -118,26 +119,38 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tableData">
-                                    @foreach ($organizations as $organization)
-                                        <tr>
-                                            <td class="filterable-cell">{{ $organization->organization_id }}</td>
-                                            <td class="filterable-cell">{{ $organization->organization_name }}</td>
-                                            <td class="filterable-cell">{{ $organization->organization_phone_number }}
-                                            </td>
-                                            <td class="filterable-cell" style="width: 20%">
-                                                {{ $organization->organization_email }}</td>
-                                            <td class="filterable-cell" style="width: 13%">
-                                                {{ $organization->organization_address }}</td>
-                                            <td class="project-actions text-right" style="width: 22%"> <a
-                                                    class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
-                                                        class="fas fa-folder pr-1"> </i>View</a><a
-                                                    class="btn btn-info btn-sm filterable-cell m-1" href="{{route('editOrganization', [$organization->organization_id])}}"><i class="fas fa-pencil-alt pr-1" >
-                                                    </i>Edit</a>
-                                                <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i
-                                                        class="fas fa-trash pr-1"> </i>Delete</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    @if (count($organizations) < 0)
+                                        <tr>No Organization Registered</tr>
+                                    @else
+                                        @foreach ($organizations as $organization)
+                                            <tr>
+                                                <td class="filterable-cell">{{ $organization->organization_id }}</td>
+                                                <td class="filterable-cell">{{ $organization->organization_name }}</td>
+                                                <td class="filterable-cell">
+                                                    {{ $organization->organization_phone_number }}
+                                                </td>
+                                                <td class="filterable-cell" style="width: 20%">
+                                                    {{ $organization->organization_email }}</td>
+                                                <td class="filterable-cell" style="width: 13%">
+                                                    {{ $organization->organization_address }}</td>
+                                                <td class="project-actions text-right" style="width: 22%"> <a
+                                                        class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
+                                                            class="fas fa-folder pr-1"> </i>View</a>
+                                                    @can('editOrganization')
+                                                        <a class="btn btn-info btn-sm filterable-cell m-1"
+                                                            href="{{ route('editOrganization', [$organization->organization_id]) }}"><i
+                                                                class="fas fa-pencil-alt pr-1">
+                                                            </i>Edit</a>
+                                                    @endcan
+                                                    @can('deleteOrganization')
+                                                        <a class="btn btn-danger btn-sm filterable-cell" href="#" onclick=""><i
+                                                                class="fas fa-trash pr-1"> </i>Delete</a>
+                                                    @endcan
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+
                                 </tbody>
                             </table>
                         </div><!-- /.card-body -->

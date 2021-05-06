@@ -9,8 +9,10 @@ use App\Models\Organization;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -19,16 +21,50 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        $users = User::orderBy('updated_at', 'asc')->take(5)->get();
-        foreach ($users as $user) {
-            $user->status;
-            $user->roles;
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            foreach ($users as $user) {
+                $user->status;
+                $user->roles;
+            }
+            return view('user.allUsers')->with([
+                'users' => $users
+            ]);
         }
-        return view('user.allUsers')->with([
-            'users' => $users
-        ]);
+        if (Gate::allows('isOrganizationHead')) {
+            $users =  User::find($userId)->organization->users;
+            foreach ($users as $user) {
+                $user->status;
+                $user->roles;
+            }
+            return view('user.allUsers')->with([
+                'users' => $users
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            foreach ($users as $user) {
+                $user->status;
+                $user->roles;
+            }
+            return view('user.allUsers')->with([
+                'users' => $users
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            foreach ($users as $user) {
+                $user->status;
+                $user->roles;
+            }
+            return view('user.allUsers')->with([
+                'users' => $users
+            ]);
+        }
     }
 
     /**
@@ -57,48 +93,85 @@ class UserController extends Controller
     public function store(Request $request)
 
     {
-        $request->validate([
-            'firstName' => ['required', 'string', 'max:255'],
-            'middleName' =>  ['required', 'string', 'max:255'],
-            'lastName' =>  ['required', 'string', 'max:255'],
-            'userID' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phoneNumber' => 'required',
-            'birthDate' => 'required',
-            'organization' => 'required',
-            'branch' => 'required',
-            'department' => 'required',
-            'roles' => 'required'
-        ]);
+        if (Gate::allows('isAdmin')) {
+            $request->validate([
+                'firstName' => ['required', 'string', 'max:255'],
+                'middleName' =>  ['required', 'string', 'max:255'],
+                'lastName' =>  ['required', 'string', 'max:255'],
+                'userID' => 'required',
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'phoneNumber' => 'required',
+                'birthDate' => 'required',
+                'organizationId' => 'required',
+                'branchId' => 'required',
+                'departmentId' => 'required',
+                'roles' => 'required'
+            ]);
+            $organization = Organization::find($request->input('organizationId'));
+            $branch = Branch::find($request->input('branchId'));
+            $department = Department::find($request->input('departmentId'));
+            $user = new User();
+            $user->user_id = $request->input('userID');
+            $user->first_name = $request->input('firstName');
+            $user->organization_id = $request->input('organizationId');
+            $user->branch_id = $request->input('branchId');
+            $user->middle_name = $request->input('middleName');
+            $user->last_name = $request->input('lastName');
+            $user->phone_number = $request->input('phoneNumber');
+            $user->birth_date = $request->input('birthDate');
+            $user->email = $request->input('email');
+            //check if just a staff set password null
+            if (count($request->input('roles')) == 1 && $request->input('roles')[0] == 5) {
+                $user->password = null;
+            } else {
+                $user->password = Hash::make(strtoupper($request->input('lastName')));
+            }
 
-
-        $department = Department::find($request->input('department'));
-        $user = new User();
-        $user->user_id = $request->input('userID');
-        $user->first_name = $request->input('firstName');
-        $user->middle_name = $request->input('middleName');
-        $user->last_name = $request->input('lastName');
-        $user->phone_number = $request->input('phoneNumber');
-        $user->birth_date = $request->input('birthDate');
-        $user->email = $request->input('email');
-        //check if just a staff set password null
-        if (count($request->input('roles')) == 1 && $request->input('roles')[0] == 5) {
-            $user->password = null;
-        } else {
-            $user->password = Hash::make(strtoupper($request->input('lastName')));
+            //associate roles then save user
+            $user->status()->create();
+            $user->roles()->sync($request->input('roles'));
+            $department->users()->save($user);
+            return redirect()->route('allUsers', Auth::user()->user_id);
         }
 
-        //associate roles then save user
-        $user->status()->create();
-        $user->roles()->sync($request->input('roles'));
-        $department->users()->save($user);
+        if (Gate::denies('isAdmin')) {
+            $request->validate([
+                'firstName' => ['required', 'string', 'max:255'],
+                'middleName' =>  ['required', 'string', 'max:255'],
+                'lastName' =>  ['required', 'string', 'max:255'],
+                'userID' => 'required',
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'phoneNumber' => 'required',
+                'birthDate' => 'required',
+                'organizationId' => 'required',
+                'branchId' => 'required',
+                'departmentId' => 'required',
+            ]);
 
-        return redirect('user/AllUser');
 
-        // return response()->json([
-        //     'message' => 'success',
-        //     'user' => $user
-        // ]);
+            $organization = Organization::find($request->input('organizationId'));
+            $branch = Branch::find($request->input('branchId'));
+            $department = Department::find($request->input('departmentId'));
+            $user = new User();
+            $user->user_id = $request->input('userID');
+            $user->first_name = $request->input('firstName');
+            $user->organization_id = $request->input('organizationId');
+            $user->branch_id = $request->input('branchId');
+            $user->middle_name = $request->input('middleName');
+            $user->last_name = $request->input('lastName');
+            $user->phone_number = $request->input('phoneNumber');
+            $user->birth_date = $request->input('birthDate');
+            $user->email = $request->input('email');
+            $user->password = null;
+            $staffRole = Role::where('name', 'staff')->first();
+
+            //associate roles then save user
+            $user->status()->create();
+            $user->roles()->attach($staffRole);
+            $department->users()->save($user);
+
+            return redirect()->route('allUsers', Auth::user()->user_id);
+        }
     }
 
     /**
@@ -150,7 +223,8 @@ class UserController extends Controller
         //
     }
 
-    public function changePassword(){
+    public function changePassword()
+    {
         return view('user.changePassword');
     }
 
@@ -166,6 +240,19 @@ class UserController extends Controller
         ]);
     }
 
+    public function showOne($id)
+    {
+        $user = User::find($id);
+
+        $user->status;
+        $user->roles;
+        foreach ($user->department->branch->organization->branches as $branches) {
+            $branches->departments;
+        };
+        return response()->json([
+            'user' => $user
+        ]);
+    }
 
 
     public function fingerPrintId($deviceToken)
