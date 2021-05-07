@@ -6,6 +6,7 @@ use App\Models\Department;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Userstatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,12 +41,15 @@ class UsersTableSeeder extends Seeder
         $admin->email = 'mnadisarah@gmail.com';
         $admin->password = Hash::make(strtoupper('mnadi'));
         $admin->status()->create([
-            'enrollment_status'=> 1
+            'fingerprint_id'=>null,
+            'ready_to_enroll'=> 0,
+            'enrollment_status' => 0,
+            'delete_status' => 0
         ]);
         $admin->roles()->attach($adminRole);
         $department->users()->save($admin);
 
-      
+
         $organizationHead = new User();
         $organizationHead->user_id = 2;
         $organizationHead->first_name = 'William';
@@ -57,9 +61,15 @@ class UsersTableSeeder extends Seeder
         $organizationHead->birth_date = '12/12/2020';
         $organizationHead->email = 'kilumawilliam@gmail.com';
         $organizationHead->password = Hash::make(strtoupper('Kiluma'));
-        $organizationHead->status()->create();
+        $organizationHead->status()->create([
+            'fingerprint_id'=>null,
+            'ready_to_enroll'=> 0,
+            'enrollment_status' => 0,
+            'delete_status' => 0
+        ]);
         $organizationHead->roles()->attach($organizationHeadRole);
         $department->users()->save($organizationHead);
+      
 
         $branchHead = new User();
         $branchHead->user_id = 3;
@@ -72,9 +82,15 @@ class UsersTableSeeder extends Seeder
         $branchHead->birth_date = '12/12/2020';
         $branchHead->email = 'hongokelvin@gmail.com';
         $branchHead->password = Hash::make(strtoupper('Hongo'));
-        $branchHead->status()->create();
+        $branchHead->status()->create([
+            'fingerprint_id'=>null,
+            'ready_to_enroll'=> 0,
+            'enrollment_status' => 0,
+            'delete_status' => 0
+        ]);
         $branchHead->roles()->attach($branchHeadRole);
         $department->users()->save($branchHead);
+ 
 
 
         $departmentHead = new User();
@@ -88,9 +104,15 @@ class UsersTableSeeder extends Seeder
         $departmentHead->birth_date = '12/12/2020';
         $departmentHead->email = 'mwaiselampoki@gmail.com';
         $departmentHead->password = Hash::make(strtoupper('Mwaisela'));
-        $departmentHead->status()->create();
+        $departmentHead->status()->create([
+            'fingerprint_id'=>null,
+            'ready_to_enroll'=> 0,
+            'enrollment_status' => 0,
+            'delete_status' => 0
+        ]);
         $departmentHead->roles()->attach($departmentHeadRole);
         $department->users()->save($departmentHead);
+
 
         $staff = new User();
         $staff->user_id = 5;
@@ -104,9 +126,13 @@ class UsersTableSeeder extends Seeder
         $staff->birth_date = '12/12/2020';
         $staff->email = 'rashidishabani@gmail.com';
         $staff->password = null;
-        $staff->status()->create();
+        $staff->status()->create([
+            'fingerprint_id'=>null,
+            'ready_to_enroll'=> 0,
+            'enrollment_status' => 0,
+            'delete_status' => 0
+        ]);
         $staff->roles()->attach($staffRole);
         $department->users()->save($staff);
- 
     }
 }

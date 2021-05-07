@@ -317,14 +317,14 @@ class UserController extends Controller
             } else {
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
-                    if ($user->status->fingerprint_id == $fingerPrintId) {
+                    if ($user->status->fingerprint_id == $fingerPrintId && $user->status->ready_to_enroll == 1 ) {
                         $user->status->update([
                             'ready_to_enroll' => 0,
                             'enrollment_status' => 1
                         ]);
                         return "Succesfull Enrolled";
                     } else {
-                        return 'No user is read to enroll';
+                        return 'No user to confirm';
                     }
                 }
             }
