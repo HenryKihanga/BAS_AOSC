@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class OrganizationController extends Controller
@@ -70,7 +71,7 @@ class OrganizationController extends Controller
         $organization->organization_email = $request->input('email');
         $organization->organization_address = $request->input('address');
         if ($organization->save()) {
-            return redirect()->route('manageOrganization');
+            return redirect()->route('manageOrganization', Auth::user()->user_id);
             // $newOrganization = Organization::find($organization->organization_id);
             // return response()->json([
             //     'success' => 'success', 'newOrganization' => $newOrganization
