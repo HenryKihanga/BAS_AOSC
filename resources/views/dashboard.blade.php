@@ -1,7 +1,13 @@
 @extends('layouts.admin')
 @push('scripts')
     <script>
-        setInterval(startTime, 1000);
+        var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            $('#h').text(h + ":" + m + ":" + s);
 
         function startTime() {
             var today = new Date();
@@ -12,6 +18,7 @@
             s = checkTime(s);
             $('#h').text(h + ":" + m + ":" + s);
         }
+        setInterval(startTime, 1000);
 
         function checkTime(i) {
             if (i < 10) {
@@ -19,6 +26,7 @@
             }; // add zero in front of numbers < 10
             return i;
         }
+        
         var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
         var areaChartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],

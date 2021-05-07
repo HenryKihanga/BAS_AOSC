@@ -285,6 +285,7 @@ class UserController extends Controller
             if (count($users) == 0) {
                 return "No user has been registered in this device";
             } else {
+                $i = 0;
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
                     if ($user->status->delete_status) {
@@ -295,6 +296,9 @@ class UserController extends Controller
                         continue;
                     }
                 }
+              
+                return "No user to delete";
+                
             }
         } else {
             return "Device not found";
