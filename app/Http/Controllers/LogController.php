@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Device;
 use App\Models\Log;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-
-use function PHPUnit\Framework\isEmpty;
 
 class LogController extends Controller
 {
+    public function index(){
+        $logs = Log::all();
+        return view('log.overall')->with([
+            'logs' => $logs
+        ]);
+    }
     public function checkInOrOut($fingerPrintId, $deviceToken)
     {
-        $currentTime = Carbon::now()->timezone('Africa/Dar_es_Salaam')->format('H:i:s'); //get current time
-        $currentDate = date('d-m-Y'); //get current date
+        $currentTime = Carbon::now()->timezone('Africa/Dar_es_Salaam')->format('Y-m-d H:i:s'); //get current time
+        $currentDate = date('Y-m-d'); //get current date
         $device = Device::find($deviceToken); //fetch device that sends request
         //check if the device found
         if ($device) {
@@ -26,7 +29,7 @@ class LogController extends Controller
                     return "No user has been registered in this device";
                 } else {
                     foreach ($users as $user) {
-                        //if user found check user that has been selected to be enrolled with finger id sent from the device
+                        //if user found check user that has been selected to be already enrolled with finger id sent from the device
                         if ($user->status->fingerprint_id == $fingerPrintId && $user->status->enrollment_status == 1) {
                             $userName = $user->first_name; // get user name
                             $todayLogs = Log::where('user_id', $user->user_id)->where('date', $currentDate)->get(); //get all logs of that user on a particular day
@@ -50,7 +53,6 @@ class LogController extends Controller
                                         continue;
                                     }
                                 }
-
                                 //if for the found log all check out time is note null create new log
                                 Log::create([
                                     'user_id' => $user->user_id,
@@ -63,6 +65,7 @@ class LogController extends Controller
                             continue;
                         }
                     }
+                    return "This user is not enrolled";
                 }
             } else {
                 return "Device is currently in enrollment mode";

@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'user_id',
         'first_name',
+        'device_token',
         'middle_name',
         'last_name',
         'phone_number',
@@ -73,7 +74,7 @@ class User extends Authenticatable
     }
 
     public function device(){
-        return $this->belongsTo(Device::class);
+        return $this->belongsTo(Device::class , 'device_token');
     }
 
     public function logs(){

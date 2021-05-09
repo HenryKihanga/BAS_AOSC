@@ -72,15 +72,18 @@
                                         <td style="width: 20%">Organization</td>
                                         <td style="width: 15%">Branch</td>
                                         <td style="width: 15%">Department</td>
-
                                         <td class="project-state" style="width: 10%">
-                                            @if ($user->status->enrollment_status)
-                                                <span class="badge badge-success">Enrolled</span>
+                                            @if ($user->status->enrollment_status && !$user->status->ready_to_enroll)
+                                                <span class="badge bg-success">Enrolled</span>
+                                            @elseif(!$user->status->enrollment_status && $user->status->ready_to_enroll)
+                                                <span class="badge bg-info">Waiting...</span>
                                             @else
-                                                <span class="badge badge-danger">Unenrolled</span>
+                                                <span class="badge bg-danger">Not-enrolled</span>
                                             @endif
                                         </td>
-                                        <td class="clickable-btn" style="width: 5%"> <a><i class="fas fa-cogs"></i></a></td>
+                                        <td class="clickable-btn" style="width: 5%"> <a
+                                                href="{{ route('showUserDetails', [$user->user_id]) }}"><i
+                                                    class="fas fa-cogs"></i></a></td>
                                     </tr>
                                 @endforeach
 

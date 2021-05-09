@@ -217,7 +217,7 @@ class DeviceController extends Controller
         $device->update([
             'device_mode' => $mode
         ]);
-        return redirect()->route('deviceManage');
+        return redirect()->route('deviceManage',Auth::user()->user_id);
     }
 
 

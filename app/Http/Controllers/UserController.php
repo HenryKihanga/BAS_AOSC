@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class UserController extends Controller
@@ -189,6 +190,63 @@ class UserController extends Controller
         ]);
     }
 
+    public function details($id)
+    {
+        $devices = Device::all();
+        $user = User::find($id);
+        return view('user.details')->with([
+            'user' => $user,
+            'devices' => $devices
+        ]);
+    }
+
+    public function prepareUserToEnroll(Request $request)
+    {
+        $validator =  Validator::make($request->all(), [
+            'userId' => 'required',
+            'fingerPrintId' => 'required',
+            'deviceId' => 'required',
+
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('showUserDetails', $request->input('userId'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+
+
+        $deviceUsers = Device::find($request->input('deviceId'))->users;
+        foreach ($deviceUsers as $deviceUser) {
+            if ($deviceUser->status->ready_to_enroll == 1) {
+                $validator->errors()->add('duplicateReadyToEnroll', 'Make sure no user of the selected device is waiting for enrollment');
+                return redirect()->route('showUserDetails', $request->input('userId'))
+                    ->withErrors($validator)
+                    ->withInput();
+            } elseif ($deviceUser->status->fingerprint_id == $request->input('fingerPrintId')) {
+                $validator->errors()->add('fingerPrintId', 'User with the given Fingerprint ID is detected, Fingerprint ID must be unique on a given device');
+                return redirect()->route('showUserDetails', $request->input('userId'))
+                    ->withErrors($validator)
+                    ->withInput();
+              
+            }
+            continue;
+        }
+        $user = User::find($request->input('userId'));
+        $user->update([
+            'device_token' => $request->input('deviceId')
+        ]);
+        $user->status()->update([
+            'fingerprint_id' => $request->input('fingerPrintId'),
+            'ready_to_enroll' => 1
+        ]);
+
+        return redirect()->route('showUserDetails', $request->input('userId'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -234,6 +292,7 @@ class UserController extends Controller
         foreach ($users as $user) {
             $user->status;
             $user->roles;
+            $user->device;
         }
         return response()->json([
             'users' => $users
@@ -268,9 +327,10 @@ class UserController extends Controller
                     if ($user->status->ready_to_enroll) {
                         return $user->status->fingerprint_id;
                     } else {
-                        return 'No user ready for enrollment';
+                        continue;
                     }
                 }
+                return 'No user ready for enrollment';
             }
         } else {
             return "Device not found";
@@ -296,9 +356,8 @@ class UserController extends Controller
                         continue;
                     }
                 }
-              
+
                 return "No user to delete";
-                
             }
         } else {
             return "Device not found";
@@ -317,16 +376,18 @@ class UserController extends Controller
             } else {
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
-                    if ($user->status->fingerprint_id == $fingerPrintId && $user->status->ready_to_enroll == 1 ) {
+                    if ($user->status->fingerprint_id == $fingerPrintId && $user->status->ready_to_enroll == 1) {
                         $user->status->update([
                             'ready_to_enroll' => 0,
                             'enrollment_status' => 1
                         ]);
                         return "Succesfull Enrolled";
+                        // return redirect()->route('showUserDetails', $user->user_id);
                     } else {
-                        return 'No user to confirm';
+                        continue;
                     }
                 }
+                return 'No user to confirm';
             }
         } else {
             return "Device not found";

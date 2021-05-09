@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::truncate();
+        // User::truncate();
         DB::table('role_user')->truncate();
         $adminRole = Role::where('name', 'admin')->first();
         $organizationHeadRole = Role::where('name', 'organizationHead')->first();
@@ -31,6 +31,7 @@ class UsersTableSeeder extends Seeder
 
         $admin = new User();
         $admin->user_id = 1;
+        // $admin->device_token = 1;
         $admin->first_name = 'Sarah';
         $admin->middle_name = 'Emmanuel';
         $admin->organization_id = 1;
@@ -52,6 +53,7 @@ class UsersTableSeeder extends Seeder
 
         $organizationHead = new User();
         $organizationHead->user_id = 2;
+        // $organizationHead->device_token = 1;
         $organizationHead->first_name = 'William';
         $organizationHead->middle_name = 'Jumanne';
         $organizationHead->organization_id = 1;
@@ -73,6 +75,7 @@ class UsersTableSeeder extends Seeder
 
         $branchHead = new User();
         $branchHead->user_id = 3;
+        // $branchHead->device_token = 1;
         $branchHead->first_name = 'Kelvin';
         $branchHead->middle_name = 'Mussa';
         $branchHead->organization_id = 1;
@@ -95,6 +98,7 @@ class UsersTableSeeder extends Seeder
 
         $departmentHead = new User();
         $departmentHead->user_id = 4;
+        // $departmentHead->device_token = 1;
         $departmentHead->first_name = 'Mpoki';
         $departmentHead->middle_name = 'Abel';
         $departmentHead->organization_id = 1;
@@ -120,14 +124,14 @@ class UsersTableSeeder extends Seeder
         $staff->organization_id = 1;
         $staff->branch_id = 1;
         $staff->middle_name = '';
-        $staff->device_token = 1;
+        // $staff->device_token = 1;
         $staff->last_name = 'Rashidi';
         $staff->phone_number = '0676873456';
         $staff->birth_date = '12/12/2020';
         $staff->email = 'rashidishabani@gmail.com';
         $staff->password = null;
         $staff->status()->create([
-            'fingerprint_id'=>null,
+            'fingerprint_id'=> null,
             'ready_to_enroll'=> 0,
             'enrollment_status' => 0,
             'delete_status' => 0

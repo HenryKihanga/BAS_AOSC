@@ -121,6 +121,15 @@
                                 <p>View Users</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('overallLogs')}}" class="nav-link"
+                                onclick="toggle_active_class()">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>
+                                    User Logs
+                                </p>
+                            </a>
+                        </li>
                         @can('manageOrganization')
                             <li class="nav-item">
                                 <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link"
@@ -162,6 +171,7 @@
                                 </p>
                             </a>
                         </li>
+
 
                         <li class="nav-item">
                             <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link"
