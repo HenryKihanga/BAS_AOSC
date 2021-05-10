@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                         <li class="breadcrumb-item active">Users</li>
                     </ol>
                 </div>
@@ -69,9 +69,9 @@
                                                     {{ $user->last_name }}</li>
                                             </ul>
                                         </td>
-                                        <td style="width: 20%">Organization</td>
-                                        <td style="width: 15%">Branch</td>
-                                        <td style="width: 15%">Department</td>
+                                        <td style="width: 20%">{{$user->organization->organization_name}}</td>
+                                        <td style="width: 15%">{{$user->branch->branch_name}}</td>
+                                        <td style="width: 15%">{{$user->department->department_name}}</td>
                                         <td class="project-state" style="width: 10%">
                                             @if ($user->status->enrollment_status && !$user->status->ready_to_enroll)
                                                 <span class="badge bg-success">Enrolled</span>

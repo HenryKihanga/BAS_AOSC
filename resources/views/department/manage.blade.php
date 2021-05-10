@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <div class="row">
                 @can('registerDepartment')
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-lg-6">
                         <div class="card card-primary">
                             <div class="card-header">
                                 <h3 class="card-title">Add New Department</h3>
@@ -107,7 +107,7 @@
                         </div><!-- /.card -->
                     </div> <!-- /.col -->
                 @endcan
-                <div class="col-md-9">
+                <div class="col-md-9 col-lg-6">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">List of Departments</h3>

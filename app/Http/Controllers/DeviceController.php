@@ -228,7 +228,7 @@ class DeviceController extends Controller
     {
         if ($device = Device::find($deviceToken)) {
             $mode = $device->device_mode;
-            return  strval($mode);
+            echo  strval($mode);
         }
         return "device not found";
     }

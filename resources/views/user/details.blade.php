@@ -9,6 +9,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Users</li>
                         <li class="breadcrumb-item active">User Details</li>
                     </ol>
                 </div><!-- /.col -->
@@ -27,7 +28,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 col-12">
+                        <div class="col-lg-6 col-12">
                             <table class="table table-bordered">
 
                                 <tbody>
@@ -49,12 +50,12 @@
                                         <td style="width: 70%">{{ $user->department->department_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 30%"><b>Phone Number</b></td>
+                                        <td style="width: 30%"><b>Phone </b></td>
                                         <td style="width: 70%">{{ $user->phone_number }}</td>
                                     </tr>
                                     <tr>
 
-                                        <td style="width: 30%"><b>Enrollment Status</b></td>
+                                        <td style="width: 30%; display:block"><b>Status</b></td>
                                         @if ($user->status->enrollment_status && !$user->status->ready_to_enroll)
                                             <td style="width: 70%"><span class="badge bg-success">Enrolled</span></td>
                                             <td style="width: 100%">
@@ -103,15 +104,15 @@
 
                             @enderror
                         </div>
-                        <div class="col-md-6 col-12">
+                        <div class="col-lg-6 col-12">
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td style="width: 30%"><b>Employment No</b></td>
+                                        <td style="width: 30%"><b>Staff No</b></td>
                                         <td style="width: 70%">{{ $user->user_id }}</td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 30%"><b>Fingerprint No</b></td>
+                                        <td style="width: 30%"><b>Finger ID</b></td>
                                         <td style="width: 70%">
                                             @if ($user->status->fingerprint_id == [])
                                                 NULL
@@ -120,7 +121,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 30%"><b>Email Address</b></td>
+                                        <td style="width: 30%"><b>Email</b></td>
                                         <td style="width: 70%">{{ $user->email }}</td>
                                     </tr>
                                     <tr>
@@ -132,7 +133,7 @@
                                         <td style="width: 70%">Mail</td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 30%"><b>Device Enrolled</b></td>
+                                        <td style="width: 30%"><b>Device</b></td>
                                         <td style="width: 70%">
                                             @if ($user->device == [])
                                                 NULL
@@ -162,7 +163,7 @@
                     <button type="button" class="btn btn-outline-info mr-2">Edit</button>
                     <button type="button" class="btn btn-outline-danger mr-2">Delete</button>
                     @if (!$user->status->enrollment_status && !$user->status->ready_to_enroll)
-                        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#enrollUser"
+                        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#enrollUser"
                             aria-expanded="false" aria-controls="enrollUser">Enroll User</button>
                     @endif
 
@@ -172,7 +173,7 @@
                 <form action="{{ route('prepareUserToEnroll') }}" method="POST">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-7 col-12">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <input type="hidden" name="userId" class="col-sm-8 form-control"
                                         value="{{ $user->user_id }}">
@@ -184,6 +185,8 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label>Device :</label>
                                     <select class="form-control " name="deviceId">
@@ -194,23 +197,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-5 col-12">
-                                <div class="small-box bg-light" style="width: 80%; height:100%">
-                                    <div class="inner">
-                                        <h5>Set FingerprintId then</h5><br>
-                                        <h6>let user to touch the device</h6>
-                                        {{-- <p>Set Id the let user to touch the device</p> --}}
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fas fa-fingerprint"></i>
-                                    </div>
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="card-footer clearfix ">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-dark">Submit</button>
                     </div>
                 </form>
             </div>

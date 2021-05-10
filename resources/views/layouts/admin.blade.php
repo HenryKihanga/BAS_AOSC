@@ -111,14 +111,14 @@
                         <li class="nav-item ">
                             <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-user-plus"></i>
-                                <p>New User</p>
+                                <p>Add User</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link"
                                 onclick="toggle_active_class()">
                                 <i class="nav-icon fas fa-users"></i>
-                                <p>View Users</p>
+                                <p>Users</p>
                             </a>
                         </li>
                         <li class="nav-item">

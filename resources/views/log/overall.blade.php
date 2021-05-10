@@ -8,7 +8,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
                         <li class="breadcrumb-item active">User Logs</li>
                     </ol>
                 </div><!-- /.col -->
@@ -45,26 +45,27 @@
                         @if (count($logs) < 1)
                        <p class="p-4"> There is no log currently </p>
                         @else
-                        <table class="table table-head-fixed text-nowrap">
+                        <table class="table table-head-fixed">
+                        {{-- <table class="table table-head-fixed text-nowrap"> --}}
                           <thead>
                             <tr>
-                              <th>ID</th>
-                              <th>Username</th>
-                              <th>Time-in</th>
-                              <th>Time-out</th>
-                              <th>Date</th>
-                              <th>Status</th>
+                              <th style="width: 10%">ID</th>
+                              <th style="width: 30%">Username</th>
+                              <th style="width: 15%">Time-in</th>
+                              <th style="width: 15%">Time-out</th>
+                              <th style="width: 15%">Date</th>
+                              <th style="width: 15%">Status</th>
                             </tr>
                           </thead>
                           <tbody>
                               @foreach ($logs as $log)
                             <tr>
-                              <td>{{$log->user_id}}</td>
-                              <td>{{$log->user->first_name}} {{$log->user->middle_name}} {{$log->user->last_name}}</td>
-                              <td>{{$log->time_in}}</td>
-                              <td>{{$log->time_out}}</td>
-                              <td>{{$log->date}}</td>
-                              {{-- <td><span class="badge bg-success">On-time</span></td> --}}
+                              <td style="width: 10%">{{$log->user_id}}</td>
+                              <td style="width: 30%">{{$log->user->first_name}} {{$log->user->middle_name}} {{$log->user->last_name}}</td>
+                              <td style="width: 15%">{{$log->time_in}}</td>
+                              <td style="width: 15%">{{$log->time_out}}</td>
+                              <td style="width: 15%">{{$log->date}}</td>
+                              <td><span class="badge bg-success">On-time</span></td>
                               @endforeach
                             </tr>
                           </tbody>
