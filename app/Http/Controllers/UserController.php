@@ -354,6 +354,10 @@ class UserController extends Controller
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
                     if ($user->status->delete_status) {
+                        $user->status()->update([
+                            'delete_status' => 0
+                        ]);
+                        $user->delete();
                         return $user->status->fingerprint_id;
                         //logics to delete user in the system
 
