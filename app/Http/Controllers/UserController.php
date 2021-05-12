@@ -280,7 +280,7 @@ class UserController extends Controller
         $user->status()->update([
             'delete_status' => 1
         ]);
-        $user->delete();
+        // $user->delete();
 
         return redirect()->route('allUsers', Auth::user()->user_id);
      
