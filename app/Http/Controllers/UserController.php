@@ -270,15 +270,20 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+
+
+    public function deleteUser($userId){
+        $user = User::findOrFail($userId);
+        if (!$userId) {
+            return response()->json(['error' => 'user do not exist'], 504);
+        }
+        $user->status()->update([
+            'delete_status' => 1
+        ]);
+        $user->delete();
+
+        return redirect()->route('allUsers', Auth::user()->user_id);
+     
     }
 
     public function changePassword()

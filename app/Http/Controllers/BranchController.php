@@ -154,7 +154,7 @@ class BranchController extends Controller
             'branch_address' => $request->input('address'),
         ]);
 
-        return redirect()->route('manageBranch');
+        return redirect()->route('manageBranch', Auth::user()->user_id);
         // return response()->json([
         //     'branch' => $branch
         // ], 206);

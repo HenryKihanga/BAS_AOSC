@@ -86,7 +86,7 @@
             <div class="row">
                 @can('registerDevice')
                     <div class="col-md-3">
-                        <div class="card card-primary">
+                        <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Add New Device</h3>
                             </div><!-- /.card-header -->
@@ -152,7 +152,7 @@
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-dark">Submit</button>
                                 </div>
                             </form>
                         </div>
@@ -161,7 +161,7 @@
                 @endcan
                 <!-- col -->
                 <div class="col-md-9">
-                    <div class="card card-primary">
+                    <div class="card ">
                         <div class="card-header">
                             <h3 class="card-title">List of Devices</h3>
                         </div>
@@ -247,12 +247,12 @@
         <div class="modal fade" id="modal-lg-editDevice">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-light">
                         <h4 class="modal-title" id="deviceNametoEdit">EDIT </h4>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div><!-- /.model-header-->
                     <div class="modal-body">
-                        <div class="card card-primary ">
+                        <div class="card">
                             <!--/. card-header -->
                             <div class="card-body">
                                 <form id="editDeviceForm">
@@ -283,7 +283,7 @@
                         </div><!-- /.card -->
                     </div><!-- /.model-body-->
                     <div class="modal-footer ">
-                        <button type="button" class="btn btn-primary" onclick="edit_device_details()"><i
+                        <button type="button" class="btn btn-dark" onclick="edit_device_details()"><i
                                 class="fas fa-save pr-2"></i>Submit</button>
                     </div><!-- /.model-footer-->
                 </div><!-- /.modal-content -->

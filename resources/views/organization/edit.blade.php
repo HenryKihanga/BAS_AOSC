@@ -20,7 +20,7 @@
                     $("#modal-lg-addBranch").modal("hide"); //close model after succesful branch creation
                     //clear form fields
                     $('#addBranchRegistrationNumber').val('');
-                    $('$addBranchName').val('');
+                    $('#addBranchName').val('');
                     $('#addBranchPhoneNumber').val('');
                     $('#addBranchEmail').val('');
                     $('#addBranchAddress').val('');
@@ -121,7 +121,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form id="editOrganizationForm" method="POST" action="{{ route('updateOrganization') }}">
-                        <div class="card-primary">
+                        <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title" id="organizationNametoEdit">EDIT
                                     {{ $organization->organization_name }} ORGANIZATION </h3>
@@ -193,8 +193,8 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info " onclick="">Submit</button>
-                                <button type="button" class="btn btn-info" data-toggle="modal"
+                                <button type="submit" class="btn btn-dark " onclick="">Submit</button>
+                                <button type="button" class="btn btn-dark" data-toggle="modal"
                                     data-target="#modal-lg-addBranch">Add
                                     Branch</button>
                             </div><!-- /.card-footer -->
@@ -209,7 +209,7 @@
         <div class="modal fade" id="modal-lg-addBranch">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-light">
                         <h4 class="modal-title" id="organizationNametoAddBranch">ADD BRANCH FOR
                             {{ $organization->organization_name }} ORGANIZATION</h4>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -256,9 +256,9 @@
                         </div><!-- /.card -->
                     </div><!-- /.model-body-->
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-primary" onclick="add_branch_then_exit()"><i
+                        <button type="button" class="btn btn-dark" onclick="add_branch_then_exit()"><i
                                 class="fas fa-save pr-2"></i>Submit and Exit</button>
-                        <button type="button" class="btn btn-primary" onclick="add_branch_then_continue()"><i
+                        <button type="button" class="btn btn-dark" onclick="add_branch_then_continue()"><i
                                 class="fas fa-plus-circle pr-2"></i>Submit and Continue</button>
                     </div><!-- /.model-footer-->
                 </div><!-- /.modal-content -->

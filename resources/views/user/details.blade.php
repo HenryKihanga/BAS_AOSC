@@ -161,7 +161,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer clearfix ">
                     <button type="button" class="btn btn-outline-info mr-2">Edit</button>
-                    <button type="button" class="btn btn-outline-danger mr-2">Delete</button>
+                    <a href="{{route('deleteUser' , $user->user_id )}}"><button type="button" class="btn btn-outline-danger mr-2">Delete</button></a>
                     @if (!$user->status->enrollment_status && !$user->status->ready_to_enroll)
                         <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#enrollUser"
                             aria-expanded="false" aria-controls="enrollUser">Enroll User</button>

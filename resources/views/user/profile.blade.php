@@ -17,101 +17,150 @@
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container">
-            <div class="card w-100">
-                <div class="card-body" style="background: #19B3D3; color:white;">
-                    <h4>Profile Information</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="profilePictureFrame">
-                                <img src="{{ asset('template/dist/img/user-henry-160x160.jpg') }}" class="profilePicture"
-                                    alt="profile picture" style="width: 100% ;height :100%">
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
+   <!-- Main content -->
+   <section class="content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">USER INFORMATIONS</h5>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <table class="table table-bordered">
 
-                        </div>
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>User ID: </h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>{{ $user->user_id }}</h6>
-                                </div>
+                            <tbody>
+                                <tr>
+                                    <td style="width: 30%"><b>Full Name</b></td>
+                                    <td style="width: 70%">{{ $user->first_name }} {{ $user->middle_name }}
+                                        {{ $user->last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Organization</b></td>
+                                    <td style="width: 70%">{{ $user->Organization->organization_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Branch</b></td>
+                                    <td style="width: 70%">{{ $user->branch->branch_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Department</b></td>
+                                    <td style="width: 70%">{{ $user->department->department_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Phone </b></td>
+                                    <td style="width: 70%">{{ $user->phone_number }}</td>
+                                </tr>
+                                <tr>
+
+                                    <td style="width: 30%; display:block"><b>Status</b></td>
+                                    @if ($user->status->enrollment_status && !$user->status->ready_to_enroll)
+                                        <td style="width: 70%"><span class="badge bg-success">Enrolled</span></td>
+                                        <td style="width: 100%">
+                                            <div class="small-box bg-light " style="width: 50%; height:100%">
+                                                <div class="inner">
+                                                    <h3 class="text-success"><i class="far fa-check-circle"></i></h3>
+                                                    <h6 class="text-success">Fingerprint Captured</h6><br>
+                                                </div>
+                                                <div class="icon text-success">
+                                                    <i class="fas fa-fingerprint"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    @elseif(!$user->status->enrollment_status && $user->status->ready_to_enroll)
+                                        <td style="width: 70%"><span class="badge bg-info">Waiting...</span></td>
+                                        <td style="width: 100%">
+                                            <div class="small-box bg-light" style="width: 50%; height:100%">
+                                                <div class="inner">
+                                                
+                                                    <h6 class="text-danger">Waiting User to...</h6>
+                                                    <h6 class="text-danger">Press Finger onto Device for enrollment</h6><br>
+                                                </div>
+                                                <div class="icon ">
+                                                    <i class="fas fa-fingerprint"></i>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    @else
+                                        <td style="width: 70%"><span class="badge bg-danger">Not-enrolled</span></td>
+                                    @endif
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        @error('duplicateReadyToEnroll')
+                            <div class="alert alert-danger p-2">
+                                <span class="">{{ $message }}</span>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>User Name :</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>{{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}</h6>
-                                </div>
+                        @enderror
+                        @error('fingerPrintId')
+                            <div class="alert alert-danger p-2">
+                                <span class="">{{ $message }}</span>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>Gender :</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>Male</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>Phone Number:</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>{{ $user->phone_number }}</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>Role(s) :</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>
-                                        @foreach ($roles as $role)
+
+                        @enderror
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 30%"><b>Staff No</b></td>
+                                    <td style="width: 70%">{{ $user->user_id }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Finger ID</b></td>
+                                    <td style="width: 70%">
+                                        @if ($user->status->fingerprint_id == [])
+                                            -
+                                        @endif
+                                        {{ $user->status->fingerprint_id }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Email</b></td>
+                                    <td style="width: 70%">{{ $user->email }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Date of Birth</b></td>
+                                    <td style="width: 70%">{{ $user->birth_date }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Gender</b></td>
+                                    <td style="width: 70%">Mail</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Device</b></td>
+                                    <td style="width: 70%">
+                                        @if ($user->device == [])
+                                            -
+                                        @else
+                                            {{ $user->device->device_name }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Role(s)</b></td>
+                                    <td style="width: 70%">
+                                        @foreach ($user->roles as $role)
                                             {{ $role->name }},
                                         @endforeach
-                                    </h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>Email :</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>{{ $user->email }}</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>Date of Birth :</h5>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>{{ $user->birth_date }}</h6>
-                                </div>
-                            </div>
-                            <br><br><br>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <button class="btn btn-info">EDIT INFO</button>
-                                </div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-info">DELETE STAFF</button>
-                                </div>
-                            </div>
-                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix ">
+                <button type="button" class="btn btn-outline-info mr-2">Edit</button>
+            </div>
         </div>
-    </section>
+
+
+    </div>
+</section>
 @endsection

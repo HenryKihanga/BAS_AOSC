@@ -158,7 +158,7 @@ class OrganizationController extends Controller
             'organization_address' => $request->input('address'),
         ]);
 
-        return redirect()->route('manageOrganization');
+        return redirect()->route('manageOrganization' , Auth::user()->user_id);
 
         // return response()->json([
         //     'organization' => $organization
