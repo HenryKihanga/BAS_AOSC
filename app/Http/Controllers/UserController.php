@@ -330,7 +330,9 @@ class UserController extends Controller
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
                     if ($user->status->ready_to_enroll) {
+
                         return $user->status->fingerprint_id;
+                        
                     } else {
                         continue;
                     }
