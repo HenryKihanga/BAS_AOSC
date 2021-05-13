@@ -200,15 +200,11 @@
                                                 @can('changeDeviceMode')
                                                     <td class="text-right" style="width: 20%">
                                                         @if ($device->device_mode)
-                                                            <a class="btn btn-success btn-sm filterable-cell m-1"
-                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 1]) }}">Attendance</a>
-                                                            <a class="btn btn-danger btn-sm filterable-cell m-1"
-                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 0]) }}">Enrollment</a>
+                                                            <a class="btn btn-success btn-sm filterable-cell m-1">Attendance</a>
+                                                            <a class="btn btn-danger btn-sm filterable-cell m-1">Enrollment</a>
                                                         @else
-                                                            <a class="btn btn-danger btn-sm filterable-cell m-1"
-                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 1]) }}">Attendance</a>
-                                                            <a class="btn btn-success btn-sm filterable-cell m-1"
-                                                                href="{{ route('changeDeviceMode', ['token' => $device->device_token, 'mode' => 0]) }}">Enrollment</a>
+                                                            <a class="btn btn-danger btn-sm filterable-cell m-1">Attendance</a>
+                                                            <a class="btn btn-success btn-sm filterable-cell m-1">Enrollment</a>
                                                         @endif
                                                     </td>
                                                 @endcan

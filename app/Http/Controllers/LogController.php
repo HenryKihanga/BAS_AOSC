@@ -48,7 +48,7 @@ class LogController extends Controller
                                         $log->update([
                                             'time_out' => $currentTime
                                         ]);
-                                        return "login".$userName;
+                                        return "logout".$userName;
                                     } else {
                                         continue;
                                     }
@@ -59,7 +59,7 @@ class LogController extends Controller
                                     'time_in' => $currentTime,
                                     'date' => $currentDate
                                 ]);
-                                return "logout".$userName;
+                                return "login".$userName;
                             }
                         } else {
                             continue;
