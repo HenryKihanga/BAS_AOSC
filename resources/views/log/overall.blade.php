@@ -41,7 +41,7 @@
                         </div>
                       </div>
                       <!-- /.card-header -->
-                      <div class="card-body table-responsive p-0" style="max-height: 300px;">
+                      <div class="card-body table-responsive p-0" style="max-height: 80%;">
                         @if (count($logs) < 1)
                        <p class="p-4"> There is no log currently </p>
                         @else
