@@ -30,7 +30,7 @@
                 @if (count($users) < 0)
                     There is no user registered
                 @else
-                    <div class="card-body p-0">
+                    <div class="card-body p-0" style="max-height: 80%;">
                         <table class="table table-striped projects">
                             <thead>
                                 <tr>
