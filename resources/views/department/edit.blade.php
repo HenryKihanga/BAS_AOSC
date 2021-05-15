@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form id="editDepartmentForm" method="POST" action="{{ route('updateDepartment') }}">
-                        <div class="card-primary">
+                        <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title" id="organizationNameetoEdit">EDIT
                                     {{ $department->department_name }} DEPARTMENT</h3>
@@ -114,7 +114,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info" onclick="editDepartment()">Submit</button>
+                                <button type="submit" class="btn btn-dark">Submit</button>
 
                             </div><!-- /.card-footer -->
                         </div><!-- /.card -->

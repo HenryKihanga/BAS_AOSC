@@ -31,7 +31,7 @@ class LogController extends Controller
                     foreach ($users as $user) {
                         //if user found check user that has been selected to be already enrolled with finger id sent from the device
                         if ($user->status->fingerprint_id == $fingerPrintId && $user->status->enrollment_status == 1) {
-                            $userName = $user->first_name; // get user name
+                            $userName = $user->first_name." ".$user->middle_name." ".$user->last_name; // get user name
                             $todayLogs = Log::where('user_id', $user->user_id)->where('date', $currentDate)->get(); //get all logs of that user on a particular day
                             //if no log found create new
                             if (count($todayLogs) == 0) {
@@ -40,7 +40,7 @@ class LogController extends Controller
                                     'time_in' => $currentTime,
                                     'date' => $currentDate
                                 ]);
-                                return "login";
+                                return "login".$userName;
                             } else {
                                 //if logs found loop through and update the time out field
                                 foreach ($todayLogs as $log) {
@@ -48,7 +48,7 @@ class LogController extends Controller
                                         $log->update([
                                             'time_out' => $currentTime
                                         ]);
-                                        return "logout";
+                                        return "logout".$userName;
                                     } else {
                                         continue;
                                     }
@@ -59,7 +59,7 @@ class LogController extends Controller
                                     'time_in' => $currentTime,
                                     'date' => $currentDate
                                 ]);
-                                return "login";
+                                return "login".$userName;
                             }
                         } else {
                             continue;

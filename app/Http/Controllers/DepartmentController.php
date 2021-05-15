@@ -172,7 +172,7 @@ class DepartmentController extends Controller
             'department_address' => $request->input('address'),
         ]);
 
-        return redirect()->route('manageDepartment');
+        return redirect()->route('manageDepartment', Auth::user()->user_id);
         // return response()->json([
         //     'department' => $department
         // ], 206);

@@ -211,25 +211,31 @@ class DeviceController extends Controller
 
     public function changeMode($deviceToken, $mode)
     {
+        $modeName = "";
+        if($mode == 0){
+            $modeName = "ENROLLMENT";
+        }
+        else{
+            $modeName = "ATTENDANCE";
 
-
+        }
         $device = Device::find($deviceToken);
         $device->update([
             'device_mode' => $mode
         ]);
-        return redirect()->route('deviceManage',Auth::user()->user_id);
+        return "Device mode has been changed to ".$modeName;
     }
 
 
 
 
-    //check and return device mode
-    public function checkMode($deviceToken)
-    {
-        if ($device = Device::find($deviceToken)) {
-            $mode = $device->device_mode;
-            return  strval($mode);
-        }
-        return "device not found";
-    }
+    // //check and return device mode
+    // public function checkMode($deviceToken)
+    // {
+    //     if ($device = Device::find($deviceToken)) {
+    //         $mode = $device->device_mode;
+    //         return  strval($mode);
+    //     }
+    //     return "device not found";
+    // }
 }

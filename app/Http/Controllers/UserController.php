@@ -270,15 +270,20 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+
+
+    public function deleteUser($userId){
+        $user = User::findOrFail($userId);
+        if (!$userId) {
+            return response()->json(['error' => 'user do not exist'], 504);
+        }
+        $user->status()->update([
+            'delete_status' => 1
+        ]);
+        // $user->delete();
+
+        return redirect()->route('allUsers', Auth::user()->user_id);
+     
     }
 
     public function changePassword()
@@ -325,7 +330,9 @@ class UserController extends Controller
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
                     if ($user->status->ready_to_enroll) {
+
                         return $user->status->fingerprint_id;
+                        
                     } else {
                         continue;
                     }
@@ -349,6 +356,10 @@ class UserController extends Controller
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
                     if ($user->status->delete_status) {
+                        $user->status()->update([
+                            'delete_status' => 0
+                        ]);
+                        $user->delete();
                         return $user->status->fingerprint_id;
                         //logics to delete user in the system
 

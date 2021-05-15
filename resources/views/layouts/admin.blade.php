@@ -64,8 +64,6 @@
                         {{ $role->name }} ,
                     @endforeach
                 </li>
-
-
             </div>
 
 

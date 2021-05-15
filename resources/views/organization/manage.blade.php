@@ -29,7 +29,7 @@
                     <!-- col -->
                     <div class="col-md-3">
                         <!-- card -->
-                        <div class="card card-primary">
+                        <div class="card">
                             <!-- card-header -->
                             <div class="card-header">
                                 <h3 class="card-title">Add New Organization</h3>
@@ -92,7 +92,7 @@
                                 </div><!-- /.card-body -->
                                 <!-- card-footer -->
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-dark">Submit</button>
                                 </div><!-- /.card-footer -->
                             </form>
                         </div><!-- /.card -->
@@ -101,7 +101,7 @@
                 {{-- ######################################################################################################################################## --}}
                 <!-- col -->
                 <div class="col-md-9">
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">List of Organizations</h3>
                         </div>

@@ -27,7 +27,7 @@
             <div class="row">
                 @can('registerBranch')
                     <div class="col-md-3">
-                        <div class="card card-primary">
+                        <div class="card ">
                             <div class="card-header">
                                 <h3 class="card-title">Add New Branch</h3>
                             </div><!-- /.card-header -->
@@ -91,14 +91,14 @@
                                     </div>
                                 </div> <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-dark">Submit</button>
                                 </div><!-- /.card-footer -->
                             </form><!-- /.form -->
                         </div><!-- /.card -->
                     </div> <!-- /.col -->
                 @endcan
                 <div class="col-md-9">
-                    <div class="card card-primary">
+                    <div class="card ">
                         <div class="card-header">
                             <h3 class="card-title">List of Branches</h3>
                         </div><!-- /.card-header -->
