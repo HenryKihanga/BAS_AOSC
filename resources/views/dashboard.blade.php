@@ -104,6 +104,124 @@
 
     </script>
 @endpush
+@section('navitem')
+<nav class="mt-2 myNavtab">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+        data-accordion="false">
+        <li class="nav-item ">
+            <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link active " onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                </p>
+            </a>
+        </li>
+        <li class="nav-item ">
+            <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-user-plus"></i>
+                <p>Add User</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link "
+                onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-users"></i>
+                <p>Users</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('overallLogs')}}" class="nav-link "
+                onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>
+                    User Logs
+                </p>
+            </a>
+        </li>
+        @can('manageOrganization')
+            <li class="nav-item">
+                <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Organizations
+                    </p>
+                </a>
+            </li>
+        @endcan
+        @can('manageBranch')
+            <li class="nav-item">
+                <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Branches
+                    </p>
+                </a>
+            </li>
+        @endcan
+        <li class="nav-item">
+            <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link "
+                onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-university"></i>
+                <p>
+                    Departments
+                </p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
+                onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-microchip"></i>
+                <p>
+                    Devices
+                </p>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link "
+                onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-address-card"></i>
+                <p>
+                    View Profile
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-user-edit"></i>
+                <p>
+                    Edit Profile
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('changePassword') }}" class="nav-link " onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-key"></i>
+                <p>
+                    Change Password
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>
+                    Logout
+                </p>
+            </a>
+        </li>
+    </ul>
+</nav>
+    
+@endsection
 @section('content')
 
     <!-- Content Header (Page header) -->
@@ -115,7 +233,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home', Auth::user()->user_id) }}">Home</a></li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div><!-- /.col -->
@@ -136,21 +254,21 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3>{{$registeredUsers}}</h3>
                                     <p>Total Users Available</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div><!-- ./col -->
                         <div class="col-lg-4 col-12">
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-                                    <p>Uses Present Today</p>
+                                    <h3>{{$presentUsers}}<sup style="font-size: 20px">%</sup></h3>
+                                    <p>Users Present Today</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-user-check"></i>
@@ -162,7 +280,7 @@
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>47<sup style="font-size: 20px">%</sup></h3>
+                                    <h3>{{ $absentUsers}}<sup style="font-size: 20px">%</sup></h3>
                                     <p>Absentees</p>
                                 </div>
                                 <div class="icon">
@@ -196,7 +314,7 @@
                         <div class="col-lg-4 col-12">
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>44</h3>
+                                    <h3>{{ $registeredDevices}}</h3>
                                     <p>Devices</p>
                                 </div>
                                 <div class="icon">
@@ -207,7 +325,7 @@
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>10</h3>
+                                    <h3>{{ $registeredOrganizations}}</h3>
                                     <p>Registerd Organization</p>
                                 </div>
                                 <div class="icon">
@@ -220,7 +338,7 @@
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>10</h3>
+                                    <h3>{{$enrolledUsers}}</h3>
                                     <p>Enrolled Users</p>
                                 </div>
                                 <div class="icon">
@@ -231,7 +349,7 @@
                             <!-- small box -->
                             <div class="small-box bg-secondary">
                                 <div class="inner">
-                                    <h3>8</h3>
+                                    <h3>{{$registeredBranches}}</h3>
                                     <p>Registered Branches</p>
                                 </div>
                                 <div class="icon">
@@ -244,7 +362,7 @@
                             <!-- small box -->
                             <div class="small-box bg-secondary">
                                 <div class="inner">
-                                    <h3>8</h3>
+                                    <h3>{{$unenrolledUsers}}</h3>
                                     <p>Not Enrolled Users</p>
                                 </div>
                                 <div class="icon">
@@ -255,7 +373,7 @@
                             <!-- small box -->
                             <div class="small-box bg-light">
                                 <div class="inner">
-                                    <h3>17</h3>
+                                    <h3>{{$registeredDepartments}}</h3>
                                     <p>Registerd Departments</p>
                                 </div>
                                 <div class="icon">
