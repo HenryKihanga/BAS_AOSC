@@ -80,9 +80,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('deleteDevice', function($user){
             return $user->hasRole('admin');
         });
-        Gate::define('changeDeviceMode', function($user){
-            return $user->hasRole('departmentHead');
-        });
+
 
 
 

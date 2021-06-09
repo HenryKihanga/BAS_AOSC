@@ -10,8 +10,9 @@ class LogController extends Controller
 {
     public function index(){
         $logs = Log::all();
+        $todayLogs = Log::where('date', date('Y-m-d'))->get();
         return view('log.overall')->with([
-            'logs' => $logs
+            'logs' => $todayLogs
         ]);
     }
     public function checkInOrOut($fingerPrintId, $deviceToken)

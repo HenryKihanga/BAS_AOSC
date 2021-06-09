@@ -20,11 +20,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+Route::get('/dashboard/{userId}', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
 
 
 
@@ -37,8 +33,7 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 // Route::get('/user/changepassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changepassword')->middleware('auth');
 // Route::get('/organization/index', [App\Http\Controllers\OrganizationController::class, 'index'])->name('organization')->middleware('auth');
 
-Route::view('/rough', 'rough');
-Route::post('/rough', [App\Http\Controllers\RoughController::class, 'index'])->name('roughIndex');
+
 
 
 
