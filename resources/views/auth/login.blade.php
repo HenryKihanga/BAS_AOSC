@@ -72,7 +72,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-dark btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -85,13 +85,13 @@
                     </div>
                 </form>
             </div>
-            <div class="card-footer ">
+            {{-- <div class="card-footer ">
                 <h6 class="mb-2">mnadisarah@gmail.com</h6>
                 <h6 class="mb-2">kilumawilliam@gmail.com</h6>
                 <h6 class="mb-2">hongokelvin@gmail.com</h6>
                 <h6 class="mb-2">mwaiselampoki@gmail.com</h6>
                 <h6 class="mb-2">rashidishabani@gmail.com</h6>
-            </div>
+            </div> --}}
   
             <!-- /.login-card-body -->
         </div>

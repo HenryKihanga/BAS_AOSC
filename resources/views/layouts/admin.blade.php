@@ -47,11 +47,9 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
+                    <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link">Home</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
+               
             </ul><!-- /.Left navbar links -->
 
             <div class="navbar-nav ml-auto">
@@ -86,7 +84,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{ asset('template/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                        <img src="{{ asset('template/dist/img/avatar-default.jpg') }}" class="img-circle elevation-2"
                             alt="User Image">
                     </div>
                     <div class="info">
@@ -95,130 +93,8 @@
                     </div>
                 </div>
                 <!-- Sidebar Menu -->
-                <nav class="mt-2 myNavtab">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <li class="nav-item ">
-                            <a href="{{ route('home') }}" class="nav-link" onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-user-plus"></i>
-                                <p>Add User</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link"
-                                onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Users</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('overallLogs')}}" class="nav-link"
-                                onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-clipboard-list"></i>
-                                <p>
-                                    User Logs
-                                </p>
-                            </a>
-                        </li>
-                        @can('manageOrganization')
-                            <li class="nav-item">
-                                <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link"
-                                    onclick="toggle_active_class()">
-                                    <i class="nav-icon fas fa-university"></i>
-                                    <p>
-                                        Organizations
-                                    </p>
-                                </a>
-                            </li>
-                        @endcan
-                        @can('manageBranch')
-                            <li class="nav-item">
-                                <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link"
-                                    onclick="toggle_active_class()">
-                                    <i class="nav-icon fas fa-university"></i>
-                                    <p>
-                                        Branches
-                                    </p>
-                                </a>
-                            </li>
-                        @endcan
-                        <li class="nav-item">
-                            <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link"
-                                onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-university"></i>
-                                <p>
-                                    Departments
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link"
-                                onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-microchip"></i>
-                                <p>
-                                    Devices
-                                </p>
-                            </a>
-                        </li>
-
-
-                        <li class="nav-item">
-                            <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link"
-                                onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-address-card"></i>
-                                <p>
-                                    View Profile
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-edit"></i>
-                                <p>
-                                    Edit Profile
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('changePassword') }}" class="nav-link" onclick="toggle_active_class()">
-                                <i class="nav-icon fas fa-key"></i>
-                                <p>
-                                    Change Password
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                <p>
-                                    Logout
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                <p>
-                                    Calendar
-                                    <span class="badge badge-info right">2</span>
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav> <!-- /.sidebar-menu -->
+                @yield('navitem')
+                <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
         </aside>
