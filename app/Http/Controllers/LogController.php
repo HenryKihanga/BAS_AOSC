@@ -4,15 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use App\Models\Log;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class LogController extends Controller
 {
     public function index(){
         $logs = Log::all();
-        $todayLogs = Log::where('date', date('Y-m-d'))->get();
+        // $todayLogs = Log::where('date', date('Y-m-d'))->get();
         return view('log.overall')->with([
-            'logs' => $todayLogs
+            'logs' => $logs,
+            'type' => 1
+        ]);
+    }
+
+    //HII METHOD INARUDISHA LOGS OF PRESENT USERS
+    public function userPresentToday(){
+        
+            $todayLogs = Log::where('date', date('Y-m-d'))->get();
+            return view('log.overall')->with([
+                'logs' => $todayLogs,
+                'type' => 1
+            ]);
+        
+      
+    }
+    //HII METHOD INARUDISHA USER DETAILS FOR ABSENTEES
+    public function userAbsenteToday(){
+        $todayLogs = Log::where('date', date('Y-m-d'))->get('user_id');
+        $absenteUsers = User::all()->whereNotIn('user_id', $todayLogs);
+        $enrolledUsers = [];
+        foreach ($absenteUsers as $user) {
+            if ($user->status->enrollment_status) {
+                array_push($enrolledUsers , $user);
+            } else {
+                continue;
+            }
+        }
+        return view('log.overall')->with([
+            'logs' => $enrolledUsers,
+            'type' => 0
         ]);
     }
     public function checkInOrOut($fingerPrintId, $deviceToken)

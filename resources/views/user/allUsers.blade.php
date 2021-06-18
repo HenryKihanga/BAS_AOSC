@@ -145,7 +145,7 @@
                     <h3 class="card-title">Users</h3>
                 </div>
                 @if (count($users) < 0)
-                    There is no user registered
+                    No data found
                 @else
                     <div class="card-body p-0" style="max-height: 80%;">
                         <table class="table table-striped projects">

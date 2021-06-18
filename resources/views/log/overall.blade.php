@@ -160,7 +160,7 @@
                       <!-- /.card-header -->
                       <div class="card-body table-responsive p-0" style="max-height: 80%;">
                         @if (count($logs) < 1)
-                       <p class="p-4"> There is no log currently </p>
+                       <p class="p-4"> There is no data </p>
                         @else
                         <table class="table table-head-fixed">
                         {{-- <table class="table table-head-fixed text-nowrap"> --}}
@@ -174,18 +174,34 @@
                               <th style="width: 15%">Status</th>
                             </tr>
                           </thead>
+                          @if ($type == 1)
                           <tbody>
-                              @foreach ($logs as $log)
-                            <tr>
-                              <td style="width: 10%">{{$log->user_id}}</td>
-                              <td style="width: 30%">{{$log->user->first_name}} {{$log->user->middle_name}} {{$log->user->last_name}}</td>
-                              <td style="width: 15%">{{$log->time_in}}</td>
-                              <td style="width: 15%">{{$log->time_out}}</td>
-                              <td style="width: 15%">{{$log->date}}</td>
-                              <td><span class="badge bg-success">On-time</span></td>
-                              @endforeach
-                            </tr>
-                          </tbody>
+                            @foreach ($logs as $log)
+                          <tr>
+                            <td style="width: 10%">{{$log->user_id}}</td>
+                            <td style="width: 30%">{{$log->user->first_name}} {{$log->user->middle_name}} {{$log->user->last_name}}</td>
+                            <td style="width: 15%">{{$log->time_in}}</td>
+                            <td style="width: 15%">{{$log->time_out}}</td>
+                            <td style="width: 15%">{{$log->date}}</td>
+                            <td><span class="badge bg-success">On-time</span></td>
+                            @endforeach
+                          </tr>
+                        </tbody>
+                          @else
+                          <tbody>
+                            @foreach ($logs as $log)
+                          <tr>
+                            <td style="width: 10%">{{$log->user_id}}</td>
+                            <td style="width: 30%">{{$log->first_name}} {{$log->middle_name}} {{$log->last_name}}</td>
+                            <td style="width: 15%"> - </td>
+                            <td style="width: 15%"> - </td>
+                            <td style="width: 15%">{{ date('Y-m-d') }}</td>
+                            <td><span class="badge bg-danger">Absente</span></td>
+                            @endforeach
+                          </tr>
+                        </tbody> 
+                          @endif
+                      
                         </table>
                         @endif
                       </div> <!-- /.card-body --> 

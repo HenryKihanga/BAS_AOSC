@@ -35,20 +35,26 @@ class DeviceController extends Controller
         }
 
         if (Gate::allows('isOrganizationHead')) {
-            $devices = User::find($userId)->organization->devices;
+            // $devices = User::find($userId)->organization->devices;
+            $organizationId = User::find($userId)->organization_id;//Get organization id of logged in user
+            $devices = Device::where('organization_id' , $organizationId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
         }
 
         if (Gate::allows('isBranchHead')) {
-            $devices = User::find($userId)->branch->devices;
+            // $devices = User::find($userId)->branch->devices;
+            $branchId = User::find($userId)->branch_id;//Get branch id of logged in user
+            $devices = Device::where('branch_id' , $branchId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
         }
         if (Gate::allows('isDepartmentHead')) {
-            $devices = User::find($userId)->department->devices;
+            // $devices = User::find($userId)->department->devices;
+            $departmentId = User::find($userId)->department_id;//Get department id of logged in user
+            $devices = Device::where('department_id' , $departmentId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);

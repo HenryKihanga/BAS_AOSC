@@ -32,9 +32,17 @@ class DashboardController extends Controller
                 }
             }
             $numberofUsers = $users->count();
-            $todayLogs = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
-            $parcentageofPresentUsers = round(($todayLogs->count()/count($enrolledUsers)) * 100 , 2);
-            $parcentageofabsentUsers = round(((count($enrolledUsers)- $todayLogs->count())/count($enrolledUsers)) * 100 , 2);
+            $usersPresentToday = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
+            if(count($enrolledUsers) < 1){
+                $parcentageofPresentUsers = 0;
+                $parcentageofabsentUsers = 0;
+            }
+            else{
+                $parcentageofPresentUsers = round(($usersPresentToday->count()/count($enrolledUsers)) * 100 , 2);
+                $parcentageofabsentUsers = round(((count($enrolledUsers)- $usersPresentToday->count())/count($enrolledUsers)) * 100 , 2);
+            }
+           
+           
             $organizations = Organization::all()->count();
             $branches = Branch::all()->count();
             $departments = Department::all()->count();
@@ -58,28 +66,136 @@ class DashboardController extends Controller
             //     'departments' => $departments
             // ]);
         }
-        if (Gate::allows('isOrganizationHead')) {
-            foreach (User::find($userId)->organization->branches as $branch) {
-                $departments =  $branch->departments;
+
+        if (Gate::allows('isOrganizationHead')) { 
+            $organizationId = User::find($userId)->organization_id;//Get organization id of logged in user
+            $users = User::where('organization_id' , $organizationId)->get();//get all users of the particular organization
+            $enrolledUsers = [];
+            $unenrolledUsers = [];
+            
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers , $user);
+                } else {
+                    array_push($unenrolledUsers, $user);
+                }
             }
-            return view('department.manage')->with([
-                'departments' => $departments
+            $numberofUsers = $users->count();
+            $todayLogs = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
+            if(count($enrolledUsers) < 1){
+                $parcentageofPresentUsers = 0;
+                $parcentageofabsentUsers = 0;
+               
+            }
+            else{
+                $parcentageofPresentUsers = round(($todayLogs->count()/count($enrolledUsers)) * 100 , 2);
+                $parcentageofabsentUsers = round(((count($enrolledUsers)- $todayLogs->count())/count($enrolledUsers)) * 100 , 2);
+                
+            }
+            
+            $organizations = Organization::all()->count();
+            $branches = Branch::all()->count();
+            $departments = Department::all()->count();
+            $devices = Device::where('organization_id' , $organizationId)->count();
+            // $departments = Department::orderBy('created_at', 'desc')->take(5)->get();
+            return view('dashboard')->with([
+                'registeredUsers' => count($users),
+                'enrolledUsers' => count($enrolledUsers),
+                'unenrolledUsers' => count($unenrolledUsers),
+                'presentUsers' => $parcentageofPresentUsers,
+                'absentUsers' => $parcentageofabsentUsers,
+                'registeredOrganizations' => $organizations,
+                'registeredBranches' => $branches,
+                'registeredDepartments' => $departments,
+                'registeredDevices' => $devices
             ]);
         }
+        
 
         if (Gate::allows('isBranchHead')) {
-            $departments = User::find($userId)->branch->departments;
-
-            return view('department.manage')->with([
-                'departments' => $departments
+            $branchId = User::find($userId)->branch_id;//Get branch id of logged in user
+            $users = User::where('branch_id' , $branchId)->get();//get all users of the particular branch
+            $enrolledUsers = [];
+            $unenrolledUsers = [];
+            
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers , $user);
+                } else {
+                    array_push($unenrolledUsers, $user);
+                }
+            }
+            $numberofUsers = $users->count();
+            $todayLogs = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
+            if(count($enrolledUsers) < 1){
+                $parcentageofPresentUsers = 0;
+                $parcentageofabsentUsers = 0;
+               
+            }
+            else{
+                $parcentageofPresentUsers = round(($todayLogs->count()/count($enrolledUsers)) * 100 , 2);
+                $parcentageofabsentUsers = round(((count($enrolledUsers)- $todayLogs->count())/count($enrolledUsers)) * 100 , 2);
+                
+            }
+            
+            $organizations = Organization::all()->count();
+            $branches = Branch::all()->count();
+            $departments = Department::all()->count();
+            $devices = Device::where('organization_id' , $branchId)->count();
+            // $departments = Department::orderBy('created_at', 'desc')->take(5)->get();
+            return view('dashboard')->with([
+                'registeredUsers' => count($users),
+                'enrolledUsers' => count($enrolledUsers),
+                'unenrolledUsers' => count($unenrolledUsers),
+                'presentUsers' => $parcentageofPresentUsers,
+                'absentUsers' => $parcentageofabsentUsers,
+                'registeredOrganizations' => $organizations,
+                'registeredBranches' => $branches,
+                'registeredDepartments' => $departments,
+                'registeredDevices' => $devices
             ]);
         }
         if (Gate::allows('isDepartmentHead')) {
-            $departments = [];
-            $department = User::find($userId)->department;
-            array_push($departments, $department);
-            return view('department.manage')->with([
-                'departments' => $departments,
+            $departmentId = User::find($userId)->department_id;//Get department id of logged in user
+            $users = User::where('department_id' , $departmentId)->get();//get all users of the particular department
+            $enrolledUsers = [];
+            $unenrolledUsers = [];
+            
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers , $user);
+                } else {
+                    array_push($unenrolledUsers, $user);
+                }
+            }
+            $numberofUsers = $users->count();
+            $todayLogs = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
+            if(count($enrolledUsers) < 1){
+                $parcentageofPresentUsers = 0;
+                $parcentageofabsentUsers = 0;
+               
+            }
+            else{
+                $parcentageofPresentUsers = round(($todayLogs->count()/count($enrolledUsers)) * 100 , 2);
+                $parcentageofabsentUsers = round(((count($enrolledUsers)- $todayLogs->count())/count($enrolledUsers)) * 100 , 2);
+                
+            }
+            
+            $organizations = Organization::all()->count();
+            $branches = Branch::all()->count();
+            $departments = Department::all()->count();
+            $devices = Device::where('organization_id' , $departmentId)->count();
+            // $departments = Department::orderBy('created_at', 'desc')->take(5)->get();
+            return view('dashboard')->with([
+                'registeredUsers' => count($users),
+                'enrolledUsers' => count($enrolledUsers),
+                'unenrolledUsers' => count($unenrolledUsers),
+                'presentUsers' => $parcentageofPresentUsers,
+                'absentUsers' => $parcentageofabsentUsers,
+                'registeredOrganizations' => $organizations,
+                'registeredBranches' => $branches,
+                'registeredDepartments' => $departments,
+                'registeredDevices' => $devices
             ]);
         }
     }

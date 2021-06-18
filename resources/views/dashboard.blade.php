@@ -273,7 +273,7 @@
                                 <div class="icon">
                                     <i class="fas fa-user-check"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('userPresentToday') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div> <!-- ./col -->
                         <div class="col-lg-4 col-12">
@@ -286,7 +286,7 @@
                                 <div class="icon">
                                     <i class="fas fa-user-times"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('userAbsenteToday') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div><!-- ./col -->
                     </div>
@@ -320,8 +320,9 @@
                                 <div class="icon">
                                     <i class="nav-icon fas fa-microchip"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                           @can('isAdmin')
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
@@ -331,8 +332,36 @@
                                 <div class="icon">
                                     <i class="nav-icon fas fa-university"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                            @endcan
+                            @can('isOrganizationHead')
+                                     <!-- small box -->
+                            <div class="small-box bg-secondary">
+                                <div class="inner">
+                                    <h3>{{$registeredBranches}}</h3>
+                                    <p>Registered Branches</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-sitemap"></i>
+                                </div>
+                                <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                            @endcan 
+                            @can('isBranchHead')
+                            <!-- small box -->
+                            <div class="small-box bg-light">
+                                <div class="inner">
+                                    <h3>{{$registeredDepartments}}</h3>
+                                    <p>Registerd Departments</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fab fa-dyalog"></i>
+                                </div>
+                                <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                            @endcan
+                    
                         </div>
                         <div class="col-lg-4 col-12">
                             <!-- small box -->
@@ -344,8 +373,9 @@
                                 <div class="icon">
                                     <i class="nav-icon fas fa-university"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('enrolledUser', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                            @can('isAdmin')
                             <!-- small box -->
                             <div class="small-box bg-secondary">
                                 <div class="inner">
@@ -355,8 +385,22 @@
                                 <div class="icon">
                                     <i class="fas fa-sitemap"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                            @endcan
+                            @can('isOrganizationHead')
+                            <!-- small box -->
+                            <div class="small-box bg-light">
+                                <div class="inner">
+                                    <h3>{{$registeredDepartments}}</h3>
+                                    <p>Registerd Departments</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fab fa-dyalog"></i>
+                                </div>
+                                <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                            @endcan
                         </div>
                         <div class="col-lg-4 col-12">
                             <!-- small box -->
@@ -368,8 +412,9 @@
                                 <div class="icon">
                                     <i class="fas fa-sitemap"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('unenrolledUser', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                            @can('isAdmin')
                             <!-- small box -->
                             <div class="small-box bg-light">
                                 <div class="inner">
@@ -379,8 +424,9 @@
                                 <div class="icon">
                                     <i class="fab fa-dyalog"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                            @endcan
                         </div>
                     </div>
                 </div> <!-- ./col -->

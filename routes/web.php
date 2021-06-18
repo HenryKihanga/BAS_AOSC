@@ -97,6 +97,8 @@ Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll
 Route::post('user/prepareUserToEnroll', [App\Http\Controllers\UserController::class, 'prepareUserToEnroll'])->name('prepareUserToEnroll');
 Route::get('user/details/{id}', [App\Http\Controllers\UserController::class, 'details'])->name('showUserDetails');
 Route::get('user/profile/{id}', [App\Http\Controllers\UserController::class, 'profile'])->name('showUserProfile');
+Route::get('user/enrolledUsers/{id}', [App\Http\Controllers\UserController::class, 'enrolledUser'])->name('enrolledUser');
+Route::get('user/unenrolledUsers/{id}', [App\Http\Controllers\UserController::class, 'unenrolledUser'])->name('unenrolledUser');
 Route::get('user/allUsers/{id}', [App\Http\Controllers\UserController::class, 'index'])->name('allUsers');
 Route::get('user/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changePassword');
 Route::get('user/delete/{userId}', [App\Http\Controllers\UserController::class, 'deleteUser'])->name('deleteUser');
@@ -112,5 +114,7 @@ Route::get('user/deleteUserEnrolled/{deviceToken}', [App\Http\Controllers\UserCo
 
 // Routes for Log controller
 Route::get('log/overall', [App\Http\Controllers\LogController::class, 'index'])->name('overallLogs');
+Route::get('log/presentees', [App\Http\Controllers\LogController::class, 'userPresentToday'])->name('userPresentToday');
+Route::get('log/absentees', [App\Http\Controllers\LogController::class, 'userAbsenteToday'])->name('userAbsenteToday');
 //hardware
 Route::get('log/checkInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'checkInOrOut'])->name('checkInOrOut');

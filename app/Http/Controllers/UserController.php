@@ -36,22 +36,16 @@ class UserController extends Controller
             ]);
         }
         if (Gate::allows('isOrganizationHead')) {
-            $users =  User::find($userId)->organization->users;
-            foreach ($users as $user) {
-                $user->status;
-                $user->roles;
-            }
+            $organizationId = User::find($userId)->organization_id;//Get organization id of logged in user
+            $users = User::where('organization_id' , $organizationId)->get();
             return view('user.allUsers')->with([
                 'users' => $users
             ]);
         }
 
         if (Gate::allows('isBranchHead')) {
-            $users =  User::find($userId)->branch->users;
-            foreach ($users as $user) {
-                $user->status;
-                $user->roles;
-            }
+            $branchId = User::find($userId)->branch_id;//Get branch id of logged in user
+            $users = User::where('branch_id' , $branchId)->get();
             return view('user.allUsers')->with([
                 'users' => $users
             ]);
@@ -66,6 +60,131 @@ class UserController extends Controller
                 'users' => $users
             ]);
         }
+    }
+
+    public function enrolledUser($userId){
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+            
+            $users =  User::find($userId)->organization->users;
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+
+    }
+
+    public function unenrolledUser($userId){
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+            $users =  User::find($userId)->organization->users;
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers , $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+
     }
 
     /**
