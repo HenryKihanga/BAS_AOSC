@@ -207,6 +207,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="card-footer">
+                       <a href="{{ route('exportAllUsers') }}"> <button type="button" class="btn btn-success">Export</button></a>
+                    </div>
                     <!-- /.card-body -->
                 @endif
 

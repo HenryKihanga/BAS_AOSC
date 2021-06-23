@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Device;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -36,16 +38,16 @@ class UserController extends Controller
             ]);
         }
         if (Gate::allows('isOrganizationHead')) {
-            $organizationId = User::find($userId)->organization_id;//Get organization id of logged in user
-            $users = User::where('organization_id' , $organizationId)->get();
+            $organizationId = User::find($userId)->organization_id; //Get organization id of logged in user
+            $users = User::where('organization_id', $organizationId)->get();
             return view('user.allUsers')->with([
                 'users' => $users
             ]);
         }
 
         if (Gate::allows('isBranchHead')) {
-            $branchId = User::find($userId)->branch_id;//Get branch id of logged in user
-            $users = User::where('branch_id' , $branchId)->get();
+            $branchId = User::find($userId)->branch_id; //Get branch id of logged in user
+            $users = User::where('branch_id', $branchId)->get();
             return view('user.allUsers')->with([
                 'users' => $users
             ]);
@@ -62,14 +64,15 @@ class UserController extends Controller
         }
     }
 
-    public function enrolledUser($userId){
+    public function enrolledUser($userId)
+    {
         if (Gate::allows('isAdmin')) {
             // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
             $users = User::all();
             $enrolledUsers = [];
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
-                    array_push($enrolledUsers , $user);
+                    array_push($enrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -79,12 +82,12 @@ class UserController extends Controller
             ]);
         }
         if (Gate::allows('isOrganizationHead')) {
-            
+
             $users =  User::find($userId)->organization->users;
             $enrolledUsers = [];
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
-                    array_push($enrolledUsers , $user);
+                    array_push($enrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -99,7 +102,7 @@ class UserController extends Controller
             $enrolledUsers = [];
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
-                    array_push($enrolledUsers , $user);
+                    array_push($enrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -113,7 +116,7 @@ class UserController extends Controller
             $enrolledUsers = [];
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
-                    array_push($enrolledUsers , $user);
+                    array_push($enrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -122,17 +125,17 @@ class UserController extends Controller
                 'users' => $enrolledUsers
             ]);
         }
-
     }
 
-    public function unenrolledUser($userId){
+    public function unenrolledUser($userId)
+    {
         if (Gate::allows('isAdmin')) {
             // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
             $users = User::all();
             $unenrolledUsers = [];
             foreach ($users as $user) {
                 if (!$user->status->enrollment_status) {
-                    array_push($unenrolledUsers , $user);
+                    array_push($unenrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -146,7 +149,7 @@ class UserController extends Controller
             $unenrolledUsers = [];
             foreach ($users as $user) {
                 if (!$user->status->enrollment_status) {
-                    array_push($unenrolledUsers , $user);
+                    array_push($unenrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -161,7 +164,7 @@ class UserController extends Controller
             $unenrolledUsers = [];
             foreach ($users as $user) {
                 if (!$user->status->enrollment_status) {
-                    array_push($unenrolledUsers , $user);
+                    array_push($unenrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -175,7 +178,7 @@ class UserController extends Controller
             $unenrolledUsers = [];
             foreach ($users as $user) {
                 if (!$user->status->enrollment_status) {
-                    array_push($unenrolledUsers , $user);
+                    array_push($unenrolledUsers, $user);
                 } else {
                     continue;
                 }
@@ -184,7 +187,6 @@ class UserController extends Controller
                 'users' => $unenrolledUsers
             ]);
         }
-
     }
 
     /**
@@ -350,7 +352,6 @@ class UserController extends Controller
                 return redirect()->route('showUserDetails', $request->input('userId'))
                     ->withErrors($validator)
                     ->withInput();
-              
             }
             continue;
         }
@@ -391,7 +392,8 @@ class UserController extends Controller
 
 
 
-    public function deleteUser($userId){
+    public function deleteUser($userId)
+    {
         $user = User::findOrFail($userId);
         if (!$userId) {
             return response()->json(['error' => 'user do not exist'], 504);
@@ -402,7 +404,6 @@ class UserController extends Controller
         // $user->delete();
 
         return redirect()->route('allUsers', Auth::user()->user_id);
-     
     }
 
     public function changePassword()
@@ -451,7 +452,6 @@ class UserController extends Controller
                     if ($user->status->ready_to_enroll) {
 
                         return $user->status->fingerprint_id;
-                        
                     } else {
                         continue;
                     }
@@ -522,5 +522,15 @@ class UserController extends Controller
         } else {
             return "Device not found";
         }
+    }
+
+
+
+
+    // EXCELL EXPORT
+
+    public function exportAllUsers()
+    {
+        return Excel::download(new UsersExport , 'users.xlsx');
     }
 }

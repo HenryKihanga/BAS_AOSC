@@ -282,6 +282,8 @@
                     @if (!$user->status->enrollment_status && !$user->status->ready_to_enroll)
                         <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#enrollUser"
                             aria-expanded="false" aria-controls="enrollUser">Enroll User</button>
+                    @else
+                    <a href="{{route('userSpecificLogs' , $user->user_id )}}"><button type="button" class="btn btn-outline-dark mr-2">View Logs</button></a>
                     @endif
 
                 </div>

@@ -109,12 +109,13 @@ Route::post('user/addUser', [App\Http\Controllers\UserController::class, 'store'
 Route::get('user/fingerprintId/{deviceToken}', [App\Http\Controllers\UserController::class, 'fingerPrintId'])->name('userFingerPrintId');
 Route::get('user/confirmEnrollment/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\UserController::class, 'confirmEnrollment'])->name('confirmUserEnrollment');
 Route::get('user/deleteUserEnrolled/{deviceToken}', [App\Http\Controllers\UserController::class, 'deleteUserEnrolled'])->name('userFingerPrintId');
-
+Route::get('user/export', [App\Http\Controllers\UserController::class, 'exportAllUsers'])->name('exportAllUsers');
 
 
 // Routes for Log controller
 Route::get('log/overall', [App\Http\Controllers\LogController::class, 'index'])->name('overallLogs');
 Route::get('log/presentees', [App\Http\Controllers\LogController::class, 'userPresentToday'])->name('userPresentToday');
 Route::get('log/absentees', [App\Http\Controllers\LogController::class, 'userAbsenteToday'])->name('userAbsenteToday');
+Route::get('log/userlog/{user_id}', [App\Http\Controllers\LogController::class, 'userSpecificLogs'])->name('userSpecificLogs');
 //hardware
 Route::get('log/checkInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'checkInOrOut'])->name('checkInOrOut');

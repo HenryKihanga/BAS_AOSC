@@ -317,11 +317,11 @@
                                               
                                                     <td class="text-right" style="width: 20%">
                                                         @if ($device->device_mode)
-                                                            <a class="btn btn-success btn-sm filterable-cell m-1">Attendance</a>
-                                                            <a class="btn btn-danger btn-sm filterable-cell m-1">Enrollment</a>
+                                                            <div class="btn btn-success btn-sm filterable-cell m-1">Attendance</div>
+                                                            <div class="btn btn-danger btn-sm filterable-cell m-1">Enrollment</div>
                                                         @else
-                                                            <a class="btn btn-danger btn-sm filterable-cell m-1">Attendance</a>
-                                                            <a class="btn btn-success btn-sm filterable-cell m-1">Enrollment</a>
+                                                            <div class="btn btn-danger btn-sm filterable-cell m-1">Attendance</div>
+                                                            <div class="btn btn-success btn-sm filterable-cell m-1">Enrollment</div>
                                                         @endif
                                                     </td>
                                             

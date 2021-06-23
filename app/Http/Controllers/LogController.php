@@ -47,6 +47,15 @@ class LogController extends Controller
             'type' => 0
         ]);
     }
+
+    public function userSpecificLogs($userId){
+        $useLog = Log::all()->where('user_id' , $userId);
+        return view('log.overall')->with([
+            'logs' => $useLog,
+            'type' => 1
+        ]);
+
+    }
     public function checkInOrOut($fingerPrintId, $deviceToken)
     {
         $currentTime = Carbon::now()->timezone('Africa/Dar_es_Salaam')->format('Y-m-d H:i:s'); //get current time
