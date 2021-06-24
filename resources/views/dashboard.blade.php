@@ -171,6 +171,14 @@
         </li>
 
         <li class="nav-item">
+            <a href="{{ route('showRoomManage') }}" class="nav-link">
+                <i class="nav-icon fas fa-university"></i>
+                <p>
+                    Rooms
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
                 onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-microchip"></i>

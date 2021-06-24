@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -122,3 +121,8 @@ Route::get('log/userlog/{user_id}', [App\Http\Controllers\LogController::class, 
 //hardware
 Route::get('log/fingerprintCheckInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'fingerprintCheckInOrOut'])->name('fingerprintCheckInOrOut');
 Route::get('log/rfidCheckInOrOut/{cardUid}/{deviceToken}', [App\Http\Controllers\LogController::class, 'rfidCheckInOrOut'])->name('rfidCheckInOrOut');
+
+
+//ROUTES FOR ROOM CONTROLLER
+Route::get('room/manage', [App\Http\Controllers\RoomController::class, 'showManage'])->name('showRoomManage');
+Route::post('room/store', [App\Http\Controllers\RoomController::class, 'storeRoom'])->name('storeRoom');
