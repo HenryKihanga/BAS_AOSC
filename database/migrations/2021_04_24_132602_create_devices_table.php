@@ -16,6 +16,7 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->string('device_token')->unique();
             $table->string('device_name');
+            $table->string('device_type');
             $table->boolean('device_mode')->default(0);
             $table->string('device_location');
             $table->string('organization_id');

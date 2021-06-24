@@ -321,7 +321,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function prepareUserToEnroll(Request $request)
+    public function fingerprintEnroll(Request $request)
     {
         $validator =  Validator::make($request->all(), [
             'userId' => 'required',
@@ -340,7 +340,7 @@ class UserController extends Controller
 
 
 
-        $deviceUsers = Device::find($request->input('deviceId'))->users;
+        $deviceUsers = Device::find($request->input('deviceId'))->fingerprintUsers;
         foreach ($deviceUsers as $deviceUser) {
             if ($deviceUser->status->ready_to_enroll == 1) {
                 $validator->errors()->add('duplicateReadyToEnroll', 'Make sure no user of the selected device is waiting for enrollment');
@@ -357,11 +357,52 @@ class UserController extends Controller
         }
         $user = User::find($request->input('userId'));
         $user->update([
-            'device_token' => $request->input('deviceId')
+            'fingerprint_device_token' => $request->input('deviceId')
         ]);
         $user->status()->update([
             'fingerprint_id' => $request->input('fingerPrintId'),
             'ready_to_enroll' => 1
+        ]);
+
+        return redirect()->route('showUserDetails', $request->input('userId'));
+    }
+
+    public function rfidEnroll(Request $request)
+    {
+        $validator =  Validator::make($request->all(), [
+            'userId' => 'required',
+            'cardUid' => 'required',
+            'deviceId' => 'required',
+
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('showUserDetails', $request->input('userId'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $deviceUsers = Device::find($request->input('deviceId'))->rfidUsers;
+        foreach ($deviceUsers as $deviceUser) {
+            if ($deviceUser->status->card_uid == $request->input('cardUid')) {
+                $validator->errors()->add('cardfound', 'User with the given Card ID is detected, Card ID must be unique on a given device');
+                return redirect()->route('showUserDetails', $request->input('userId'))
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+            continue;
+        }
+        $user = User::find($request->input('userId'));
+        $user->update([
+            'rfid_device_token' => $request->input('deviceId')
+        ]);
+        //FORGING CHANGE OF DEVICE MODE
+        Device::find($request->input('deviceId'))->update([
+            'device_mode' => 1
+        ]);
+        $user->status()->update([
+            'card_uid' => $request->input('cardUid'),
+            'card_registered' => 1
         ]);
 
         return redirect()->route('showUserDetails', $request->input('userId'));
@@ -406,9 +447,23 @@ class UserController extends Controller
         return redirect()->route('allUsers', Auth::user()->user_id);
     }
 
-    public function changePassword()
+    public function showchangePassword()
     {
         return view('user.changePassword');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'currentPassword' => 'required',
+            'password' => 'required|confirmed|min:5',
+            'password_confirmation' => 'required|min:5',
+        ]);
+        if (Hash::check($request->input('currentPassword'), Auth::user()->password)) {
+            User::find(Auth::user()->user_id)->update(['password' => Hash::make($request->input('password'))]);
+            Auth::logout();
+            return redirect('/');
+        }
     }
 
     public function showAll()
@@ -417,7 +472,8 @@ class UserController extends Controller
         foreach ($users as $user) {
             $user->status;
             $user->roles;
-            $user->device;
+            $user->fingerprintDevice;
+            $user->rfidDevice;
         }
         return response()->json([
             'users' => $users
@@ -500,7 +556,7 @@ class UserController extends Controller
     {
         $device = Device::find($deviceToken);
         if ($device) {
-            $users = $device->users;
+            $users = $device->fingerprintUsers;
             if (count($users) == 0) {
                 return "No user has been registered in this device";
             } else {
@@ -531,6 +587,6 @@ class UserController extends Controller
 
     public function exportAllUsers()
     {
-        return Excel::download(new UsersExport , 'users.xlsx');
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

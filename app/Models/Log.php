@@ -12,7 +12,7 @@ class Log extends Model
 
     protected $fillable = [
 
-        'user_id','time_in', 'time_out' , 'date'
+        'user_id','log_type','time_in', 'time_out' , 'date'
     ];
 
     public function user(){

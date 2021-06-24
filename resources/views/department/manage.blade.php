@@ -101,7 +101,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('changePassword') }}" class="nav-link " onclick="toggle_active_class()">
+            <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-key"></i>
                 <p>
                     Change Password

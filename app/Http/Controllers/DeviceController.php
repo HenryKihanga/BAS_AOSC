@@ -83,6 +83,7 @@ class DeviceController extends Controller
         $request->validate([
             'deviceToken' => 'required',
             'deviceName' => 'required',
+            'deviceType' => 'required',
             'deviceLocation' => 'required',
             'organizationId' => 'required',
             'branchId' => 'required',
@@ -100,6 +101,7 @@ class DeviceController extends Controller
         $device = new Device();
         $device->device_token = $request->input('deviceToken');
         $device->device_name = $request->input('deviceName');
+        $device->device_type = $request->input('deviceType');
         $device->device_location = $request->input('deviceLocation');
         $device->organization_id = $request->input('organizationId');
         $device->branch_id = $request->input('branchId');
