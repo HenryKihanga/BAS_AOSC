@@ -241,15 +241,14 @@
                                             <option value="rfid">rfid</option>
                                         </select>
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="InputLocationofDevice">Device Location</label>
-                                        <input type="text" name="deviceLocation"
-                                            class="form-control @error('deviceLocation') in-valid @enderror"
-                                            value="{{ old('deviceLocation') }}" placeholder="Enter Device Location">
-                                        @error('deviceLocation')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                        <label for="InputdeviceLocation">Device Location/Room</label>
+                                        <select class="form-control" name="deviceLocation">
+                                            @foreach ($rooms as $room)
+                                                <option value="{{ $room->room_id }}">
+                                                    {{ $room->room_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="InputOrganization">Select Organization</label>
@@ -324,7 +323,7 @@
                                                 <td class="filterable-cell" style="width: 20%">Department Name
                                                 </td>
                                                 <td class="filterable-cell" style="width: 20%">
-                                                    {{ $device->device_location }}
+                                                    {{ $device->room->room_name }}
                                                 </td>
 
                                                 <td class="tilterable-cell" style="width: 10%">
