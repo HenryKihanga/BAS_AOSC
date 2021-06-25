@@ -16,8 +16,9 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->string('device_token')->unique();
             $table->string('device_name');
+            $table->string('device_type');
             $table->boolean('device_mode')->default(0);
-            $table->string('device_location');
+            $table->string('room_id');
             $table->string('organization_id');
             $table->string('branch_id');
             $table->string('department_id');
@@ -26,6 +27,7 @@ class CreateDevicesTable extends Migration
             $table->foreign('organization_id')->references('organization_id')->on('organizations');
             $table->foreign('branch_id')->references('branch_id')->on('branches');
             $table->foreign('department_id')->references('department_id')->on('departments');
+            // $table->foreign('room_id')->references('room_id')->on('rooms');
         });
     }
 

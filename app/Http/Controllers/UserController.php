@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Device;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -36,22 +38,16 @@ class UserController extends Controller
             ]);
         }
         if (Gate::allows('isOrganizationHead')) {
-            $users =  User::find($userId)->organization->users;
-            foreach ($users as $user) {
-                $user->status;
-                $user->roles;
-            }
+            $organizationId = User::find($userId)->organization_id; //Get organization id of logged in user
+            $users = User::where('organization_id', $organizationId)->get();
             return view('user.allUsers')->with([
                 'users' => $users
             ]);
         }
 
         if (Gate::allows('isBranchHead')) {
-            $users =  User::find($userId)->branch->users;
-            foreach ($users as $user) {
-                $user->status;
-                $user->roles;
-            }
+            $branchId = User::find($userId)->branch_id; //Get branch id of logged in user
+            $users = User::where('branch_id', $branchId)->get();
             return view('user.allUsers')->with([
                 'users' => $users
             ]);
@@ -64,6 +60,258 @@ class UserController extends Controller
             }
             return view('user.allUsers')->with([
                 'users' => $users
+            ]);
+        }
+    }
+
+    public function enrolledUser($userId)
+    {
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+
+            $users =  User::find($userId)->organization->users;
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $enrolledUsers = [];
+            foreach ($users as $user) {
+                if ($user->status->enrollment_status) {
+                    array_push($enrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $enrolledUsers
+            ]);
+        }
+    }
+
+    public function unenrolledUser($userId)
+    {
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+            $users =  User::find($userId)->organization->users;
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $unenrolledUsers = [];
+            foreach ($users as $user) {
+                if (!$user->status->enrollment_status) {
+                    array_push($unenrolledUsers, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $unenrolledUsers
+            ]);
+        }
+    }
+
+    public function usersWithCard($userId)
+    {
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+
+            $users =  User::find($userId)->organization->users;
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $enrolledUsers = [];
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+    }
+
+    public function usersWithoutCard($userId)
+    {
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+
+            $users =  User::find($userId)->organization->users;
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
             ]);
         }
     }
@@ -91,9 +339,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-
-    {
+    public function store(Request $request){
         if (Gate::allows('isAdmin')) {
             $request->validate([
                 'firstName' => ['required', 'string', 'max:255'],
@@ -200,7 +446,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function prepareUserToEnroll(Request $request)
+    public function fingerprintEnroll(Request $request)
     {
         $validator =  Validator::make($request->all(), [
             'userId' => 'required',
@@ -219,7 +465,7 @@ class UserController extends Controller
 
 
 
-        $deviceUsers = Device::find($request->input('deviceId'))->users;
+        $deviceUsers = Device::find($request->input('deviceId'))->fingerprintUsers;
         foreach ($deviceUsers as $deviceUser) {
             if ($deviceUser->status->ready_to_enroll == 1) {
                 $validator->errors()->add('duplicateReadyToEnroll', 'Make sure no user of the selected device is waiting for enrollment');
@@ -231,17 +477,57 @@ class UserController extends Controller
                 return redirect()->route('showUserDetails', $request->input('userId'))
                     ->withErrors($validator)
                     ->withInput();
-              
             }
             continue;
         }
         $user = User::find($request->input('userId'));
         $user->update([
-            'device_token' => $request->input('deviceId')
+            'fingerprint_device_token' => $request->input('deviceId')
         ]);
         $user->status()->update([
             'fingerprint_id' => $request->input('fingerPrintId'),
             'ready_to_enroll' => 1
+        ]);
+
+        return redirect()->route('showUserDetails', $request->input('userId'));
+    }
+
+    public function rfidEnroll(Request $request)
+    {
+        $validator =  Validator::make($request->all(), [
+            'userId' => 'required',
+            'cardUid' => 'required',
+            'deviceId' => 'required',
+
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('showUserDetails', $request->input('userId'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $deviceUsers = Device::find($request->input('deviceId'))->rfidUsers;
+        foreach ($deviceUsers as $deviceUser) {
+            if ($deviceUser->status->card_uid == $request->input('cardUid')) {
+                $validator->errors()->add('cardfound', 'User with the given Card ID is detected, Card ID must be unique on a given device');
+                return redirect()->route('showUserDetails', $request->input('userId'))
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+            continue;
+        }
+        $user = User::find($request->input('userId'));
+        $user->update([
+            'rfid_device_token' => $request->input('deviceId')
+        ]);
+        //FORGING CHANGE OF DEVICE MODE
+        Device::find($request->input('deviceId'))->update([
+            'device_mode' => 1
+        ]);
+        $user->status()->update([
+            'card_uid' => $request->input('cardUid'),
+            'card_registered' => 1
         ]);
 
         return redirect()->route('showUserDetails', $request->input('userId'));
@@ -272,7 +558,8 @@ class UserController extends Controller
 
 
 
-    public function deleteUser($userId){
+    public function deleteUser($userId)
+    {
         $user = User::findOrFail($userId);
         if (!$userId) {
             return response()->json(['error' => 'user do not exist'], 504);
@@ -283,12 +570,25 @@ class UserController extends Controller
         // $user->delete();
 
         return redirect()->route('allUsers', Auth::user()->user_id);
-     
     }
 
-    public function changePassword()
+    public function showchangePassword()
     {
         return view('user.changePassword');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'currentPassword' => 'required',
+            'password' => 'required|confirmed|min:5',
+            'password_confirmation' => 'required|min:5',
+        ]);
+        if (Hash::check($request->input('currentPassword'), Auth::user()->password)) {
+            User::find(Auth::user()->user_id)->update(['password' => Hash::make($request->input('password'))]);
+            Auth::logout();
+            return redirect('/');
+        }
     }
 
     public function showAll()
@@ -297,7 +597,9 @@ class UserController extends Controller
         foreach ($users as $user) {
             $user->status;
             $user->roles;
-            $user->device;
+            $user->fingerprintDevice;
+            $user->rfidDevice;
+            $user->rooms;
         }
         return response()->json([
             'users' => $users
@@ -332,7 +634,6 @@ class UserController extends Controller
                     if ($user->status->ready_to_enroll) {
 
                         return $user->status->fingerprint_id;
-                        
                     } else {
                         continue;
                     }
@@ -381,7 +682,7 @@ class UserController extends Controller
     {
         $device = Device::find($deviceToken);
         if ($device) {
-            $users = $device->users;
+            $users = $device->fingerprintUsers;
             if (count($users) == 0) {
                 return "No user has been registered in this device";
             } else {
@@ -403,5 +704,15 @@ class UserController extends Controller
         } else {
             return "Device not found";
         }
+    }
+
+
+
+
+    // EXCELL EXPORT
+
+    public function exportAllUsers()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

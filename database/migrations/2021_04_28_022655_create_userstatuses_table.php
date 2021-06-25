@@ -18,8 +18,10 @@ class CreateUserstatusesTable extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('fingerprint_id')->nullable();
+            $table->string('card_uid')->nullable();
             $table->boolean('ready_to_enroll')->default(0);
             $table->boolean('enrollment_status')->default(0);
+            $table->boolean('card_registered')->default(0);
             $table->boolean('delete_status')->default(0);
             $table->timestamps();
             // $table->foreign('user_id')->references('user_id')->on('users');

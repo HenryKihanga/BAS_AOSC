@@ -19,6 +19,7 @@ class CreateLogsTable extends Migration
             $table->time('time_in');
             $table->time('time_out')->nullable();
             $table->date('date');
+            $table->string('log_type');
             $table->timestamps();
             $table->softDeletes();
             // $table->foreign('user_id')->references('user_id')->on('users');

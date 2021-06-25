@@ -15,7 +15,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->string('user_id')->unique();
-            $table->string('device_token')->nullable();
+            $table->string('fingerprint_device_token')->nullable();
+            $table->string('rfid_device_token')->nullable();
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
@@ -33,7 +34,8 @@ class CreateUsersTable extends Migration
             $table->foreign('organization_id')->references('organization_id')->on('organizations');
             $table->foreign('branch_id')->references('branch_id')->on('branches');
             $table->foreign('department_id')->references('department_id')->on('departments');
-            $table->foreign('device_token')->references('device_token')->on('devices');
+            $table->foreign('fingerprint_device_token')->references('device_token')->on('devices');
+            $table->foreign('rfid_device_token')->references('device_token')->on('devices');
         });
     }
 

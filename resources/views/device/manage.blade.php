@@ -56,125 +56,130 @@
                 }
             });
         }
-
     </script>
 @endpush
 @section('navitem')
-<nav class="mt-2 myNavtab">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-        data-accordion="false">
-        <li class="nav-item ">
-            <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Dashboard
-                </p>
-            </a>
-        </li>
-        <li class="nav-item ">
-            <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-user-plus"></i>
-                <p>Add User</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link  "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-users"></i>
-                <p>Users</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('overallLogs')}}" class="nav-link"
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-clipboard-list"></i>
-                <p>
-                    User Logs
-                </p>
-            </a>
-        </li>
-        @can('manageOrganization')
-            <li class="nav-item">
-                <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link "
-                    onclick="toggle_active_class()">
-                    <i class="nav-icon fas fa-university"></i>
+    <nav class="mt-2 myNavtab">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item ">
+                <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
-                        Organizations
+                        Dashboard
                     </p>
                 </a>
             </li>
-        @endcan
-        @can('manageBranch')
+            <li class="nav-item ">
+                <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Add User</p>
+                </a>
+            </li>
             <li class="nav-item">
-                <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link "
+                <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link  "
                     onclick="toggle_active_class()">
-                    <i class="nav-icon fas fa-university"></i>
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('overallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
-                        Branches
+                        User Logs
                     </p>
                 </a>
             </li>
-        @endcan
-        <li class="nav-item">
-            <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-university"></i>
-                <p>
-                    Departments
-                </p>
-            </a>
-        </li>
+            @can('manageOrganization')
+                <li class="nav-item">
+                    <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link "
+                        onclick="toggle_active_class()">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Organizations
+                        </p>
+                    </a>
+                </li>
+            @endcan
+            @can('manageBranch')
+                <li class="nav-item">
+                    <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link "
+                        onclick="toggle_active_class()">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Branches
+                        </p>
+                    </a>
+                </li>
+            @endcan
+            <li class="nav-item">
+                <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Departments
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('showRoomManage') }}" class="nav-link">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Rooms
+                    </p>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link active"
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-microchip"></i>
-                <p>
-                    Devices
-                </p>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link active"
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-microchip"></i>
+                    <p>
+                        Devices
+                    </p>
+                </a>
+            </li>
 
 
-        <li class="nav-item">
-            <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-address-card"></i>
-                <p>
-                    View Profile
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-user-edit"></i>
-                <p>
-                    Edit Profile
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('changePassword') }}" class="nav-link " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-key"></i>
-                <p>
-                    Change Password
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-                <i class="nav-icon fas fa-sign-out-alt"></i>
-                <p>
-                    Logout
-                </p>
-            </a>
-        </li>
-    </ul>
-</nav>
+            <li class="nav-item">
+                <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-address-card"></i>
+                    <p>
+                        View Profile
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user-edit"></i>
+                    <p>
+                        Edit Profile
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-key"></i>
+                    <p>
+                        Change Password
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Logout
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </nav>
 @endsection
 @section('content')
 
@@ -229,15 +234,21 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="InputLocationofDevice">Device Location</label>
-                                        <input type="text" name="deviceLocation"
-                                            class="form-control @error('deviceLocation') in-valid @enderror"
-                                            value="{{ old('deviceLocation') }}" placeholder="Enter Device Location">
-                                        @error('deviceLocation')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                        <label for="InputDeviceType">Device Type</label>
+                                        <select class="form-control" name="deviceType">
+                                            <option value="fingerprint">fingerprint</option>
+                                            <option value="rfid">rfid</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputdeviceLocation">Device Location/Room</label>
+                                        <select class="form-control" name="deviceLocation">
+                                            @foreach ($rooms as $room)
+                                                <option value="{{ $room->room_id }}">
+                                                    {{ $room->room_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="InputOrganization">Select Organization</label>
@@ -292,13 +303,13 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" style="width: 10%">Device Token</th>
-                                            <th scope="col" style="width: 10%">Device Name</th>
+                                            <th scope="col" style="width: 15%">Device Name</th>
                                             <th scope="col" style="width: 20%">Device Department</th>
-                                            <th scope="col" style="width: 15%">Location</th>
-                                           
-                                                <th scope="col" style="width: 25%; text-align:center ">mode</th>
-                                          
-                                            <th scope="col" style="width: 20%">.</th>
+                                            <th scope="col" style="width: 20%">Location</th>
+
+                                            <th scope="col" style="width: 10%">mode</th>
+
+                                            <th scope="col" style="width: 25%">.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -307,24 +318,24 @@
                                                 <td class="filterable-cell" style="width: 10%">
                                                     {{ $device->device_token }}
                                                 </td>
-                                                <td class="filterable-cell" style="width: 10%">{{ $device->device_name }}
+                                                <td class="filterable-cell" style="width: 15%">{{ $device->device_name }}
                                                 </td>
                                                 <td class="filterable-cell" style="width: 20%">Department Name
                                                 </td>
-                                                <td class="filterable-cell" style="width: 15%">
-                                                    {{ $device->device_location }}
+                                                <td class="filterable-cell" style="width: 20%">
+                                                    {{ $device->room->room_name }}
                                                 </td>
-                                              
-                                                    <td class="text-right" style="width: 20%">
-                                                        @if ($device->device_mode)
-                                                            <a class="btn btn-success btn-sm filterable-cell m-1">Attendance</a>
-                                                            <a class="btn btn-danger btn-sm filterable-cell m-1">Enrollment</a>
-                                                        @else
-                                                            <a class="btn btn-danger btn-sm filterable-cell m-1">Attendance</a>
-                                                            <a class="btn btn-success btn-sm filterable-cell m-1">Enrollment</a>
-                                                        @endif
-                                                    </td>
-                                            
+
+                                                <td class="tilterable-cell" style="width: 10%">
+                                                    @if ($device->device_mode)
+                                                        <div class="btn btn-success btn-sm filterable-cell m-1">Attendance
+                                                        </div>
+                                                    @else
+                                                        <div class="btn btn-danger btn-sm filterable-cell m-1">Enrollment
+                                                        </div>
+                                                    @endif
+                                                </td>
+
                                                 <td class="text-right" style="width: 25%"> <a
                                                         class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
                                                             class="fas fa-folder pr-1"> </i>View</a>

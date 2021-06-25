@@ -66,6 +66,14 @@
                 </p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('showRoomManage') }}" class="nav-link">
+                <i class="nav-icon fas fa-university"></i>
+                <p>
+                    Rooms
+                </p>
+            </a>
+        </li>
 
         <li class="nav-item">
             <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
@@ -96,7 +104,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('changePassword') }}" class="nav-link " onclick="toggle_active_class()">
+            <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-key"></i>
                 <p>
                     Change Password
@@ -145,13 +153,13 @@
                     <h3 class="card-title">Users</h3>
                 </div>
                 @if (count($users) < 0)
-                    There is no user registered
+                    No data found
                 @else
-                    <div class="card-body p-0">
+                    <div class="card-body p-0" style="max-height: 80%;">
                         <table class="table table-striped projects">
                             <thead>
                                 <tr>
-                                    <th style="width: 15%">
+                                    <th style="width: 10%">
                                         User ID
                                     </th>
                                     <th style="width: 20%">
@@ -163,11 +171,14 @@
                                     <th style="width: 15%">
                                         Branch
                                     </th>
-                                    <th style="width: 15%">
+                                    <th style="width: 10%">
                                         Department
                                     </th>
                                     <th style="width: 10%" class="text-center">
-                                        Status
+                                        Fingerprint Status
+                                    </th>
+                                    <th style="width: 10%" class="text-center">
+                                        Card Status
                                     </th>
                                     <th style="width: 5%">.</th>
 
@@ -177,7 +188,7 @@
                             <tbody id="tableAllUsers">
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td style="width: 15%">{{ $user->user_id }}</td>
+                                        <td style="width: 10%">{{ $user->user_id }}</td>
                                         <td style="width: 20%">
                                             <ul class="list-inline">
                                                 <li class="list-inline-item"><img alt="Avatar" class="table-avatar mr-2"
@@ -188,7 +199,7 @@
                                         </td>
                                         <td style="width: 20%">{{$user->organization->organization_name}}</td>
                                         <td style="width: 15%">{{$user->branch->branch_name}}</td>
-                                        <td style="width: 15%">{{$user->department->department_name}}</td>
+                                        <td style="width: 10%">{{$user->department->department_name}}</td>
                                         <td class="project-state" style="width: 10%">
                                             @if ($user->status->enrollment_status && !$user->status->ready_to_enroll)
                                                 <span class="badge bg-success">Enrolled</span>
@@ -196,6 +207,14 @@
                                                 <span class="badge bg-info">Waiting...</span>
                                             @else
                                                 <span class="badge bg-danger">Not-enrolled</span>
+                                            @endif
+                                        </td>
+                                        <td class="project-state" style="width: 10%">
+                                            @if ($user->status->card_registered)
+                                                <span class="badge bg-success">Card added</span>
+             
+                                            @else
+                                                <span class="badge bg-danger">Card not-added</span>
                                             @endif
                                         </td>
                                         <td class="clickable-btn" style="width: 5%"> <a
@@ -206,6 +225,9 @@
 
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                       <a href="{{ route('exportAllUsers') }}"> <button type="button" class="btn btn-success">Export</button></a>
                     </div>
                     <!-- /.card-body -->
                 @endif

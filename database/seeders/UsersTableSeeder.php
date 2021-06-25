@@ -6,6 +6,7 @@ use App\Models\Department;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Room;
 use App\Models\Userstatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -28,6 +29,7 @@ class UsersTableSeeder extends Seeder
         $staffRole = Role::where('name', 'staff')->first();
 
         $department = Department::find(1);
+        $room1 = Room::find(1);
 
         $admin = new User();
         $admin->user_id = 1;
@@ -48,6 +50,7 @@ class UsersTableSeeder extends Seeder
             'delete_status' => 0
         ]);
         $admin->roles()->attach($adminRole);
+        $admin->rooms()->attach($room1);
         $department->users()->save($admin);
 
 

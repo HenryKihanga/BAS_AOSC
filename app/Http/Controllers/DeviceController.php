@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Device;
 use App\Models\Organization;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
@@ -26,29 +27,37 @@ class DeviceController extends Controller
             $departments = Department::all();
             // $devices = Device::orderBy('created_at', 'desc')->take(5)->get();
             $devices = Device::all();
+            $rooms = Room::all();
             return view('device.manage')->with([
                 'branches' => $branches,
                 'organizations' => $organizations,
                 'departments' => $departments,
-                'devices' => $devices
+                'devices' => $devices,
+                'rooms' => $rooms
             ]);
         }
 
         if (Gate::allows('isOrganizationHead')) {
-            $devices = User::find($userId)->organization->devices;
+            // $devices = User::find($userId)->organization->devices;
+            $organizationId = User::find($userId)->organization_id;//Get organization id of logged in user
+            $devices = Device::where('organization_id' , $organizationId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
         }
 
         if (Gate::allows('isBranchHead')) {
-            $devices = User::find($userId)->branch->devices;
+            // $devices = User::find($userId)->branch->devices;
+            $branchId = User::find($userId)->branch_id;//Get branch id of logged in user
+            $devices = Device::where('branch_id' , $branchId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
         }
         if (Gate::allows('isDepartmentHead')) {
-            $devices = User::find($userId)->department->devices;
+            // $devices = User::find($userId)->department->devices;
+            $departmentId = User::find($userId)->department_id;//Get department id of logged in user
+            $devices = Device::where('department_id' , $departmentId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
@@ -77,6 +86,7 @@ class DeviceController extends Controller
         $request->validate([
             'deviceToken' => 'required',
             'deviceName' => 'required',
+            'deviceType' => 'required',
             'deviceLocation' => 'required',
             'organizationId' => 'required',
             'branchId' => 'required',
@@ -84,6 +94,12 @@ class DeviceController extends Controller
         ]);
 
 
+        $room = Room::find($request->input('deviceLocation'));
+        if (!$room) {
+            return response()->json([
+                'error' => 'Room Not Exist,make sure you register room'
+            ]);
+        }
         $department = Department::find($request->input('departmentId'));
         if (!$department) {
             return response()->json([
@@ -94,7 +110,8 @@ class DeviceController extends Controller
         $device = new Device();
         $device->device_token = $request->input('deviceToken');
         $device->device_name = $request->input('deviceName');
-        $device->device_location = $request->input('deviceLocation');
+        $device->device_type = $request->input('deviceType');
+        $device->room_id = $request->input('deviceLocation');
         $device->organization_id = $request->input('organizationId');
         $device->branch_id = $request->input('branchId');
         if ($department->devices()->save($device)) {
@@ -157,7 +174,7 @@ class DeviceController extends Controller
 
         $device->update([
             'device_name' => $request->input('deviceName'),
-            'device_location' => $request->input('deviceLocation'),
+            'room_id' => $request->input('deviceLocation'),
             'organization_id' => $request->input('deviceOrganization'),
             'device_mode' => $device->device_mode,
 

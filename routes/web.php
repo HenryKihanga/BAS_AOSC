@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -94,11 +93,17 @@ Route::get('device/checkMode/{deviceToken}', [App\Http\Controllers\DeviceControl
 // Route::resource('/user','App\Http\Controllers\UserController');
 Route::get('user/addUser', [App\Http\Controllers\UserController::class, 'create'])->name('addUser');
 Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll'])->name('showAllUsers');
-Route::post('user/prepareUserToEnroll', [App\Http\Controllers\UserController::class, 'prepareUserToEnroll'])->name('prepareUserToEnroll');
+Route::post('user/fingerprintEnroll', [App\Http\Controllers\UserController::class, 'fingerprintEnroll'])->name('fingerprintEnroll');
+Route::post('user/rfidEnroll', [App\Http\Controllers\UserController::class, 'rfidEnroll'])->name('rfidEnroll');
 Route::get('user/details/{id}', [App\Http\Controllers\UserController::class, 'details'])->name('showUserDetails');
 Route::get('user/profile/{id}', [App\Http\Controllers\UserController::class, 'profile'])->name('showUserProfile');
+Route::get('user/enrolledUsers/{id}', [App\Http\Controllers\UserController::class, 'enrolledUser'])->name('enrolledUser');
+Route::get('user/unenrolledUsers/{id}', [App\Http\Controllers\UserController::class, 'unenrolledUser'])->name('unenrolledUser');
+Route::get('user/usersWithCard/{id}', [App\Http\Controllers\UserController::class, 'usersWithCard'])->name('usersWithCard');
+Route::get('user/usersWithoutCard/{id}', [App\Http\Controllers\UserController::class, 'usersWithoutCard'])->name('usersWithoutCard');
 Route::get('user/allUsers/{id}', [App\Http\Controllers\UserController::class, 'index'])->name('allUsers');
-Route::get('user/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changePassword');
+Route::get('user/changePassword', [App\Http\Controllers\UserController::class, 'showchangePassword'])->name('showChangePassword');
+Route::post('user/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changePassword');
 Route::get('user/delete/{userId}', [App\Http\Controllers\UserController::class, 'deleteUser'])->name('deleteUser');
 
 Route::get('user/showOne/{id}', [App\Http\Controllers\UserController::class, 'showOne'])->name('showOneUsers');
@@ -107,10 +112,20 @@ Route::post('user/addUser', [App\Http\Controllers\UserController::class, 'store'
 Route::get('user/fingerprintId/{deviceToken}', [App\Http\Controllers\UserController::class, 'fingerPrintId'])->name('userFingerPrintId');
 Route::get('user/confirmEnrollment/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\UserController::class, 'confirmEnrollment'])->name('confirmUserEnrollment');
 Route::get('user/deleteUserEnrolled/{deviceToken}', [App\Http\Controllers\UserController::class, 'deleteUserEnrolled'])->name('userFingerPrintId');
-
+Route::get('user/export', [App\Http\Controllers\UserController::class, 'exportAllUsers'])->name('exportAllUsers');
 
 
 // Routes for Log controller
 Route::get('log/overall', [App\Http\Controllers\LogController::class, 'index'])->name('overallLogs');
+Route::get('log/presentees', [App\Http\Controllers\LogController::class, 'userPresentToday'])->name('userPresentToday');
+Route::get('log/absentees', [App\Http\Controllers\LogController::class, 'userAbsenteToday'])->name('userAbsenteToday');
+Route::get('log/userlog/{user_id}', [App\Http\Controllers\LogController::class, 'userSpecificLogs'])->name('userSpecificLogs');
 //hardware
-Route::get('log/checkInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'checkInOrOut'])->name('checkInOrOut');
+Route::get('log/fingerprintCheckInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'fingerprintCheckInOrOut'])->name('fingerprintCheckInOrOut');
+Route::get('log/rfidCheckInOrOut/{cardUid}/{deviceToken}', [App\Http\Controllers\LogController::class, 'rfidCheckInOrOut'])->name('rfidCheckInOrOut');
+
+
+//ROUTES FOR ROOM CONTROLLER
+Route::get('room/manage', [App\Http\Controllers\RoomController::class, 'showManage'])->name('showRoomManage');
+Route::post('room/store', [App\Http\Controllers\RoomController::class, 'storeRoom'])->name('storeRoom');
+Route::get('room/showAll', [App\Http\Controllers\RoomController::class, 'showAll'])->name('showAllRooms');

@@ -2,12 +2,12 @@
 @push('scripts')
     <script>
         var today = new Date();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-            $('#h').text(h + ":" + m + ":" + s);
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        $('#h').text(h + ":" + m + ":" + s);
 
         function startTime() {
             var today = new Date();
@@ -26,7 +26,7 @@
             }; // add zero in front of numbers < 10
             return i;
         }
-        
+
         var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
         var areaChartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -101,126 +101,132 @@
             data: barChartData,
             options: barChartOptions
         })
-
     </script>
 @endpush
 @section('navitem')
-<nav class="mt-2 myNavtab">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-        data-accordion="false">
-        <li class="nav-item ">
-            <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link active " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Dashboard
-                </p>
-            </a>
-        </li>
-        <li class="nav-item ">
-            <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-user-plus"></i>
-                <p>Add User</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-users"></i>
-                <p>Users</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('overallLogs')}}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-clipboard-list"></i>
-                <p>
-                    User Logs
-                </p>
-            </a>
-        </li>
-        @can('manageOrganization')
-            <li class="nav-item">
-                <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link "
+    <nav class="mt-2 myNavtab">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item ">
+                <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link active "
                     onclick="toggle_active_class()">
-                    <i class="nav-icon fas fa-university"></i>
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
-                        Organizations
+                        Dashboard
                     </p>
                 </a>
             </li>
-        @endcan
-        @can('manageBranch')
+            <li class="nav-item ">
+                <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Add User</p>
+                </a>
+            </li>
             <li class="nav-item">
-                <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link "
+                <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link "
                     onclick="toggle_active_class()">
-                    <i class="nav-icon fas fa-university"></i>
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('overallLogs') }}" class="nav-link " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
-                        Branches
+                        User Logs
                     </p>
                 </a>
             </li>
-        @endcan
-        <li class="nav-item">
-            <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-university"></i>
-                <p>
-                    Departments
-                </p>
-            </a>
-        </li>
+            @can('manageOrganization')
+                <li class="nav-item">
+                    <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link "
+                        onclick="toggle_active_class()">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Organizations
+                        </p>
+                    </a>
+                </li>
+            @endcan
+            @can('manageBranch')
+                <li class="nav-item">
+                    <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link "
+                        onclick="toggle_active_class()">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Branches
+                        </p>
+                    </a>
+                </li>
+            @endcan
+            <li class="nav-item">
+                <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Departments
+                    </p>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-microchip"></i>
-                <p>
-                    Devices
-                </p>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a href="{{ route('showRoomManage') }}" class="nav-link">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Rooms
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-microchip"></i>
+                    <p>
+                        Devices
+                    </p>
+                </a>
+            </li>
 
 
-        <li class="nav-item">
-            <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-address-card"></i>
-                <p>
-                    View Profile
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-user-edit"></i>
-                <p>
-                    Edit Profile
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('changePassword') }}" class="nav-link " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-key"></i>
-                <p>
-                    Change Password
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-                <i class="nav-icon fas fa-sign-out-alt"></i>
-                <p>
-                    Logout
-                </p>
-            </a>
-        </li>
-    </ul>
-</nav>
-    
+            <li class="nav-item">
+                <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-address-card"></i>
+                    <p>
+                        View Profile
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user-edit"></i>
+                    <p>
+                        Edit Profile
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-key"></i>
+                    <p>
+                        Change Password
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Logout
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 @endsection
 @section('content')
 
@@ -254,41 +260,93 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>{{$registeredUsers}}</h3>
+                                    <h3>{{ $registeredUsers }}</h3>
                                     <p>Total Users Available</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="small-box-footer">More
+                                    info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div><!-- ./col -->
                         <div class="col-lg-4 col-12">
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>{{$presentUsers}}<sup style="font-size: 20px">%</sup></h3>
+                                    <h3>{{ $presentUsers }}<sup style="font-size: 20px">%</sup></h3>
                                     <p>Users Present Today</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-user-check"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('userPresentToday') }}" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div> <!-- ./col -->
                         <div class="col-lg-4 col-12">
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>{{ $absentUsers}}<sup style="font-size: 20px">%</sup></h3>
+                                    <h3>{{ $absentUsers }}<sup style="font-size: 20px">%</sup></h3>
                                     <p>Absentees</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-user-times"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('userAbsenteToday') }}" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div><!-- ./col -->
+                    </div>
+                    {{-- DATA FOR AOSC ############################ --}}
+                    <div class="row">
+                        <div class="col-lg-4 col-12">
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>{{ $rooms }}</h3>
+                                    <p>Registered Rooms</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-person-booth"></i>
+                                </div>
+                                <a href="{{ route('showRoomManage') }}"
+                                    class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                   
+                        <div class="col-lg-4 col-12">
+                            <!-- small box -->
+                            <div class="small-box bg-secondary">
+                                <div class="inner">
+                                    <h3>{{ $usersWithCard }}</h3>
+                                    <p>Users With Card</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <a href="{{ route('usersWithCard', Auth::user()->user_id) }}"
+                                    class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <!-- small box -->
+                            <div class="small-box bg-primary">
+                                <div class="inner">
+                                    <h3>{{ $usersWithoutCard }}</h3>
+                                    <p>Users Without Card</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-id-card" ><sup style="font-size: 40px"><i class="fas fa-times-circle"></i></sup></i>
+                                </div>
+                                <a href="{{ route('usersWithoutCard', Auth::user()->user_id) }}"
+                                    class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+
+
+                        </div>
+                        {{-- END OF DATA FOR AOSC ############################ --}}
                     </div>
                 </div> <!-- ./col -->
                 <div class="col-lg-3 col-12">
@@ -306,81 +364,156 @@
                             </div>
                         </div>
                     </div>
+                      {{--  DATA FOR AOSC ############################ --}}
+                    <div class="row">
+                        <div class="col-lg-12 col-12">
+                          <!-- small box -->
+                          <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>{{ $unenrolledUsers }}</h3>
+                                <p>Users Visited Sensitive Rooms</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <a href="{{ route('unenrolledUser', Auth::user()->user_id) }}"
+                                class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                        </div>
+                    </div>
+                      {{-- END OF DATA FOR AOSC ############################ --}}
+            
                 </div><!-- ./col -->
             </div>
+            {{-- ++++++++++===========================================+++++++++++++++++++++++ --}}
             <div class="row">
                 <div class="col-lg-9 col-12">
                     <div class="row">
                         <div class="col-lg-4 col-12">
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>{{ $registeredDevices}}</h3>
+                                    <h3>{{ $registeredDevices }}</h3>
                                     <p>Devices</p>
                                 </div>
                                 <div class="icon">
                                     <i class="nav-icon fas fa-microchip"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('deviceManage', Auth::user()->user_id) }}"
+                                    class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                            <!-- small box -->
-                            <div class="small-box bg-primary">
-                                <div class="inner">
-                                    <h3>{{ $registeredOrganizations}}</h3>
-                                    <p>Registerd Organization</p>
+                            @can('isAdmin')
+                                <!-- small box -->
+                                <div class="small-box bg-primary">
+                                    <div class="inner">
+                                        <h3>{{ $registeredOrganizations }}</h3>
+                                        <p>Registerd Organization</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="nav-icon fas fa-university"></i>
+                                    </div>
+                                    <a href="{{ route('manageOrganization', Auth::user()->user_id) }}"
+                                        class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <i class="nav-icon fas fa-university"></i>
+                            @endcan
+                            @can('isOrganizationHead')
+                                <!-- small box -->
+                                <div class="small-box bg-secondary">
+                                    <div class="inner">
+                                        <h3>{{ $registeredBranches }}</h3>
+                                        <p>Registered Branches</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-sitemap"></i>
+                                    </div>
+                                    <a href="{{ route('manageBranch', Auth::user()->user_id) }}"
+                                        class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
+                            @endcan
+                            @can('isBranchHead')
+                                <!-- small box -->
+                                <div class="small-box bg-light">
+                                    <div class="inner">
+                                        <h3>{{ $registeredDepartments }}</h3>
+                                        <p>Registerd Departments</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fab fa-dyalog"></i>
+                                    </div>
+                                    <a href="{{ route('manageDepartment', Auth::user()->user_id) }}"
+                                        class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            @endcan
+
                         </div>
                         <div class="col-lg-4 col-12">
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>{{$enrolledUsers}}</h3>
+                                    <h3>{{ $enrolledUsers }}</h3>
                                     <p>Enrolled Users</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="nav-icon fas fa-university"></i>
+                                    <i class="fas fa-fingerprint"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('enrolledUser', Auth::user()->user_id) }}"
+                                    class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                            <!-- small box -->
-                            <div class="small-box bg-secondary">
-                                <div class="inner">
-                                    <h3>{{$registeredBranches}}</h3>
-                                    <p>Registered Branches</p>
+                            @can('isAdmin')
+                                <!-- small box -->
+                                <div class="small-box bg-secondary">
+                                    <div class="inner">
+                                        <h3>{{ $registeredBranches }}</h3>
+                                        <p>Registered Branches</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-sitemap"></i>
+                                    </div>
+                                    <a href="{{ route('manageBranch', Auth::user()->user_id) }}"
+                                        class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-sitemap"></i>
+                            @endcan
+                            @can('isOrganizationHead')
+                                <!-- small box -->
+                                <div class="small-box bg-light">
+                                    <div class="inner">
+                                        <h3>{{ $registeredDepartments }}</h3>
+                                        <p>Registerd Departments</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fab fa-dyalog"></i>
+                                    </div>
+                                    <a href="{{ route('manageDepartment', Auth::user()->user_id) }}"
+                                        class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
+                            @endcan
                         </div>
                         <div class="col-lg-4 col-12">
                             <!-- small box -->
                             <div class="small-box bg-secondary">
                                 <div class="inner">
-                                    <h3>{{$unenrolledUsers}}</h3>
+                                    <h3>{{ $unenrolledUsers }}</h3>
                                     <p>Not Enrolled Users</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-sitemap"></i>
+                                    <i class="fas fa-fingerprint"><sup style="font-size: 40px"><i class="fas fa-times-circle"></i></sup></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{ route('unenrolledUser', Auth::user()->user_id) }}"
+                                    class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                            <!-- small box -->
-                            <div class="small-box bg-light">
-                                <div class="inner">
-                                    <h3>{{$registeredDepartments}}</h3>
-                                    <p>Registerd Departments</p>
+                            @can('isAdmin')
+                                <!-- small box -->
+                                <div class="small-box bg-light">
+                                    <div class="inner">
+                                        <h3>{{ $registeredDepartments }}</h3>
+                                        <p>Registerd Departments</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fab fa-dyalog"></i>
+                                    </div>
+                                    <a href="{{ route('manageDepartment', Auth::user()->user_id) }}"
+                                        class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <i class="fab fa-dyalog"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
+                            @endcan
                         </div>
                     </div>
                 </div> <!-- ./col -->
@@ -395,7 +528,7 @@
                                     </h3>
                                     <!-- tools card -->
                                     <div class="card-tools">
-                                    
+
                                         <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
@@ -408,7 +541,8 @@
                                 <!-- /.card-header -->
                                 <div class="card-body pt-0">
                                     <!--The calendar -->
-                                    <div id="calendar" style="min-height: 150px; height: 200px; max-height: 200px; max-width: 100%;"></div>
+                                    <div id="calendar"
+                                        style="min-height: 150px; height: 200px; max-height: 200px; max-width: 100%;"></div>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

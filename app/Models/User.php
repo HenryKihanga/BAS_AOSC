@@ -22,7 +22,8 @@ class User extends Authenticatable
     protected $fillable = [
         'user_id',
         'first_name',
-        'device_token',
+        'fingerprint_device_token',
+        'rfid_device_token',
         'middle_name',
         'last_name',
         'phone_number',
@@ -66,6 +67,9 @@ class User extends Authenticatable
     public function department(){
         return $this->belongsTo(Department::class , 'department_id');
     }
+    public function rooms(){
+        return $this->belongsToMany(Room::class );
+    }
    
    
 
@@ -73,8 +77,11 @@ class User extends Authenticatable
         return $this->hasOne(Userstatus::class, 'user_id');
     }
 
-    public function device(){
-        return $this->belongsTo(Device::class , 'device_token');
+    public function fingerprintDevice(){
+        return $this->belongsTo(Device::class , 'fingerprint_device_token');
+    }
+    public function rfidDevice(){
+        return $this->belongsTo(Device::class , 'rfid_device_token');
     }
 
     public function logs(){
