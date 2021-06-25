@@ -304,7 +304,7 @@
                         <div class="col-lg-4 col-12">
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3> 10 </h3>
+                                    <h3>{{ $rooms }}</h3>
                                     <p>Registered Rooms</p>
                                 </div>
                                 <div class="icon">
