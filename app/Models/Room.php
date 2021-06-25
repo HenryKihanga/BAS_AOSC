@@ -22,6 +22,9 @@ class Room extends Model
     protected $dates = ['deleted_at'];
 
 
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
     
     // public function branches(){
     //     return $this->hasMany(Branch::class, 'organization_id');

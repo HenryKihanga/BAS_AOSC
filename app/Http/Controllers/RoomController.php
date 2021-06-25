@@ -38,4 +38,15 @@ class RoomController extends Controller
         return redirect()->route('showRoomManage');
         
     }
+
+    public function showAll()
+    {
+        $rooms = Room::all();
+        foreach ($rooms as $room) {
+           $room->users;
+        }
+        return response()->json([
+            'rooms' => $rooms
+        ]);
+    }
 }

@@ -212,9 +212,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-
-    {
+    public function store(Request $request){
         if (Gate::allows('isAdmin')) {
             $request->validate([
                 'firstName' => ['required', 'string', 'max:255'],
@@ -474,6 +472,7 @@ class UserController extends Controller
             $user->roles;
             $user->fingerprintDevice;
             $user->rfidDevice;
+            $user->rooms;
         }
         return response()->json([
             'users' => $users

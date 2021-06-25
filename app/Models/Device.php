@@ -15,7 +15,7 @@ class Device extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'device_token','device_name','device_type', 'department_id','device_mode', 'room_id'
+        'device_token','device_name','device_type', 'department_id','device_mode', 'room_id '
     ];
 
     protected $dates = ['deleted_at' , 'date_of_birth'];
