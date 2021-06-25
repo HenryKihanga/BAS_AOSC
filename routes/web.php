@@ -99,6 +99,8 @@ Route::get('user/details/{id}', [App\Http\Controllers\UserController::class, 'de
 Route::get('user/profile/{id}', [App\Http\Controllers\UserController::class, 'profile'])->name('showUserProfile');
 Route::get('user/enrolledUsers/{id}', [App\Http\Controllers\UserController::class, 'enrolledUser'])->name('enrolledUser');
 Route::get('user/unenrolledUsers/{id}', [App\Http\Controllers\UserController::class, 'unenrolledUser'])->name('unenrolledUser');
+Route::get('user/usersWithCard/{id}', [App\Http\Controllers\UserController::class, 'usersWithCard'])->name('usersWithCard');
+Route::get('user/usersWithoutCard/{id}', [App\Http\Controllers\UserController::class, 'usersWithoutCard'])->name('usersWithoutCard');
 Route::get('user/allUsers/{id}', [App\Http\Controllers\UserController::class, 'index'])->name('allUsers');
 Route::get('user/changePassword', [App\Http\Controllers\UserController::class, 'showchangePassword'])->name('showChangePassword');
 Route::post('user/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('changePassword');

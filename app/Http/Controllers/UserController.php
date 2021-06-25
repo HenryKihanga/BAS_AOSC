@@ -189,6 +189,133 @@ class UserController extends Controller
         }
     }
 
+    public function usersWithCard($userId)
+    {
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+
+            $users =  User::find($userId)->organization->users;
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $enrolledUsers = [];
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $usersWithCard = [];
+            foreach ($users as $user) {
+                if ($user->status->card_registered) {
+                    array_push($usersWithCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithCard
+            ]);
+        }
+    }
+
+    public function usersWithoutCard($userId)
+    {
+        if (Gate::allows('isAdmin')) {
+            // $users = User::orderBy('updated_at', 'asc')->take(5)->get();
+            $users = User::all();
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
+            ]);
+        }
+        if (Gate::allows('isOrganizationHead')) {
+
+            $users =  User::find($userId)->organization->users;
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
+            ]);
+        }
+
+        if (Gate::allows('isBranchHead')) {
+            $users =  User::find($userId)->branch->users;
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
+            ]);
+        }
+        if (Gate::allows('isDepartmentHead')) {
+            $users =  User::find($userId)->department->users;
+            $usersWithoutCard = [];
+            foreach ($users as $user) {
+                if (!$user->status->card_registered) {
+                    array_push($usersWithoutCard, $user);
+                } else {
+                    continue;
+                }
+            }
+            return view('user.allUsers')->with([
+                'users' => $usersWithoutCard
+            ]);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
