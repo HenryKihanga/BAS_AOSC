@@ -181,11 +181,13 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10%">SN</th>
-                                    <th style="width: 30%">Username</th>
-                                    <th style="width: 15%">Time-in</th>
-                                    <th style="width: 15%">Time-out</th>
+                                    <th style="width: 20%">Username</th>
+                                    <th style="width: 10%">Time-in</th>
+                                    <th style="width: 10%">Time-out</th>
                                     <th style="width: 10%">Date</th>
                                     <th style="width: 10%">Device</th>
+                                    <th style="width: 10%">Room</th>
+                                    <th style="width: 10%">Security</th>
                                     <th style="width: 10%">Status</th>
                                 </tr>
                             </thead>
@@ -200,18 +202,24 @@
                                     <tr>
                                         <td style="width: 10%">
                                             {{ $sn }}</td>
-                                        <td style="width: 30%">
+                                        <td style="width: 20%">
                                             {{ $log->user->first_name }}
                                             {{ $log->user->middle_name }}
                                             {{ $log->user->last_name }}</td>
-                                        <td style="width: 15%">
+                                        <td style="width: 10%">
                                             {{ $log->time_in }}</td>
-                                        <td style="width: 15%">
+                                        <td style="width: 10%">
                                             {{ $log->time_out }}</td>
                                         <td style="width: 10%">{{ $log->date }}
                                         </td>
                                         <td style="width: 10%">
                                             {{ $log->device->device_name}}</td>
+                                        </td>
+                                        <td style="width: 10%">
+                                            {{ $log->device->room->room_name}}</td>
+                                        </td>
+                                        <td style="width: 10%">
+                                            {{ $log->device->room->room_security_level}}</td>
                                         </td>
                                         @php
                                             $auhorized = false;

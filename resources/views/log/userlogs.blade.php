@@ -3,7 +3,8 @@
     <nav class="mt-2 myNavtab">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item ">
-                <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  " onclick="toggle_active_class()">
+                <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link active "
+                    onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -117,7 +118,7 @@
             </li>
             <li class="nav-item">
                 <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
+                                                                        document.getElementById('logout-form').submit();">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -135,13 +136,17 @@
         <div class="container">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">User Logs</h1>
+                    <h4 class="m-0"> {{ $user->first_name }}
+                        {{ $user->middle_name }}
+                        {{ $user->last_name }} Logs</h4>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('home', Auth::user()->user_id) }}">Dashboard</a>
                         </li>
-                        <li class="breadcrumb-item active">User Logs</li>
+                        <li class="breadcrumb-item active">Users</li>
+                        <li class="breadcrumb-item active">User Details</li>
+                        <li class="breadcrumb-item active">User Log</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -199,75 +204,57 @@
                                                             {{-- <table class="table table-head-fixed text-nowrap"> --}}
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width: 10%">ID</th>
-                                                                    <th style="width: 30%">Username</th>
+                                                                    <th style="width: 10%">SN</th>
                                                                     <th style="width: 15%">Time-in</th>
                                                                     <th style="width: 15%">Time-out</th>
                                                                     <th style="width: 10%">Date</th>
-                                                                    <th style="width: 10%">Type</th>
+                                                                    <th style="width: 10%">Device</th>
+                                                                    <th style="width: 15%">Location</th>
+                                                                    <th style="width: 15%">Security</th>
                                                                     <th style="width: 10%">Status</th>
                                                                 </tr>
                                                             </thead>
-                                                            @if ($type == 1)
-                                                                <tbody>
-                                                                    @foreach ($logs as $log)
-                                                                        @if ($log->log_type == 'fingerprint')
-                                                                            <tr>
-                                                                                <td style="width: 10%">
-                                                                                    {{ $log->user_id }}
-                                                                                </td>
-                                                                                <td style="width: 30%">
-                                                                                    {{ $log->user->first_name }}
-                                                                                    {{ $log->user->middle_name }}
-                                                                                    {{ $log->user->last_name }}</td>
-                                                                                <td style="width: 15%">
-                                                                                    {{ $log->time_in }}
-                                                                                </td>
-                                                                                <td style="width: 15%">
-                                                                                    {{ $log->time_out }}
-                                                                                </td>
-                                                                                <td style="width: 10%">{{ $log->date }}
-                                                                                </td>
-                                                                                <td style="width: 10%">
-                                                                                    {{ $log->log_type }}
-                                                                                </td>
-                                                                                <td style="width: 10%"><span
-                                                                                        class="badge bg-success">On-time</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
+                                                            <tbody>
+                                                                @php
+                                                                    $sn = 0;
+                                                                @endphp
+                                                                @foreach ($logs as $log)
 
-                                                                    @endforeach
-
-                                                                </tbody>
-                                                            @else
-                                                                <tbody>
-                                                                    @foreach ($logs as $log)
-                                                                        @if ($log->log_type == 'fingerprint')
-                                                                            <tr>
-                                                                                <td style="width: 10%">
-                                                                                    {{ $log->user_id }}
-                                                                                </td>
-                                                                                <td style="width: 30%">
-                                                                                    {{ $log->first_name }}
-                                                                                    {{ $log->middle_name }}
-                                                                                    {{ $log->last_name }}</td>
-                                                                                <td style="width: 15%"> - </td>
-                                                                                <td style="width: 15%"> - </td>
-                                                                                <td style="width: 15%">
-                                                                                    {{ date('Y-m-d') }}
-                                                                                </td>
-                                                                                <td><span
-                                                                                        class="badge bg-danger">Absente</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-
-                                                                    @endforeach
-
-                                                                </tbody>
-                                                            @endif
-
+                                                                    @if ($log->log_type == 'fingerprint')
+                                                                        @php
+                                                                            $sn++;
+                                                                        @endphp
+                                                                        <tr>
+                                                                            <td style="width: 10%">
+                                                                                {{ $sn }}
+                                                                            </td>
+                            
+                                                                            <td style="width: 15%">
+                                                                                {{ $log->time_in }}
+                                                                            </td>
+                                                                            <td style="width: 15%">
+                                                                                {{ $log->time_out }}
+                                                                            </td>
+                                                                            <td style="width: 10%">{{ $log->date }}
+                                                                            </td>
+                                                                            <td style="width: 10%">
+                                                                                {{ $log->device->device_name }}
+                                                                            </td>
+                                                                            <td style="width: 15%">
+                                                                                {{ $log->device->room->room_name }}
+                                                                            </td>
+                                                                            <td style="width: 15%">
+                                                                                {{ $log->device->room->room_security_level}}
+                                                                            </td>
+                                                                            @if ($log->time_in < $arrive_time)
+                                                                            <td style="width: 10%"><span class="badge bg-success">arrived-ontime</span>
+                                                                            @else
+                                                                            <td style="width: 10%"><span class="badge bg-danger">arrived-late</span>
+                                                                            @endif
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tbody>
                                                         </table>
                                                     @endif
                                                 </div> <!-- /.card-body -->
@@ -276,19 +263,15 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="rfid">
-
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="card">
-
                                                 <div class="card-header">
                                                     <h3 class="card-title">RFID Logs</h3>
-
                                                     <div class="card-tools">
                                                         <div class="input-group input-group-sm" style="width: 150px;">
                                                             <input type="text" name="table_search"
                                                                 class="form-control float-right" placeholder="Search">
-
                                                             <div class="input-group-append">
                                                                 <button type="submit" class="btn btn-default">
                                                                     <i class="fas fa-search"></i>
@@ -302,80 +285,77 @@
                                                     @if (count($logs) < 1)
                                                         <p class="p-4"> There is no data </p>
                                                     @else
-                                                        <table class="table table-head-fixed">
-                                                            {{-- <table class="table table-head-fixed text-nowrap"> --}}
-                                                            <thead>
+                                                    <table class="table table-head-fixed">
+                                                        {{-- <table class="table table-head-fixed text-nowrap"> --}}
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 10%">SN</th>
+                                                               
+                                                                <th style="width: 15%">Time-in</th>
+                                                                <th style="width: 15%">Time-out</th>
+                                                                <th style="width: 10%">Date</th>
+                                                                <th style="width: 10%">Device</th>
+                                                                <th style="width: 15%">Room</th>
+                                                                <th style="width: 15%">Security</th>
+                                                                <th style="width: 10%">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                              $sn = 0;  
+                                                            @endphp
+                                                            @foreach ($logs as $log)
+                                                            @php
+                                                              $sn ++;  
+                                                            @endphp
                                                                 <tr>
-                                                                    <th style="width: 10%">ID</th>
-                                                                    <th style="width: 30%">Username</th>
-                                                                    <th style="width: 15%">Time-in</th>
-                                                                    <th style="width: 15%">Time-out</th>
-                                                                    <th style="width: 10%">Date</th>
-                                                                    <th style="width: 10%">Type</th>
-                                                                    <th style="width: 10%">Status</th>
+                                                                    <td style="width: 10%">
+                                                                        {{ $sn }}</td>
+                                                                  
+                                                                    <td style="width: 15%">
+                                                                        {{ $log->time_in }}</td>
+                                                                    <td style="width: 15%">
+                                                                        {{ $log->time_out }}</td>
+                                                                    <td style="width: 10%">{{ $log->date }}
+                                                                    </td>
+                                                                    <td style="width: 10%">
+                                                                        {{ $log->device->device_name}}</td>
+                                                                    </td>
+                                                                    <td style="width: 15%">
+                                                                        {{ $log->device->room->room_name}}</td>
+                                                                    </td>
+                                                                    <td style="width: 15%">
+                                                                        {{ $log->device->room->room_security_level}}</td>
+                                                                    </td>
+                                                                    @php
+                                                                        $auhorized = false;
+                                                                    @endphp
+                                                                    @foreach ($log->user->rooms as $room)
+                                                                        @if ($room->room_name == $log->device->room->room_name)
+                                                                            @php
+                                                                                $auhorized = true;
+                                                                            @endphp
+                                                                        @endif
+                                                                    @endforeach
+                                                                    @if ($auhorized)
+                                                                        <td style="width: 10%"><span class="badge bg-success">authorized</span>
+                                                                        @else
+                                                                        <td style="width: 10%"><span
+                                                                                class="badge bg-danger">not-authorized</span>
+                                                                    @endif
+                            
+                            
+                                                                    </td>
+                                                                    </td>
                                                                 </tr>
-                                                            </thead>
-                                                            @if ($type == 1)
-                                                                <tbody>
-                                                                    @foreach ($logs as $log)
-                                                                        @if ($log->log_type == 'rfid')
-                                                                            <tr>
-                                                                                <td style="width: 10%">
-                                                                                    {{ $log->user_id }}</td>
-                                                                                <td style="width: 30%">
-                                                                                    {{ $log->user->first_name }}
-                                                                                    {{ $log->user->middle_name }}
-                                                                                    {{ $log->user->last_name }}</td>
-                                                                                <td style="width: 15%">
-                                                                                    {{ $log->time_in }}</td>
-                                                                                <td style="width: 15%">
-                                                                                    {{ $log->time_out }}</td>
-                                                                                <td style="width: 10%">{{ $log->date }}
-                                                                                </td>
-                                                                                <td style="width: 10%">
-                                                                                    {{ $log->log_type }}</td>
-                                                                                <td style="width: 10%"><span
-                                                                                        class="badge bg-success">On-time</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-
-                                                                    @endforeach
-
-                                                                </tbody>
-                                                            @else
-                                                                <tbody>
-                                                                    @foreach ($logs as $log)
-                                                                        @if ($log->log_type == 'fingerprint')
-                                                                            <tr>
-                                                                                <td style="width: 10%">
-                                                                                    {{ $log->user_id }}</td>
-                                                                                <td style="width: 30%">
-                                                                                    {{ $log->first_name }}
-                                                                                    {{ $log->middle_name }}
-                                                                                    {{ $log->last_name }}</td>
-                                                                                <td style="width: 15%"> - </td>
-                                                                                <td style="width: 15%"> - </td>
-                                                                                <td style="width: 15%">
-                                                                                    {{ date('Y-m-d') }}</td>
-                                                                                <td><span
-                                                                                        class="badge bg-danger">Absente</span>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-
-                                                                    @endforeach
-
-                                                                </tbody>
-                                                            @endif
-
-                                                        </table>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
                                                     @endif
                                                 </div> <!-- /.card-body -->
                                             </div> <!-- /.card -->
                                         </div>
                                     </div>
-
                                 </div>
                                 <!-- /.tab-pane -->
                             </div>

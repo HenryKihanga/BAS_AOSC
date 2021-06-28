@@ -82,9 +82,11 @@ class LogController extends Controller
     public function userSpecificLogs($userId)
     {
         $useLog = Log::all()->where('user_id', $userId);
-        return view('log.overall')->with([
+        return view('log.userlogs')->with([
             'logs' => $useLog,
-            'type' => 1
+            'user' => User::find($userId),
+            'arrive_time' => '07:30:00'
+          
         ]);
     }
     public function fingerprintCheckInOrOut($fingerPrintId, $deviceToken)
