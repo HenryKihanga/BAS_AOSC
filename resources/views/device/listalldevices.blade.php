@@ -62,7 +62,7 @@
     <nav class="mt-2 myNavtab">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item ">
-                <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  " onclick="toggle_active_class()">
+                <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  active" onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -139,7 +139,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link active"
+                <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
                     onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-microchip"></i>
                     <p>
@@ -198,12 +198,17 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Device Manage</h1>
-                </div>
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ route('home', Auth::user()->user_id) }}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="{{ route('showAllDevices') }}">list of devices</a></li>
+                    </ol>
+                </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home', Auth::user()->user_id) }}">Home</a></li>
-                        <li class="breadcrumb-item active">Device Manage</li>
+                        <li class="breadcrumb-item "><a href="{{ route('home', Auth::user()->user_id) }}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="{{ route('showAllDevices') }}">list of devices</a></li>
                     </ol>
                 </div>
             </div>
@@ -213,90 +218,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                @can('registerDevice')
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Add New Device</h3>
-                            </div><!-- /.card-header -->
-                            <!-- form start -->
-                            <form id="newDeviceForm" method="POST" action="{{ route('storeDevice') }}">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="InputDeviceToken">Device Token</label>
-                                        <input type="text" name="deviceToken"
-                                            class="form-control @error('deviceToken') in-valid @enderror"
-                                            value="{{ old('deviceToken') }}" placeholder="Enter Device Token">
-                                        @error('deviceToken')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputNameofDevice">Device Name</label>
-                                        <input type="text" name="deviceName"
-                                            class="form-control @error('deviceName') in-valid @enderror"
-                                            value="{{ old('deviceName') }}" placeholder="Enter Device Name">
-                                        @error('deviceName')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputDeviceType">Device Type</label>
-                                        <select class="form-control" name="deviceType">
-                                            <option value="fingerprint">fingerprint</option>
-                                            <option value="rfid">rfid</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputdeviceLocation">Device Location/Room</label>
-                                        <select class="form-control" name="deviceLocation">
-                                            @foreach ($rooms as $room)
-                                                <option value="{{ $room->room_id }}">
-                                                    {{ $room->room_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputOrganization">Select Organization</label>
-                                        <select class="form-control" name="organizationId">
-                                            @foreach ($organizations as $organization)
-                                                <option value="{{ $organization->organization_id }}">
-                                                    {{ $organization->organization_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputOrganization">Select Branch</label>
-                                        <select class="form-control" name="branchId">
-                                            @foreach ($branches as $branch)
-                                                <option value="{{ $branch->branch_id }}">{{ $branch->branch_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="InputOrganization">Select Department</label>
-                                        <select class="form-control" name="departmentId">
-                                            @foreach ($departments as $department)
-                                                <option value="{{ $department->department_id }}">
-                                                    {{ $department->department_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-dark">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                @endcan
-                <!-- col -->
-                <div class="col-md-9">
+ 
                     <div class="card ">
                         <div class="card-header">
                             <h3 class="card-title">List of Devices</h3>
@@ -344,8 +266,8 @@
                                                     @endif
                                                 </td>
 
-                                                <td class="text-right" style="width: 25%">
-                                                     {{-- <a
+                                                <td class="text-right" style="width: 25%"> 
+                                                    {{-- <a
                                                         class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
                                                             class="fas fa-folder pr-1"> </i>View</a> --}}
                                                     @can('editDevice')
@@ -370,10 +292,7 @@
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
+            
         </div><!-- /.container-fluid -->
 
 

@@ -16,12 +16,14 @@ class CreateRoomsTable extends Migration
         Schema::create('rooms', function (Blueprint $table) {
         
             $table->string('room_id')->unique();
+            $table->string('device_token')->nullable();
             $table->string('room_name');
             $table->string('room_security_level');
             $table->timestamps();
             $table->softDeletes();
             // $table->foreign('organization_id')
             // ->references('organization_id')->on('organizations');
+            // $table->foreign('device_token')->references('device_token')->on('devices');
          
         });
     }

@@ -23,14 +23,16 @@ class DashboardController extends Controller
     {
         // $departments = Department::orderBy('created_at', 'desc')->take(5)->get();
         if (Gate::allows('isAdmin')) {
+            $today_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get();
             $users = User::all();
             $rooms = Room::all();
             $enrolledUsers = [];
             $unenrolledUsers = [];
             $usersWithCard = [];
             $usersWithoutCard = [];
-            $i = 0;
+           
             foreach ($users as $user) {
+                //FETCH USER BY STATUS
                 if ($user->status->enrollment_status) {
                     array_push($enrolledUsers, $user);
                     if ($user->status->card_registered) {
@@ -48,9 +50,17 @@ class DashboardController extends Controller
                 }
             }
 
+            $sensitiveLogs = [];
+            foreach ($today_logs as $log) {
+                if ($log->device->room->room_security_level == 'SENSITIVE') {
+                    array_push($sensitiveLogs, $log);
+                };
+            }
+
+          
 
 
-            $usersPresentToday = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
+            $usersPresentToday = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id')->unique('user_id');
             if (count($enrolledUsers) < 1) {
                 $parcentageofPresentUsers = 0;
                 $parcentageofabsentUsers = 0;
@@ -77,7 +87,8 @@ class DashboardController extends Controller
                 'registeredBranches' => $branches,
                 'registeredDepartments' => $departments,
                 'registeredDevices' => $devices,
-                'rooms' => count($rooms)
+                'rooms' => count($rooms),
+                'sensitiveLogs' => count($sensitiveLogs)
 
             ]);
         }

@@ -32,11 +32,18 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('overallLogs')}}" class="nav-link"
-                onclick="toggle_active_class()">
+            <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>
-                    User Logs
+                    Fingerprint Logs
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>
+                    RFID Logs
                 </p>
             </a>
         </li>
@@ -265,9 +272,10 @@
                                                     {{ $department->department_email }}</td>
                                                 <td class="filterable-cell" style="width: 13%">
                                                     {{ $department->department_address }}</td>
-                                                <td class="project-actions text-right" style="width: 22%"> <a
+                                                <td class="project-actions text-right" style="width: 22%">
+                                                     {{-- <a
                                                         class="btn btn-primary btn-sm filterable-cell m-1" href="#"><i
-                                                            class="fas fa-folder pr-1"> </i>View</a>
+                                                            class="fas fa-folder pr-1"> </i>View</a> --}}
                                                     @can('editDepartment')
                                                         <a class="btn btn-info btn-sm filterable-cell m-1"
                                                             href="{{ route('editDepartment', [$department->department_id]) }}"><i

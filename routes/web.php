@@ -54,7 +54,7 @@ Route::get('/dashboard/{userId}', [App\Http\Controllers\DashboardController::cla
 Route::get('organization/{id}', [App\Http\Controllers\OrganizationController::class, 'index'])->name('manageOrganization');
 Route::get('organization/edit/{id}', [App\Http\Controllers\OrganizationController::class, 'edit'])->name('editOrganization');
 Route::get('organization/showOne/{id}', [App\Http\Controllers\OrganizationController::class, 'showOne'])->name('showOneOrganization');
-Route::get('organization/showAll', [App\Http\Controllers\OrganizationController::class, 'showAll'])->name('showAllOrganizations');
+Route::get('organizationnnnn/showAll', [App\Http\Controllers\OrganizationController::class, 'showAll'])->name('showAllOrganizations');
 Route::get('organization/showLatestTen', [App\Http\Controllers\OrganizationController::class, 'showLatestTen'])->name('showLatestTenOrganizations');
 Route::post('organization/store', [App\Http\Controllers\OrganizationController::class, 'store'])->name('storeOrganization');
 Route::get('organization/returnName/{id}', [App\Http\Controllers\OrganizationController::class, 'returnName'])->name('returnOrganizationName');
@@ -75,7 +75,7 @@ Route::get('department/{id}', [App\Http\Controllers\DepartmentController::class,
 Route::get('department/edit/{id}', [App\Http\Controllers\DepartmentController::class, 'edit'])->name('editDepartment');
 Route::post('department/store', [App\Http\Controllers\DepartmentController::class, 'store'])->name('storeDepartment');
 Route::get('/department/showOne/{id}', [App\Http\Controllers\DepartmentController::class, 'showOne'])->name('showOneDepartment');
-Route::get('/department/showAll', [App\Http\Controllers\DepartmentController::class, 'showAll'])->name('showAllDepartments');
+Route::get('/departments', [App\Http\Controllers\DepartmentController::class, 'showAll'])->name('showAllDepartments');
 Route::post('department/update', [App\Http\Controllers\DepartmentController::class, 'update'])->name('updateDepartment');
 
 // Routes for Device controller
@@ -95,6 +95,7 @@ Route::get('user/addUser', [App\Http\Controllers\UserController::class, 'create'
 Route::get('user/showAll', [App\Http\Controllers\UserController::class, 'showAll'])->name('showAllUsers');
 Route::post('user/fingerprintEnroll', [App\Http\Controllers\UserController::class, 'fingerprintEnroll'])->name('fingerprintEnroll');
 Route::post('user/rfidEnroll', [App\Http\Controllers\UserController::class, 'rfidEnroll'])->name('rfidEnroll');
+Route::post('user/authorizedRooms', [App\Http\Controllers\UserController::class, 'registerAuthorizedRooms'])->name('registerAuthorizedRooms');
 Route::get('user/details/{id}', [App\Http\Controllers\UserController::class, 'details'])->name('showUserDetails');
 Route::get('user/profile/{id}', [App\Http\Controllers\UserController::class, 'profile'])->name('showUserProfile');
 Route::get('user/enrolledUsers/{id}', [App\Http\Controllers\UserController::class, 'enrolledUser'])->name('enrolledUser');
@@ -116,9 +117,13 @@ Route::get('user/export', [App\Http\Controllers\UserController::class, 'exportAl
 
 
 // Routes for Log controller
-Route::get('log/overall', [App\Http\Controllers\LogController::class, 'index'])->name('overallLogs');
-Route::get('log/presentees', [App\Http\Controllers\LogController::class, 'userPresentToday'])->name('userPresentToday');
-Route::get('log/absentees', [App\Http\Controllers\LogController::class, 'userAbsenteToday'])->name('userAbsenteToday');
+Route::get('log/rfid-overall-logs', [App\Http\Controllers\LogController::class, 'rfidOverallLogs'])->name('rfidoverallLogs');
+Route::get('log/fingerprint-overall-logs', [App\Http\Controllers\LogController::class, 'fingerprintOverallLogs'])->name('fingerprintoverallLogs');
+Route::get('log/allLogs', [App\Http\Controllers\LogController::class, 'allLogs'])->name('allLogs');
+Route::get('log/sensitiveLogs', [App\Http\Controllers\LogController::class, 'sensitiveLogs'])->name('sensitiveLogs');
+Route::get('log/nonSensitiveLogs', [App\Http\Controllers\LogController::class, 'nonSensitiveLogs'])->name('nonSensitiveLogs');
+Route::get('log/presentees', [App\Http\Controllers\LogController::class, 'usersPresentToday'])->name('userPresentToday');
+Route::get('log/absentees', [App\Http\Controllers\LogController::class, 'usersAbsenteToday'])->name('usersAbsenteToday');
 Route::get('log/userlog/{user_id}', [App\Http\Controllers\LogController::class, 'userSpecificLogs'])->name('userSpecificLogs');
 //hardware
 Route::get('log/fingerprintCheckInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'fingerprintCheckInOrOut'])->name('fingerprintCheckInOrOut');

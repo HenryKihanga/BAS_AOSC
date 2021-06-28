@@ -41,12 +41,18 @@ class RoomController extends Controller
 
     public function showAll()
     {
-        $rooms = Room::all();
+        $rooms = Room::orderBy('created_at' , 'DESC')->get();
         foreach ($rooms as $room) {
            $room->users;
+           $room->device;
         }
-        return response()->json([
+
+        return view('room.listallrooms')->with([
             'rooms' => $rooms
         ]);
+        // return response()->json([
+        //     'rooms' => $rooms
+        // ]);
+
     }
 }

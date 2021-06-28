@@ -206,8 +206,10 @@ class DepartmentController extends Controller
     public function showAll()
     {
         $departments = Department::all();
-        return response()->json([
+
+        return view('department.listalldepartments')->with([
             'departments' => $departments
-        ], 200);
+        ]);
+     
     }
 }

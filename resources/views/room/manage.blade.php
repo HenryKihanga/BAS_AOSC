@@ -30,10 +30,18 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('overallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
-                        User Logs
+                        Fingerprint Logs
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
+                    <p>
+                        RFID Logs
                     </p>
                 </a>
             </li>

@@ -22,6 +22,7 @@ class CreateUserstatusesTable extends Migration
             $table->boolean('ready_to_enroll')->default(0);
             $table->boolean('enrollment_status')->default(0);
             $table->boolean('card_registered')->default(0);
+            $table->boolean('ready_to_add_card')->default(0);
             $table->boolean('delete_status')->default(0);
             $table->timestamps();
             // $table->foreign('user_id')->references('user_id')->on('users');
