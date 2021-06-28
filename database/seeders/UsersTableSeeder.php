@@ -56,73 +56,73 @@ class UsersTableSeeder extends Seeder
         $department->users()->save($admin);
 
 
-        $organizationHead = new User();
-        $organizationHead->user_id = 2;
-        // $organizationHead->device_token = 1;
-        $organizationHead->first_name = 'William';
-        $organizationHead->middle_name = 'Jumanne';
-        $organizationHead->organization_id = 1;
-        $organizationHead->branch_id = 1;
-        $organizationHead->last_name = 'Kiluma';
-        $organizationHead->phone_number = '0676873456';
-        $organizationHead->birth_date = '12/12/2020';
-        $organizationHead->email = 'kilumawilliam@gmail.com';
-        $organizationHead->password = Hash::make(strtoupper('Kiluma'));
-        $organizationHead->status()->create([
-            'fingerprint_id'=>null,
-            'ready_to_enroll'=> 0,
-            'enrollment_status' => 0,
-            'delete_status' => 0
-        ]);
-        $organizationHead->roles()->attach($organizationHeadRole);
-        $organizationHead->rooms()->attach($organizationHeadRooms);
-        $department->users()->save($organizationHead);
+        // $organizationHead = new User();
+        // $organizationHead->user_id = 2;
+        // // $organizationHead->device_token = 1;
+        // $organizationHead->first_name = 'William';
+        // $organizationHead->middle_name = 'Jumanne';
+        // $organizationHead->organization_id = 1;
+        // $organizationHead->branch_id = 1;
+        // $organizationHead->last_name = 'Kiluma';
+        // $organizationHead->phone_number = '0676873456';
+        // $organizationHead->birth_date = '12/12/2020';
+        // $organizationHead->email = 'kilumawilliam@gmail.com';
+        // $organizationHead->password = Hash::make(strtoupper('Kiluma'));
+        // $organizationHead->status()->create([
+        //     'fingerprint_id'=>null,
+        //     'ready_to_enroll'=> 0,
+        //     'enrollment_status' => 0,
+        //     'delete_status' => 0
+        // ]);
+        // $organizationHead->roles()->attach($organizationHeadRole);
+        // $organizationHead->rooms()->attach($organizationHeadRooms);
+        // $department->users()->save($organizationHead);
       
 
-        $branchHead = new User();
-        $branchHead->user_id = 3;
-        // $branchHead->device_token = 1;
-        $branchHead->first_name = 'Kelvin';
-        $branchHead->middle_name = 'Mussa';
-        $branchHead->organization_id = 1;
-        $branchHead->branch_id = 1;
-        $branchHead->last_name = 'Hongo';
-        $branchHead->phone_number = '0676873456';
-        $branchHead->birth_date = '12/12/2020';
-        $branchHead->email = 'hongokelvin@gmail.com';
-        $branchHead->password = Hash::make(strtoupper('Hongo'));
-        $branchHead->status()->create([
-            'fingerprint_id'=>null,
-            'ready_to_enroll'=> 0,
-            'enrollment_status' => 0,
-            'delete_status' => 0
-        ]);
-        $branchHead->roles()->attach($branchHeadRole);
-        $branchHead->rooms()->attach($branchHeadRooms);
-        $department->users()->save($branchHead);
+        // $branchHead = new User();
+        // $branchHead->user_id = 3;
+        // // $branchHead->device_token = 1;
+        // $branchHead->first_name = 'Kelvin';
+        // $branchHead->middle_name = 'Mussa';
+        // $branchHead->organization_id = 1;
+        // $branchHead->branch_id = 1;
+        // $branchHead->last_name = 'Hongo';
+        // $branchHead->phone_number = '0676873456';
+        // $branchHead->birth_date = '12/12/2020';
+        // $branchHead->email = 'hongokelvin@gmail.com';
+        // $branchHead->password = Hash::make(strtoupper('Hongo'));
+        // $branchHead->status()->create([
+        //     'fingerprint_id'=>null,
+        //     'ready_to_enroll'=> 0,
+        //     'enrollment_status' => 0,
+        //     'delete_status' => 0
+        // ]);
+        // $branchHead->roles()->attach($branchHeadRole);
+        // $branchHead->rooms()->attach($branchHeadRooms);
+        // $department->users()->save($branchHead);
  
 
 
-        $departmentHead = new User();
-        $departmentHead->user_id = 4;
-        // $departmentHead->device_token = 1;
-        $departmentHead->first_name = 'Mpoki';
-        $departmentHead->middle_name = 'Abel';
-        $departmentHead->organization_id = 1;
-        $departmentHead->branch_id = 1;
-        $departmentHead->last_name = 'Mwaisela';
-        $departmentHead->phone_number = '0676873456';
-        $departmentHead->birth_date = '12/12/2020';
-        $departmentHead->email = 'mwaiselampoki@gmail.com';
-        $departmentHead->password = Hash::make(strtoupper('Mwaisela'));
-        $departmentHead->status()->create([
-            'fingerprint_id'=>null,
-            'ready_to_enroll'=> 0,
-            'enrollment_status' => 0,
-            'delete_status' => 0
-        ]);
-        $departmentHead->roles()->attach($departmentHeadRole);
-        $department->users()->save($departmentHead);
+        // $departmentHead = new User();
+        // $departmentHead->user_id = 4;
+        // // $departmentHead->device_token = 1;
+        // $departmentHead->first_name = 'Mpoki';
+        // $departmentHead->middle_name = 'Abel';
+        // $departmentHead->organization_id = 1;
+        // $departmentHead->branch_id = 1;
+        // $departmentHead->last_name = 'Mwaisela';
+        // $departmentHead->phone_number = '0676873456';
+        // $departmentHead->birth_date = '12/12/2020';
+        // $departmentHead->email = 'mwaiselampoki@gmail.com';
+        // $departmentHead->password = Hash::make(strtoupper('Mwaisela'));
+        // $departmentHead->status()->create([
+        //     'fingerprint_id'=>null,
+        //     'ready_to_enroll'=> 0,
+        //     'enrollment_status' => 0,
+        //     'delete_status' => 0
+        // ]);
+        // $departmentHead->roles()->attach($departmentHeadRole);
+        // $department->users()->save($departmentHead);
 
 
         $staff = new User();
