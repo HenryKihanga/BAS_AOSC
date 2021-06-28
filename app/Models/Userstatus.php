@@ -13,9 +13,14 @@ class Userstatus extends Model
         'user_id',
         'fingerprint_id',
         'enrollment_status',
-        'middle_name',
         'ready_to_enroll',
         'delete_status',
-        
+        'card_registered',
+        'ready_to_add_card',
+        'card_uid'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

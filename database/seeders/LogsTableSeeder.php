@@ -15,11 +15,11 @@ class LogsTableSeeder extends Seeder
      */
     public function run()
     {
-        Log::create([
-            'user_id' => 1,
-            'time_in' => Carbon::now()->timezone('Africa/Dar_es_Salaam')->format('Y-m-d H:i:s'),
-            'date'=> date('Y-m-d')
+        // Log::create([
+        //     'user_id' => 1,
+        //     'time_in' => Carbon::now()->timezone('Africa/Dar_es_Salaam')->format('Y-m-d H:i:s'),
+        //     'date'=> date('Y-m-d')
 
-        ]);
+        // ]);
     }
 }

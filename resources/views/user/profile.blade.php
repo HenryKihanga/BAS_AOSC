@@ -25,11 +25,18 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('overallLogs')}}" class="nav-link"
-                onclick="toggle_active_class()">
+            <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>
-                    User Logs
+                    Fingerprint Logs
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>
+                    RFID Logs
                 </p>
             </a>
         </li>
@@ -178,8 +185,18 @@
                                     <td style="width: 70%">{{ $user->phone_number }}</td>
                                 </tr>
                                 <tr>
+                                    <td style="width: 30%"><b>Fingerprint Device</b></td>
+                                    <td style="width: 70%">
+                                        @if ($user->fingerprintDevice == [])
+                                            -
+                                        @else
+                                            {{ $user->fingerprintDevice->device_name }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
 
-                                    <td style="width: 30%; display:block"><b>Status</b></td>
+                                    <td style="width: 30%; display:block"><b>Fingerprint Status</b></td>
                                     @if ($user->status->enrollment_status && !$user->status->ready_to_enroll)
                                         <td style="width: 70%"><span class="badge bg-success">Enrolled</span></td>
                                         <td style="width: 100%">
@@ -193,14 +210,16 @@
                                                 </div>
                                             </div>
                                         </td>
+
                                     @elseif(!$user->status->enrollment_status && $user->status->ready_to_enroll)
                                         <td style="width: 70%"><span class="badge bg-info">Waiting...</span></td>
                                         <td style="width: 100%">
                                             <div class="small-box bg-light" style="width: 50%; height:100%">
                                                 <div class="inner">
-                                                
+
                                                     <h6 class="text-danger">Waiting User to...</h6>
-                                                    <h6 class="text-danger">Press Finger onto Device for enrollment</h6><br>
+                                                    <h6 class="text-danger">Press Finger onto Device for enrollment</h6>
+                                                    <br>
                                                 </div>
                                                 <div class="icon ">
                                                     <i class="fas fa-fingerprint"></i>
@@ -216,25 +235,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                        @error('duplicateReadyToEnroll')
-                            <div class="alert alert-danger p-2">
-                                <span class="">{{ $message }}</span>
-                            </div>
-                        @enderror
-                        @error('fingerPrintId')
-                            <div class="alert alert-danger p-2">
-                                <span class="">{{ $message }}</span>
-                            </div>
-
-                        @enderror
+                   
                     </div>
                     <div class="col-lg-6 col-12">
                         <table class="table table-bordered">
                             <tbody>
-                                <tr>
-                                    <td style="width: 30%"><b>Staff No</b></td>
-                                    <td style="width: 70%">{{ $user->user_id }}</td>
-                                </tr>
+
                                 <tr>
                                     <td style="width: 30%"><b>Finger ID</b></td>
                                     <td style="width: 70%">
@@ -242,6 +248,15 @@
                                             -
                                         @endif
                                         {{ $user->status->fingerprint_id }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Card ID</b></td>
+                                    <td style="width: 70%">
+                                        @if ($user->status->card_uid == [])
+                                            -
+                                        @endif
+                                        {{ $user->status->card_uid }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -257,12 +272,12 @@
                                     <td style="width: 70%">Mail</td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 30%"><b>Device</b></td>
+                                    <td style="width: 30%"><b>RFID Device</b></td>
                                     <td style="width: 70%">
-                                        @if ($user->device == [])
+                                        @if ($user->rfidDevice == [])
                                             -
                                         @else
-                                            {{ $user->device->device_name }}
+                                            {{ $user->rfidDevice->device_name }}
                                         @endif
                                     </td>
                                 </tr>
@@ -274,6 +289,56 @@
                                         @endforeach
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="width: 30%"><b>Room(s)</b></td>
+                                    <td style="width: 70%">
+                                        @foreach ($user->rooms as $room)
+                                            {{ $room->room_name }},
+                                        @endforeach
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <td style="width: 30%; display:block"><b>Card Status</b></td>
+                                    @if ($user->status->card_registered)
+                                        <td style="width: 70%"><span class="badge bg-success">card registered</span>
+                                        </td>
+                                        <td style="width: 100%">
+                                            <div class="small-box bg-light " style="width: 50%; height:100%">
+                                                <div class="inner">
+                                                    <h3 class="text-success"><i class="far fa-check-circle"></i></h3>
+                                                    <h6 class="text-success">Card Added</h6><br>
+                                                </div>
+                                                <div class="icon text-success">
+                                                    <i class="fas fa-id-card"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    @elseif($user->status->ready_to_add_card){
+                                        <td style="width: 70%"><span class="badge bg-info">Waiting ..</span>
+                                        </td>
+                                        <td style="width: 100%">
+                                            <div class="small-box bg-light " style="width: 50%; height:100%">
+                                                <div class="inner">
+                                                    <h6 class="text-info">Waiting User to...</h6>
+                                                    <h6 class="text-info">Swip card for succesful enrollment</h6>
+                                                </div>
+                                                <div class="icon text-info">
+                                                    <i class="fas fa-id-card"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        }
+                                    @else
+                                        <td style="width: 70%"><span class="badge bg-danger">card not-registered</span>
+                                        </td>
+                                    @endif
+
+
+                                </tr>
+
                             </tbody>
                         </table>
                     </div>

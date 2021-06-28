@@ -6,7 +6,7 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
         data-accordion="false">
         <li class="nav-item ">
-            <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  " onclick="toggle_active_class()">
+            <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  active" onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                     Dashboard
@@ -20,7 +20,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link active "
+            <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link  "
                 onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-users"></i>
                 <p>Users</p>
@@ -139,12 +139,17 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Users</h1>
-                </div>
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><a href="{{ route('home', Auth::user()->user_id) }}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="{{ route('usersWithoutCard', Auth::user()->user_id) }}">list of users without card</a></li>
+                    </ol>
+                </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Users</li>
+                        <li class="breadcrumb-item "><a href="{{ route('home', Auth::user()->user_id) }}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="{{ route('usersWithoutCard', Auth::user()->user_id) }}">list of users without card</a></li>
                     </ol>
                 </div>
             </div>
@@ -157,7 +162,7 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Users</h3>
+                    <h3 class="card-title">Users Without Cards</h3>
                 </div>
                 @if (count($users) < 0)
                     No data found

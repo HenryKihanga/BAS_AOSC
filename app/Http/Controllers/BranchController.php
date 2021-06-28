@@ -193,8 +193,11 @@ class BranchController extends Controller
             $branch->departments;
         }
 
-        return response()->json([
+        return view('branch.listallbranches')->with([
             'branches' => $branches
-        ], 200);
+        ]);
+        // return response()->json([
+        //     'branches' => $branches
+        // ], 200);
     }
 }

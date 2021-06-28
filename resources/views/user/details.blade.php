@@ -24,10 +24,18 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('overallLogs') }}" class="nav-link " onclick="toggle_active_class()">
+                <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
-                        User Logs
+                        Fingerprint Logs
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
+                    <p>
+                        RFID Logs
                     </p>
                 </a>
             </li>
@@ -108,8 +116,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
+                <a href="{{ route('logout') }}" class="nav-link"
+                    onclick="event.preventDefault();
+                                                                                        document.getElementById('logout-form').submit();">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -180,7 +189,7 @@
                                         <td style="width: 30%"><b>Phone </b></td>
                                         <td style="width: 70%">{{ $user->phone_number }}</td>
                                     </tr>
-                                        <tr>
+                                    <tr>
                                         <td style="width: 30%"><b>Fingerprint Device</b></td>
                                         <td style="width: 70%">
                                             @if ($user->fingerprintDevice == [])
@@ -206,7 +215,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            
+
                                         @elseif(!$user->status->enrollment_status && $user->status->ready_to_enroll)
                                             <td style="width: 70%"><span class="badge bg-info">Waiting...</span></td>
                                             <td style="width: 100%">
@@ -236,18 +245,24 @@
                                     <span class="">{{ $message }}</span>
                                 </div>
                             @enderror
-                            @error('fingerPrintId')
+                            @error('duplicateReadyToAddCard')
                                 <div class="alert alert-danger p-2">
                                     <span class="">{{ $message }}</span>
                                 </div>
                             @enderror
-                     
+                            @error('noroomselected')
+                            <div class="alert alert-danger p-2">
+                                <span class="">{{ $message }}</span>
+                            </div>
+                        @enderror
+                            
+
 
                         </div>
                         <div class="col-lg-6 col-12">
                             <table class="table table-bordered">
                                 <tbody>
-                               
+
                                     <tr>
                                         <td style="width: 30%"><b>Finger ID</b></td>
                                         <td style="width: 70%">
@@ -297,10 +312,20 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td style="width: 30%"><b>Room(s)</b></td>
+                                        <td style="width: 70%">
+                                            @foreach ($user->rooms as $room)
+                                                {{ $room->room_name }},
+                                            @endforeach
+                                        </td>
+                                    </tr>
+
+                                    <tr>
 
                                         <td style="width: 30%; display:block"><b>Card Status</b></td>
                                         @if ($user->status->card_registered)
-                                            <td style="width: 70%"><span class="badge bg-success">card registered</span></td>
+                                            <td style="width: 70%"><span class="badge bg-success">card registered</span>
+                                            </td>
                                             <td style="width: 100%">
                                                 <div class="small-box bg-light " style="width: 50%; height:100%">
                                                     <div class="inner">
@@ -312,20 +337,37 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                        @elseif($user->status->ready_to_add_card){
+                                            <td style="width: 70%"><span class="badge bg-info">Waiting ..</span>
+                                            </td>
+                                            <td style="width: 100%">
+                                                <div class="small-box bg-light " style="width: 50%; height:100%">
+                                                    <div class="inner">
+                                                        <h6 class="text-info">Waiting User to...</h6>
+                                                        <h6 class="text-info">Swip card for succesful enrollment</h6>
+                                                    </div>
+                                                    <div class="icon text-info">
+                                                        <i class="fas fa-id-card"></i>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            }
                                         @else
-                                            <td style="width: 70%"><span class="badge bg-danger">card not-registered</span></td>
+                                            <td style="width: 70%"><span class="badge bg-danger">card not-registered</span>
+                                            </td>
                                         @endif
 
 
                                     </tr>
-                             
+
                                 </tbody>
                             </table>
                             @error('cardfound')
-                            <div class="alert alert-danger p-2">
-                                <span class="">{{ $message }}</span>
-                            </div>
-                        @enderror
+                                <div class="alert alert-danger p-2">
+                                    <span class="">{{ $message }}</span>
+                                </div>
+                            @enderror
 
                         </div>
 
@@ -346,12 +388,24 @@
                                 class="btn btn-outline-dark mr-2">View Logs</button></a>
                     @endif
                     @if ($user->status->enrollment_status && !$user->status->ready_to_enroll && !$user->status->card_registered)
-                        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#rfidEnrollUser"
-                            aria-expanded="false" aria-controls="rfidEnrollUser">RFID Enroll User</button>
+                        <a
+                            onclick="event.preventDefault();
+                                                                                  document.getElementById('rfid-enroll-form').submit();">
+                            <button type="submit" class="btn btn-dark">RFID Enroll User</button>
+                        </a>
+                        <form id="rfid-enroll-form" action="{{ route('rfidEnroll') }}" method="POST" class="d-none">
+                            <input type="hidden" name="userId" value="{{ $user->user_id }}">
+                        </form>
                     @endif
-
+                    @if ($user->status->enrollment_status && !$user->status->ready_to_enroll && $user->status->card_registered)
+                        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#assignRoom"
+                            aria-expanded="false" aria-controls="assignRoom">Register Authorized Areas</button>
+                    @endif
                 </div>
             </div>
+
+
+            {{-- COLLAPSE FOR FINGER ENROLLMENT --}}
             <div class="card collapse multi-collapse" id="fingerprintEnrollUser">
                 <form action="{{ route('fingerprintEnroll') }}" method="POST">
                     <div class="card-body">
@@ -389,44 +443,67 @@
                     </div>
                 </form>
             </div>
+            {{-- COLLAPSE FOR RFID ENROLLMENT --}}
             <div class="card collapse multi-collapse" id="rfidEnrollUser">
                 <form action="{{ route('rfidEnroll') }}" method="POST">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                                <div class="form-group">
-                                    <input type="hidden" name="userId" class="col-sm-8 form-control"
-                                        value="{{ $user->user_id }}">
-                                    <label>Card Id :</label>
-                                    <input type="text" name="cardUid"
-                                        class="form-control @error('fingerPrintId') in-valid @enderror"
-                                        value="{{ old('fingerPrintId') }}" placeholder="Enter Finger Id">
-                                    @error('cardfound')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="form-group">
-                                    <label>Device :</label>
-                                    <select class="form-control " name="deviceId">
-                                        @foreach ($devices as $device)
-                                            @if ($device->device_type == 'rfid')
-                                                <option value="{{ $device->device_token }}">{{ $device->device_name }}
-                                                </option>
-                                            @endif
 
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="form-group row">
+                            <input type="hidden" name="userId" value="{{ $user->user_id }}">
+                            <div class="col-4"><label>Device :</label></div>
+
+                            <div class="col-8"> <select class="form-control " name="deviceId">
+                                    @foreach ($devices as $device)
+                                        @if ($device->device_type == 'rfid')
+                                            <option value="{{ $device->device_token }}">
+                                                {{ $device->device_name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select></div>
+
                         </div>
+
                     </div>
                     <div class="card-footer clearfix ">
                         <button type="submit" class="btn btn-dark">Submit</button>
                     </div>
                 </form>
             </div>
+
+            {{-- //COLLAPSE FOR ROOM ASSIGNMENT --}}
+            <div>
+                <form method="POST" action="{{ route('registerAuthorizedRooms') }}">
+                    <div class="card collapse multi-collapse" id="assignRoom">
+                        <div class="card-header">
+
+                            <div class="card-tools">
+                                <button type="submit" class="btn btn-dark">Submit Room(s) Details</button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <input type="hidden" name="userId" class="col-sm-8 form-control"
+                                    value="{{ $user->user_id }}">
+                                <label for="exampleFormControlSelect2">Select Room(s) this Employee is authorized</label>
+                                <select multiple class="form-control" id="exampleFormControlSelect2" name="rooms[]">
+                                    @foreach ($rooms as $room)
+                                        @if ($device->device_type == 'rfid')
+                                            <option value="{{ $room->room_id }}">{{ $room->room_name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
 
         </div>
     </section>

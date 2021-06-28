@@ -16,7 +16,7 @@ class Room extends Model
 
 
     protected $fillable = [
-        'room_id','room_name', 'room_security_level'
+        'room_id','room_name', 'room_security_level' , 'device_token'
     ];
 
     protected $dates = ['deleted_at'];
@@ -24,6 +24,9 @@ class Room extends Model
 
     public function users(){
         return $this->belongsToMany(User::class);
+    }
+    public function device(){
+        return $this->belongsTo(Device::class, 'device_token');
     }
     
     // public function branches(){
