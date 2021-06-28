@@ -29,7 +29,9 @@ class UsersTableSeeder extends Seeder
         $staffRole = Role::where('name', 'staff')->first();
 
         $department = Department::find(1);
-        $room1 = Room::find(1);
+        $adminrooms = Room::find([1,2,3]);
+        $organizationHeadRooms = Room::find([2,3,4,5]);
+        $branchHeadRooms = Room::find([3,4,5,6,7]);
 
         $admin = new User();
         $admin->user_id = 1;
@@ -50,7 +52,7 @@ class UsersTableSeeder extends Seeder
             'delete_status' => 0
         ]);
         $admin->roles()->attach($adminRole);
-        $admin->rooms()->attach($room1);
+        $admin->rooms()->attach($adminrooms);
         $department->users()->save($admin);
 
 
@@ -73,6 +75,7 @@ class UsersTableSeeder extends Seeder
             'delete_status' => 0
         ]);
         $organizationHead->roles()->attach($organizationHeadRole);
+        $organizationHead->rooms()->attach($organizationHeadRooms);
         $department->users()->save($organizationHead);
       
 
@@ -95,6 +98,7 @@ class UsersTableSeeder extends Seeder
             'delete_status' => 0
         ]);
         $branchHead->roles()->attach($branchHeadRole);
+        $branchHead->rooms()->attach($branchHeadRooms);
         $department->users()->save($branchHead);
  
 

@@ -12,10 +12,13 @@ class Log extends Model
 
     protected $fillable = [
 
-        'user_id','log_type','time_in', 'time_out' , 'date'
+        'user_id','log_type','time_in', 'time_out' , 'date' , 'device_token'
     ];
 
     public function user(){
         return $this->belongsTo(User::class , 'user_id');
+    }
+    public function device(){
+        return $this->belongsTo(Device::class , 'device_token');
     }
 }

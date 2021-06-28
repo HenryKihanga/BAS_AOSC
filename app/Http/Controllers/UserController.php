@@ -8,8 +8,10 @@ use App\Models\Department;
 use App\Models\Device;
 use App\Models\Organization;
 use App\Models\Role;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Userstatus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -77,7 +79,7 @@ class UserController extends Controller
                     continue;
                 }
             }
-            return view('user.allUsers')->with([
+            return view('user.enrolledusers')->with([
                 'users' => $enrolledUsers
             ]);
         }
@@ -140,7 +142,7 @@ class UserController extends Controller
                     continue;
                 }
             }
-            return view('user.allUsers')->with([
+            return view('user.unenrolledusers')->with([
                 'users' => $unenrolledUsers
             ]);
         }
@@ -202,7 +204,7 @@ class UserController extends Controller
                     continue;
                 }
             }
-            return view('user.allUsers')->with([
+            return view('user.userswithcard')->with([
                 'users' => $usersWithCard
             ]);
         }
@@ -266,7 +268,7 @@ class UserController extends Controller
                     continue;
                 }
             }
-            return view('user.allUsers')->with([
+            return view('user.userswithoutcard')->with([
                 'users' => $usersWithoutCard
             ]);
         }
@@ -440,9 +442,11 @@ class UserController extends Controller
     {
         $devices = Device::all();
         $user = User::find($id);
+        $rooms = Room::orderBy('room_id' , 'ASC')->get();
         return view('user.details')->with([
             'user' => $user,
-            'devices' => $devices
+            'devices' => $devices,
+            'rooms' => $rooms
         ]);
     }
 
@@ -496,10 +500,6 @@ class UserController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             'userId' => 'required',
-            'cardUid' => 'required',
-            'deviceId' => 'required',
-
-
         ]);
 
         if ($validator->fails()) {
@@ -507,29 +507,48 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $deviceUsers = Device::find($request->input('deviceId'))->rfidUsers;
-        foreach ($deviceUsers as $deviceUser) {
-            if ($deviceUser->status->card_uid == $request->input('cardUid')) {
-                $validator->errors()->add('cardfound', 'User with the given Card ID is detected, Card ID must be unique on a given device');
-                return redirect()->route('showUserDetails', $request->input('userId'))
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-            continue;
+        $newUserStatus = Userstatus::where('ready_to_add_card' , 1)->first();
+        if($newUserStatus){
+            $validator->errors()->add('duplicateReadyToAddCard', 'Make sure no user is waiting for card enrollement');
+            return redirect()->route('showUserDetails', $request->input('userId'))
+                ->withErrors($validator)
+                ->withInput();
         }
         $user = User::find($request->input('userId'));
         $user->update([
             'rfid_device_token' => $request->input('deviceId')
         ]);
         //FORGING CHANGE OF DEVICE MODE
-        Device::find($request->input('deviceId'))->update([
-            'device_mode' => 1
-        ]);
         $user->status()->update([
-            'card_uid' => $request->input('cardUid'),
-            'card_registered' => 1
+            'ready_to_add_card' => 1
+        ]);
+     
+
+        return redirect()->route('showUserDetails', $request->input('userId'));
+    }
+
+    public function registerAuthorizedRooms(Request $request)
+    {
+        $validator =  Validator::make($request->all(), [
+            'userId' => 'required',
+            // 'rooms' => 'required'
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->route('showUserDetails', $request->input('userId'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+        if($request->input('rooms') == null){
+            $validator->errors()->add('noroomselected', 'Please select at least one room');
+            return redirect()->route('showUserDetails', $request->input('userId'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user = User::find($request->input('userId'));
+        $userAuthorizedRooms = Room::find($request->input('rooms'));
+        $user->rooms()->detach();
+        $user->rooms()->attach($userAuthorizedRooms);
         return redirect()->route('showUserDetails', $request->input('userId'));
     }
 
@@ -593,6 +612,7 @@ class UserController extends Controller
 
     public function showAll()
     {
+        // $user = Userstatus::where('card_uid' , 111)->first();
         $users = User::all();
         foreach ($users as $user) {
             $user->status;
@@ -601,6 +621,12 @@ class UserController extends Controller
             $user->rfidDevice;
             $user->rooms;
         }
+        // if($user){
+        //     $id = $user->user_id;
+        //     return response()->json([
+        //         'users' => $user->user
+        //     ]);
+        // }
         return response()->json([
             'users' => $users
         ]);

@@ -24,7 +24,7 @@ class OrganizationController extends Controller
                 'organizations' => $organizations
             ]);
         }
-        if(Gate::allows('isOrganizationHead')){
+        if (Gate::allows('isOrganizationHead')) {
             $organizations = [];
             $organization = User::find($userId)->organization;
             array_push($organizations, $organization);
@@ -34,7 +34,7 @@ class OrganizationController extends Controller
         }
 
         // dd($organizations);
-     
+
     }
 
     /**
@@ -109,9 +109,13 @@ class OrganizationController extends Controller
             $organization->devices;
             $organization->branches;
         }
-        return response()->json([
+
+        return view('organization.listallorganizations')->with([
             'organizations' => $organizations
-        ], 200);
+        ]);
+        // return response()->json([
+        //     'organizations' => $organizations
+        // ], 200);
     }
     /**
      * Show the form for editing the specified resource.
@@ -158,7 +162,7 @@ class OrganizationController extends Controller
             'organization_address' => $request->input('address'),
         ]);
 
-        return redirect()->route('manageOrganization' , Auth::user()->user_id);
+        return redirect()->route('manageOrganization', Auth::user()->user_id);
 
         // return response()->json([
         //     'organization' => $organization

@@ -15,7 +15,7 @@ class Device extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'device_token','device_name','device_type', 'department_id','device_mode', 'room_id '
+        'device_token','device_name','device_type', 'department_id','device_mode',
     ];
 
     protected $dates = ['deleted_at' , 'date_of_birth'];
@@ -37,6 +37,10 @@ class Device extends Model
         return $this->hasMany(User::class , 'rfid_device_token');
     }
     public function room(){
-        return $this->hasOne(Room::class, 'room_id');
+        return $this->hasOne(Room::class, 'device_token');
+    }
+
+    public function logs(){
+        return $this->hasMany(Log::class , 'log_id');
     }
 }

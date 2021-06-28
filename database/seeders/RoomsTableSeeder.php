@@ -14,7 +14,7 @@ class RoomsTableSeeder extends Seeder
      */
     public function run()
     {
-        Room::truncate();
+        // Room::truncate();
         Room::create([
             'room_id' => '1',
             'room_name' => 'COMPUTER LAB',
@@ -33,7 +33,7 @@ class RoomsTableSeeder extends Seeder
         Room::create([
             'room_id' => '4',
             'room_name' => 'B304',
-            'room_security_level' => 'NORMAL'
+            'room_security_level' => 'SENSITIVE'
         ]);
         Room::create([
             'room_id' => '5',

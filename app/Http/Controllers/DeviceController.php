@@ -39,8 +39,8 @@ class DeviceController extends Controller
 
         if (Gate::allows('isOrganizationHead')) {
             // $devices = User::find($userId)->organization->devices;
-            $organizationId = User::find($userId)->organization_id;//Get organization id of logged in user
-            $devices = Device::where('organization_id' , $organizationId)->get();
+            $organizationId = User::find($userId)->organization_id; //Get organization id of logged in user
+            $devices = Device::where('organization_id', $organizationId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
@@ -48,16 +48,16 @@ class DeviceController extends Controller
 
         if (Gate::allows('isBranchHead')) {
             // $devices = User::find($userId)->branch->devices;
-            $branchId = User::find($userId)->branch_id;//Get branch id of logged in user
-            $devices = Device::where('branch_id' , $branchId)->get();
+            $branchId = User::find($userId)->branch_id; //Get branch id of logged in user
+            $devices = Device::where('branch_id', $branchId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
         }
         if (Gate::allows('isDepartmentHead')) {
             // $devices = User::find($userId)->department->devices;
-            $departmentId = User::find($userId)->department_id;//Get department id of logged in user
-            $devices = Device::where('department_id' , $departmentId)->get();
+            $departmentId = User::find($userId)->department_id; //Get department id of logged in user
+            $devices = Device::where('department_id', $departmentId)->get();
             return view('device.manage')->with([
                 'devices' => $devices
             ]);
@@ -204,10 +204,10 @@ class DeviceController extends Controller
             ], 404);
         }
 
-        foreach($device->users as $user){
+        foreach ($device->users as $user) {
             $user->status;
         }
-        
+
         return response()->json([
             'device' => $device
         ], 200);
@@ -215,32 +215,29 @@ class DeviceController extends Controller
 
     public function showAll()
     {
-        $devices = Device::all();
-        foreach ($devices as $device) {
-            foreach ($device->users as $user) {
-                $user->status;
-            }
-        }
-        return response()->json([
+        $devices = Device::with('room')->get();
+
+        return view('device.listalldevices')->with([
             'devices' => $devices
-        ], 200);
+        ]);
+        // return response()->json([
+        //     'devices' => $devices
+        // ], 200);
     }
 
     public function changeMode($deviceToken, $mode)
     {
         $modeName = "";
-        if($mode == 0){
+        if ($mode == 0) {
             $modeName = "ENROLLMENT";
-        }
-        else{
+        } else {
             $modeName = "ATTENDANCE";
-
         }
         $device = Device::find($deviceToken);
         $device->update([
             'device_mode' => $mode
         ]);
-        return "Device mode has been changed to ".$modeName;
+        return "Device mode has been changed to " . $modeName;
     }
 
 
