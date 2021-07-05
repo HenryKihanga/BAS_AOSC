@@ -2,136 +2,135 @@
 @push('scripts')
 @endpush
 @section('navitem')
-<nav class="mt-2 myNavtab">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-        data-accordion="false">
-        <li class="nav-item ">
-            <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Dashboard
-                </p>
-            </a>
-        </li>
-        <li class="nav-item ">
-            <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-user-plus"></i>
-                <p>Add User</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link active "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-users"></i>
-                <p>Users</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-clipboard-list"></i>
-                <p>
-                    Fingerprint Logs
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-clipboard-list"></i>
-                <p>
-                    RFID Logs
-                </p>
-            </a>
-        </li>
-        @can('manageOrganization')
-            <li class="nav-item">
-                <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link "
-                    onclick="toggle_active_class()">
-                    <i class="nav-icon fas fa-university"></i>
+    <nav class="mt-2 myNavtab">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item ">
+                <a href="{{ route('home', Auth::user()->user_id) }}" class="nav-link  " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
-                        Organizations
+                        Dashboard
                     </p>
                 </a>
             </li>
-        @endcan
-        @can('manageBranch')
+            <li class="nav-item ">
+                <a href="{{ route('addUser') }}" class="nav-link " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Add User</p>
+                </a>
+            </li>
             <li class="nav-item">
-                <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link "
+                <a href="{{ route('allUsers', Auth::user()->user_id) }}" class="nav-link active "
                     onclick="toggle_active_class()">
-                    <i class="nav-icon fas fa-university"></i>
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
-                        Branches
+                        Fingerprint Logs
                     </p>
                 </a>
             </li>
-        @endcan
-        <li class="nav-item">
-            <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-university"></i>
-                <p>
-                    Departments
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('showRoomManage') }}" class="nav-link">
-                <i class="nav-icon fas fa-university"></i>
-                <p>
-                    Rooms
-                </p>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
+                    <p>
+                        RFID Logs
+                    </p>
+                </a>
+            </li>
+            @can('manageOrganization')
+                <li class="nav-item">
+                    <a href="{{ route('manageOrganization', Auth::user()->user_id) }}" class="nav-link "
+                        onclick="toggle_active_class()">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Organizations
+                        </p>
+                    </a>
+                </li>
+            @endcan
+            @can('manageBranch')
+                <li class="nav-item">
+                    <a href="{{ route('manageBranch', Auth::user()->user_id) }}" class="nav-link "
+                        onclick="toggle_active_class()">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            Branches
+                        </p>
+                    </a>
+                </li>
+            @endcan
+            <li class="nav-item">
+                <a href="{{ route('manageDepartment', Auth::user()->user_id) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Departments
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('showRoomManage') }}" class="nav-link">
+                    <i class="nav-icon fas fa-university"></i>
+                    <p>
+                        Rooms
+                    </p>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-microchip"></i>
-                <p>
-                    Devices
-                </p>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a href="{{ route('deviceManage', Auth::user()->user_id) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-microchip"></i>
+                    <p>
+                        Devices
+                    </p>
+                </a>
+            </li>
 
 
-        <li class="nav-item">
-            <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link "
-                onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-address-card"></i>
-                <p>
-                    View Profile
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-user-edit"></i>
-                <p>
-                    Edit Profile
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
-                <i class="nav-icon fas fa-key"></i>
-                <p>
-                    Change Password
-                </p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-                <i class="nav-icon fas fa-sign-out-alt"></i>
-                <p>
-                    Logout
-                </p>
-            </a>
-        </li>
-    </ul>
-</nav>
+            <li class="nav-item">
+                <a href="{{ route('showUserProfile', [Auth::user()->user_id]) }}" class="nav-link "
+                    onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-address-card"></i>
+                    <p>
+                        View Profile
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user-edit"></i>
+                    <p>
+                        Edit Profile
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
+                    <i class="nav-icon fas fa-key"></i>
+                    <p>
+                        Change Password
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Logout
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </nav>
 @endsection
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -204,9 +203,9 @@
                                                     {{ $user->last_name }}</li>
                                             </ul>
                                         </td>
-                                        <td style="width: 20%">{{$user->organization->organization_name}}</td>
-                                        <td style="width: 15%">{{$user->branch->branch_name}}</td>
-                                        <td style="width: 10%">{{$user->department->department_name}}</td>
+                                        <td style="width: 20%">{{ $user->organization->organization_name }}</td>
+                                        <td style="width: 15%">{{ $user->branch->branch_name }}</td>
+                                        <td style="width: 10%">{{ $user->department->department_name }}</td>
                                         <td class="project-state" style="width: 10%">
                                             @if ($user->status->enrollment_status && !$user->status->ready_to_enroll)
                                                 <span class="badge bg-success">Enrolled</span>
@@ -217,9 +216,10 @@
                                             @endif
                                         </td>
                                         <td class="project-state" style="width: 10%">
-                                            @if ($user->status->card_registered)
+                                            @if ($user->status->card_registered && !$user->status->ready_to_add_card)
                                                 <span class="badge bg-success">Card added</span>
-             
+                                            @elseif(!$user->status->card_registered  && $user->status->ready_to_add_card)
+                                                <span class="badge bg-info">Waiting...</span>
                                             @else
                                                 <span class="badge bg-danger">Card not-added</span>
                                             @endif
@@ -234,7 +234,8 @@
                         </table>
                     </div>
                     <div class="card-footer">
-                       <a href="{{ route('exportAllUsers') }}"> <button type="button" class="btn btn-success">Export</button></a>
+                        <a href="{{ route('exportAllUsers') }}"> <button type="button"
+                                class="btn btn-success">Export</button></a>
                     </div>
                     <!-- /.card-body -->
                 @endif
