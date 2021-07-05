@@ -268,59 +268,22 @@
                                 </div>
                                 <!-- checkbox -->
                                 @can('isAdmin')
-                                    <div class=" myCheckbox form-group row">
-                                        <div>
-                                            <label class="mylabel" for="">Choose Role</label>
-                                        </div>
-
-                                        <div>
-                                            <label>
-                                                <input type="checkbox" value="1" name="roles[]">
-                                                <span>admin</span>
-                                            </label>
-                                        </div>
-
-                                        <div>
-                                            <label>
-                                                <input type="checkbox" value="2" name="roles[]">
-                                                <span>organizationHead</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="checkbox" value="3" name="roles[]">
-                                                <span>branchHead</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="checkbox" value="4" name="roles[]">
-                                                <span>departmentHead</span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label>
-                                                <input type="checkbox" value="5" name="roles[]">
-                                                <span>staff</span>
-                                            </label>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect2">Choose Role(s)</label>
+                                    <select multiple class="form-control" id="exampleFormControlSelect2" name="roles[]">
+                                        @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}
+                                                </option>
+                                     
+                                        @endforeach
+                                    </select>
                                     @error('roles')
-                                        <span class="text-danger"> {{ $message }}</span>
-                                    @enderror
-                                @endcan
-                                {{-- <div class="form-group">
-                                <label for="exampleInputFile">Profile Picture</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                    </div>
+                                    <span class="text-danger"> {{ $message }}</span>
+                                @enderror
                                 </div>
-                            </div> --}}
+                 
+                                @endcan
+                     
                             </div>
 
                         </div>

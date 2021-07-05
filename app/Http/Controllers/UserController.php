@@ -328,10 +328,12 @@ class UserController extends Controller
         $organizations = Organization::all();
         $branches = Branch::all();
         $departments = Department::all();
+        $roles = Role::all();
         return view('user.addUser')->with([
             'organizations' => $organizations,
             'branches' => $branches,
-            'departments' => $departments
+            'departments' => $departments,
+            'roles' => $roles
         ]);
     }
 
@@ -651,7 +653,7 @@ class UserController extends Controller
     {
         $device = Device::find($deviceToken);
         if ($device) {
-            $users = $device->users;
+            $users = $device->fingerprintUsers;
             if (count($users) == 0) {
                 return "No user has been registered in this device";
             } else {
@@ -675,11 +677,10 @@ class UserController extends Controller
     {
         $device = Device::find($deviceToken);
         if ($device) {
-            $users = $device->users;
+            $users = $device->fingerprintUsers;
             if (count($users) == 0) {
                 return "No user has been registered in this device";
             } else {
-                $i = 0;
                 foreach ($users as $user) {
                     //check user that has been selected to be enrolled
                     if ($user->status->delete_status) {
