@@ -23,7 +23,7 @@ class DashboardController extends Controller
     {
         // $departments = Department::orderBy('created_at', 'desc')->take(5)->get();
         if (Gate::allows('isAdmin')) {
-            $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get();
+            $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get()->unique('user_id');
             $users = User::all();
             $rooms = Room::all();
             $enrolledUsers = [];
@@ -60,7 +60,7 @@ class DashboardController extends Controller
           
 
 
-            $usersPresentToday = Log::where(['date' => date('Y-m-d'), 'log_type' => 'fingerprint'])->get(['user_id'])->unique('user_id')->unique('user_id');
+            $usersPresentToday = Log::where(['date' => date('Y-m-d'), 'log_type' => 'fingerprint'])->get(['user_id'])->unique('user_id');
             if (count($enrolledUsers) < 1) {
                 $parcentageofPresentUsers = 0;
                 $parcentageofabsentUsers = 0;
