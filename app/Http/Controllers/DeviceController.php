@@ -111,9 +111,9 @@ class DeviceController extends Controller
         $device->device_token = $request->input('deviceToken');
         $device->device_name = $request->input('deviceName');
         $device->device_type = $request->input('deviceType');
-        $device->room_id = $request->input('deviceLocation');
         $device->organization_id = $request->input('organizationId');
         $device->branch_id = $request->input('branchId');
+        $device->room()->save($room);
         if ($department->devices()->save($device)) {
             return redirect()->route('deviceManage', Auth::user()->user_id);
             // $newDevice = Device::find($device->device_token);
