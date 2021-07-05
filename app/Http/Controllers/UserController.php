@@ -328,10 +328,12 @@ class UserController extends Controller
         $organizations = Organization::all();
         $branches = Branch::all();
         $departments = Department::all();
+        $roles = Role::all();
         return view('user.addUser')->with([
             'organizations' => $organizations,
             'branches' => $branches,
-            'departments' => $departments
+            'departments' => $departments,
+            'roles' => $roles
         ]);
     }
 
