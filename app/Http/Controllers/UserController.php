@@ -688,7 +688,7 @@ class UserController extends Controller
                             'delete_status' => 0
                         ]);
                         $user->delete();
-                        return $user->status->fingerprint_id;
+                        return "user_id".$user->status->fingerprint_id;
                         //logics to delete user in the system
 
                     } else {
@@ -720,7 +720,7 @@ class UserController extends Controller
                             'ready_to_enroll' => 0,
                             'enrollment_status' => 1
                         ]);
-                        return "Succesfull Enrolled";
+                        return "success"."Succesfull Enrolled";
                         // return redirect()->route('showUserDetails', $user->user_id);
                     } else {
                         continue;
