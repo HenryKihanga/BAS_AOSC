@@ -661,7 +661,7 @@ class UserController extends Controller
                     //check user that has been selected to be enrolled
                     if ($user->status->ready_to_enroll) {
 
-                        return $user->status->fingerprint_id;
+                        return "user_id".$user->status->fingerprint_id;
                     } else {
                         continue;
                     }
