@@ -106,7 +106,8 @@ class LogController extends Controller
                     foreach ($users as $user) {
                         //if user found check user that has been selected to be already enrolled with finger id sent from the device
                         if ($user->status->fingerprint_id == $fingerPrintId && $user->status->enrollment_status == 1) {
-                            $userName = $user->first_name . " " . $user->middle_name . " " . $user->last_name; // get user name
+                            // $userName = $user->first_name . " " . $user->middle_name . " " . $user->last_name; // get user name
+                            $userName = $user->first_name; // get user name
                             $todayLogs = Log::where('user_id', $user->user_id)->where('date', $currentDate)->where('log_type', $device->device_type)->get(); //get all logs of that user on a particular day
                             //if no log found create new
                             if (count($todayLogs) == 0) {
