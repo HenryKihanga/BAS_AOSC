@@ -21,6 +21,7 @@ class DashboardController extends Controller
      */
     public function index($userId)
     {
+      
         // $departments = Department::orderBy('created_at', 'desc')->take(5)->get();
         if (Gate::allows('isAdmin')) {
             $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get()->unique('user_id');
@@ -95,20 +96,42 @@ class DashboardController extends Controller
 
 
 
-        if (Gate::allows('isOrganizationHead')) {
+
+        elseif (Gate::allows('isOrganizationHead')) {
             $organizationId = User::find($userId)->organization_id; //Get organization id of logged in user
             $users = User::where('organization_id', $organizationId)->get(); //get all users of the particular organization
+            $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get()->unique('user_id');
+            $rooms = Room::all();
             $enrolledUsers = [];
             $unenrolledUsers = [];
+            $usersWithCard = [];
+            $usersWithoutCard = [];
 
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
                     array_push($enrolledUsers, $user);
+                    if ($user->status->card_registered) {
+                        array_push($usersWithCard, $user);
+                    } else {
+                        array_push($usersWithoutCard, $user);
+                    }
                 } else {
                     array_push($unenrolledUsers, $user);
+                    if ($user->status->card_registered) {
+                        array_push($usersWithCard, $user);
+                    } else {
+                        array_push($usersWithoutCard, $user);
+                    }
                 }
             }
-            $numberofUsers = $users->count();
+
+            $sensitiveLogs = [];
+            foreach ($today_rfid_logs as $log) {
+                if ($log->device->room->room_security_level == 'SENSITIVE') {
+                    array_push($sensitiveLogs, $log);
+                };
+            }
+  
             $todayLogs = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
             if (count($enrolledUsers) < 1) {
                 $parcentageofPresentUsers = 0;
@@ -132,25 +155,44 @@ class DashboardController extends Controller
                 'registeredOrganizations' => $organizations,
                 'registeredBranches' => $branches,
                 'registeredDepartments' => $departments,
-                'registeredDevices' => $devices
+                'registeredDevices' => $devices,
+                'rooms' => count($rooms),
+                'sensitiveLogs' => count($sensitiveLogs),
+                'usersWithCard' => count($usersWithCard),
+                'usersWithoutCard' => count($usersWithoutCard)
             ]);
         }
 
 
-        if (Gate::allows('isBranchHead')) {
+        elseif (Gate::allows('isBranchHead')) {
             $branchId = User::find($userId)->branch_id; //Get branch id of logged in user
             $users = User::where('branch_id', $branchId)->get(); //get all users of the particular branch
+            $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get()->unique('user_id');
+            $rooms = Room::all();
             $enrolledUsers = [];
             $unenrolledUsers = [];
+            $usersWithCard = [];
+            $usersWithoutCard = [];
+           
 
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
                     array_push($enrolledUsers, $user);
+                    if ($user->status->card_registered) {
+                        array_push($usersWithCard, $user);
+                    } else {
+                        array_push($usersWithoutCard, $user);
+                    }
                 } else {
                     array_push($unenrolledUsers, $user);
+                    if ($user->status->card_registered) {
+                        array_push($usersWithCard, $user);
+                    } else {
+                        array_push($usersWithoutCard, $user);
+                    }
                 }
             }
-            $numberofUsers = $users->count();
+          
             $todayLogs = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
             if (count($enrolledUsers) < 1) {
                 $parcentageofPresentUsers = 0;
@@ -158,6 +200,12 @@ class DashboardController extends Controller
             } else {
                 $parcentageofPresentUsers = round(($todayLogs->count() / count($enrolledUsers)) * 100, 2);
                 $parcentageofabsentUsers = round(((count($enrolledUsers) - $todayLogs->count()) / count($enrolledUsers)) * 100, 2);
+            }
+            $sensitiveLogs = [];
+            foreach ($today_rfid_logs as $log) {
+                if ($log->device->room->room_security_level == 'SENSITIVE') {
+                    array_push($sensitiveLogs, $log);
+                };
             }
 
             $organizations = Organization::all()->count();
@@ -174,23 +222,45 @@ class DashboardController extends Controller
                 'registeredOrganizations' => $organizations,
                 'registeredBranches' => $branches,
                 'registeredDepartments' => $departments,
-                'registeredDevices' => $devices
+                'registeredDevices' => $devices,
+                'rooms' => count($rooms),
+                'sensitiveLogs' => count($sensitiveLogs),
+                'usersWithCard' => count($usersWithCard),
+                'usersWithoutCard' => count($usersWithoutCard)
             ]);
         }
-        if (Gate::allows('isDepartmentHead')) {
+        elseif (Gate::allows('isDepartmentHead')) {
             $departmentId = User::find($userId)->department_id; //Get department id of logged in user
             $users = User::where('department_id', $departmentId)->get(); //get all users of the particular department
+            $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get()->unique('user_id');
             $enrolledUsers = [];
             $unenrolledUsers = [];
 
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
                     array_push($enrolledUsers, $user);
+                    if ($user->status->card_registered) {
+                        array_push($usersWithCard, $user);
+                    } else {
+                        array_push($usersWithoutCard, $user);
+                    }
                 } else {
                     array_push($unenrolledUsers, $user);
+                    if ($user->status->card_registered) {
+                        array_push($usersWithCard, $user);
+                    } else {
+                        array_push($usersWithoutCard, $user);
+                    }
                 }
             }
-            $numberofUsers = $users->count();
+           
+            $sensitiveLogs = [];
+            foreach ($today_rfid_logs as $log) {
+                if ($log->device->room->room_security_level == 'SENSITIVE') {
+                    array_push($sensitiveLogs, $log);
+                };
+            }
+
             $todayLogs = Log::where('date', date('Y-m-d'))->get(['user_id'])->unique('user_id');
             if (count($enrolledUsers) < 1) {
                 $parcentageofPresentUsers = 0;
