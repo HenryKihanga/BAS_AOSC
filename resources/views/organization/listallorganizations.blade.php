@@ -28,7 +28,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+            <a href="{{ route('fingerprintoverallLogs', Auth::user()->user_id) }}" class="nav-link" onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>
                     Fingerprint Logs
@@ -36,7 +36,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+            <a href="{{ route('rfidoverallLogs', Auth::user()->user_id) }}" class="nav-link" onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>
                     RFID Logs
@@ -103,14 +103,14 @@
                 </p>
             </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-user-edit"></i>
                 <p>
                     Edit Profile
                 </p>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
                 <i class="nav-icon fas fa-key"></i>

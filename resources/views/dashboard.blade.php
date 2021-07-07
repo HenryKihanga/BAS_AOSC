@@ -129,7 +129,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('fingerprintoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                <a href="{{ route('fingerprintoverallLogs', Auth::user()->user_id) }}" class="nav-link" onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
                         Fingerprint Logs
@@ -137,7 +137,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('rfidoverallLogs') }}" class="nav-link" onclick="toggle_active_class()">
+                <a href="{{ route('rfidoverallLogs', Auth::user()->user_id) }}" class="nav-link" onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
                         RFID Logs
@@ -204,14 +204,14 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-user-edit"></i>
                     <p>
                         Edit Profile
                     </p>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a href="{{ route('showChangePassword') }}" class="nav-link " onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-key"></i>
@@ -288,7 +288,7 @@
                                 <div class="icon">
                                     <i class="fas fa-user-check"></i>
                                 </div>
-                                <a href="{{ route('userPresentToday') }}" class="small-box-footer">More info <i
+                                <a href="{{ route('userPresentToday', Auth::user()->user_id) }}" class="small-box-footer">More info <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div> <!-- ./col -->
@@ -302,7 +302,7 @@
                                 <div class="icon">
                                     <i class="fas fa-user-times"></i>
                                 </div>
-                                <a href="{{ route('usersAbsenteToday') }}" class="small-box-footer">More info <i
+                                <a href="{{ route('usersAbsenteToday', Auth::user()->user_id) }}" class="small-box-footer">More info <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div><!-- ./col -->
@@ -384,7 +384,7 @@
                             <div class="icon">
                                 <i class="fas fa-user-shield"></i>
                             </div>
-                            <a href="{{ route('sensitiveLogs') }}"
+                            <a href="{{ route('sensitiveLogs', Auth::user()->user_id) }}"
                                 class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                         </div>

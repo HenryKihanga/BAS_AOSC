@@ -117,13 +117,13 @@ Route::get('user/export', [App\Http\Controllers\UserController::class, 'exportAl
 
 
 // Routes for Log controller
-Route::get('log/rfid-overall-logs', [App\Http\Controllers\LogController::class, 'rfidOverallLogs'])->name('rfidoverallLogs');
-Route::get('log/fingerprint-overall-logs', [App\Http\Controllers\LogController::class, 'fingerprintOverallLogs'])->name('fingerprintoverallLogs');
+Route::get('log/rfid-overall-logs/{user_id}', [App\Http\Controllers\LogController::class, 'rfidOverallLogs'])->name('rfidoverallLogs');
+Route::get('log/fingerprint-overall-logs/{user_id}', [App\Http\Controllers\LogController::class, 'fingerprintOverallLogs'])->name('fingerprintoverallLogs');
 Route::get('log/allLogs', [App\Http\Controllers\LogController::class, 'allLogs'])->name('allLogs');
-Route::get('log/sensitiveLogs', [App\Http\Controllers\LogController::class, 'sensitiveLogs'])->name('sensitiveLogs');
-Route::get('log/nonSensitiveLogs', [App\Http\Controllers\LogController::class, 'nonSensitiveLogs'])->name('nonSensitiveLogs');
-Route::get('log/presentees', [App\Http\Controllers\LogController::class, 'usersPresentToday'])->name('userPresentToday');
-Route::get('log/absentees', [App\Http\Controllers\LogController::class, 'usersAbsenteToday'])->name('usersAbsenteToday');
+Route::get('log/sensitiveLogs/{user_id}', [App\Http\Controllers\LogController::class, 'sensitiveLogs'])->name('sensitiveLogs');
+Route::get('log/nonSensitiveLogs/{user_id}', [App\Http\Controllers\LogController::class, 'nonSensitiveLogs'])->name('nonSensitiveLogs');
+Route::get('log/presentees/{user_id}', [App\Http\Controllers\LogController::class, 'usersPresentToday'])->name('userPresentToday');
+Route::get('log/absentees/{user_id}', [App\Http\Controllers\LogController::class, 'usersAbsenteToday'])->name('usersAbsenteToday');
 Route::get('log/userlog/{user_id}', [App\Http\Controllers\LogController::class, 'userSpecificLogs'])->name('userSpecificLogs');
 //hardware
 Route::get('log/fingerprintCheckInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'fingerprintCheckInOrOut'])->name('fingerprintCheckInOrOut');
