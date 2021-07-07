@@ -233,6 +233,7 @@ class DashboardController extends Controller
             $departmentId = User::find($userId)->department_id; //Get department id of logged in user
             $users = User::where('department_id', $departmentId)->get(); //get all users of the particular department
             $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get()->unique('user_id');
+            $rooms = Room::all();
             $enrolledUsers = [];
             $unenrolledUsers = [];
             $usersWithCard = [];
@@ -286,7 +287,11 @@ class DashboardController extends Controller
                 'registeredOrganizations' => $organizations,
                 'registeredBranches' => $branches,
                 'registeredDepartments' => $departments,
-                'registeredDevices' => $devices
+                'registeredDevices' => $devices,
+                'rooms' => count($rooms),
+                'sensitiveLogs' => count($sensitiveLogs),
+                'usersWithCard' => count($usersWithCard),
+                'usersWithoutCard' => count($usersWithoutCard)
             ]);
         }
     }
