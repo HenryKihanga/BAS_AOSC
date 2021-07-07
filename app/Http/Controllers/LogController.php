@@ -33,7 +33,7 @@ class LogController extends Controller
             ]);
         } elseif (Gate::allows('isOrganizationHead')) {
             $organizationId = User::find($userId)->organization_id; //Get organization id of logged in user
-            $users = User::where('organization_id', $organizationId)->get(); //get all users of the particular organization
+            $users = User::where('organization_id', $organizationId)->get('user_id'); //get all users of the particular organization
             $logs = Log::orderBy('created_at', 'ASC')->where('log_type', 'fingerprint')->whereIn('user_id', $users)->get();
             // $todayLogs = Log::where('date', date('Y-m-d'))->get();
             return view('log.fingerprintoveralllogs')->with([
@@ -75,7 +75,7 @@ class LogController extends Controller
         }
         elseif (Gate::allows('isOrganizationHead')) {
             $organizationId = User::find($userId)->organization_id; //Get organization id of logged in user
-            $users = User::where('organization_id', $organizationId)->get(); //get all users of the particular organization
+            $users = User::where('organization_id', $organizationId)->get('user_id'); //get all users of the particular organization
             $logs = Log::orderBy('created_at', 'ASC')->where('log_type', 'rfid')->whereIn('user_id', $users)->get();
             // $todayLogs = Log::where('date', date('Y-m-d'))->get();
             return view('log.rfidoveralllogs')->with([
