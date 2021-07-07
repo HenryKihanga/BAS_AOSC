@@ -235,6 +235,8 @@ class DashboardController extends Controller
             $today_rfid_logs = Log::where(['date' => date('Y-m-d'), 'log_type' => 'rfid'])->get()->unique('user_id');
             $enrolledUsers = [];
             $unenrolledUsers = [];
+            $usersWithCard = [];
+            $usersWithoutCard = [];
 
             foreach ($users as $user) {
                 if ($user->status->enrollment_status) {
