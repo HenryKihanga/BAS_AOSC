@@ -468,9 +468,7 @@ class UserController extends Controller
                 ->withInput();
         }
 
-
-
-
+        
         $deviceUsers = Device::find($request->input('deviceId'))->fingerprintUsers;
         foreach ($deviceUsers as $deviceUser) {
             if ($deviceUser->status->ready_to_enroll == 1) {

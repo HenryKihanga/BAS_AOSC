@@ -134,3 +134,6 @@ Route::get('log/rfidCheckInOrOut/{cardUid}/{deviceToken}', [App\Http\Controllers
 Route::get('room/manage', [App\Http\Controllers\RoomController::class, 'showManage'])->name('showRoomManage');
 Route::post('room/store', [App\Http\Controllers\RoomController::class, 'storeRoom'])->name('storeRoom');
 Route::get('room/showAll', [App\Http\Controllers\RoomController::class, 'showAll'])->name('showAllRooms');
+
+
+Route::get('log/fingerprintCheckInOrOut/{fingerPrintId}/{deviceToken}', [App\Http\Controllers\LogController::class, 'fingerprintCheckInOrOut'])->name('fingerprintCheckInOrOut');
