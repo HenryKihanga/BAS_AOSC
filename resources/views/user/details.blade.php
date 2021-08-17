@@ -24,7 +24,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('fingerprintoverallLogs', Auth::user()->user_id) }}" class="nav-link" onclick="toggle_active_class()">
+                <a href="{{ route('fingerprintoverallLogs', Auth::user()->user_id) }}" class="nav-link"
+                    onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
                         Fingerprint Logs
@@ -32,7 +33,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('rfidoverallLogs', Auth::user()->user_id) }}" class="nav-link" onclick="toggle_active_class()">
+                <a href="{{ route('rfidoverallLogs', Auth::user()->user_id) }}" class="nav-link"
+                    onclick="toggle_active_class()">
                     <i class="nav-icon fas fa-clipboard-list"></i>
                     <p>
                         RFID Logs
@@ -118,7 +120,7 @@
             <li class="nav-item">
                 <a href="{{ route('logout') }}" class="nav-link"
                     onclick="event.preventDefault();
-                                                                                        document.getElementById('logout-form').submit();">
+                                                                                            document.getElementById('logout-form').submit();">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -251,11 +253,11 @@
                                 </div>
                             @enderror
                             @error('noroomselected')
-                            <div class="alert alert-danger p-2">
-                                <span class="">{{ $message }}</span>
-                            </div>
-                        @enderror
-                            
+                                <div class="alert alert-danger p-2">
+                                    <span class="">{{ $message }}</span>
+                                </div>
+                            @enderror
+
 
 
                         </div>
@@ -390,7 +392,7 @@
                     @if ($user->status->enrollment_status && !$user->status->ready_to_enroll && !$user->status->card_registered)
                         <a
                             onclick="event.preventDefault();
-                                                                                  document.getElementById('rfid-enroll-form').submit();">
+                                                                                      document.getElementById('rfid-enroll-form').submit();">
                             <button type="submit" class="btn btn-dark">RFID Enroll User</button>
                         </a>
                         <form id="rfid-enroll-form" action="{{ route('rfidEnroll') }}" method="POST" class="d-none">

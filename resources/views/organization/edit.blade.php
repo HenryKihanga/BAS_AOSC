@@ -10,6 +10,7 @@
             $('#addBranchEmailError').text('');
             $('#addBranchAddressError').text('');
             let url = "{{ route('storeBranch') }}";
+            
             $.ajax({
                 url: url,
                 type: 'POST',
